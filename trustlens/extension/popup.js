@@ -45,3 +45,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   rescanBtn.addEventListener("click", auditActiveTab);
   auditActiveTab();
 });
+
