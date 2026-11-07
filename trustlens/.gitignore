@@ -1,2 +1,38 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Next.js Build Output
+.next/
+*/.next/
+out/
+build/
+dist/
+
+# TypeScript Build Info
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing
+.vite/
+coverage/
+
+# Local Environment & Secrets
+.env
+.env*.local
+
+# Python Caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+
+# IDE & System Files
 .github/
 .openidea/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
