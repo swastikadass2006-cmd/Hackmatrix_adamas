@@ -73,3 +73,5 @@ pnpm-debug.log*
 
 .idea/
 .openidea/
+setup_security_engine.sh
+**/setup_security_engine.sh
