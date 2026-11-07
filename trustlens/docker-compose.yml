@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Member 3's Python Gateway
+  api_gateway:
+    build: ./gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - SECURITY_ENGINE_URL=http://rust_security:8001
+
+  # Your Rust Security Engine
+  rust_security:
+    image: rust:1.75-slim
+    working_dir: /usr/src/app
+    volumes:
+      - ./engines/security_engine:/usr/src/app
+    ports:
+      - "8001:8001"
+    # Compiles in release mode and runs the binary
+    command: bash -c "apt-get update && apt-get install -y libssl-dev pkg-config && cargo run --release"
