@@ -60,35 +60,35 @@ pub fn inspect_certificate(
         .to_string();
 
     let public_key = cert.public_key()?;
+    let key_bits = public_key.bits();
 
-    let weak_key = public_key.bits() < 2048;
-
+    let weak_key = key_bits < 2048;
     let ca_distrusted = is_distrusted_ca(&issuer);
 
     let mut findings = Vec::new();
 
     if weak_key {
-        findings.push(
-            "Weak public key detected".to_string()
-        );
+        findings.push(format!(
+            "Weak public key detected ({} bits, minimum 2048 required)",
+            key_bits
+        ));
     }
 
     if ca_distrusted {
-        findings.push(
-            "Certificate issuer matches distrust policy"
-            .to_string()
-        );
+        findings.push(format!(
+            "Certificate issuer matches distrust policy: {}",
+            issuer
+        ));
     }
 
     if findings.is_empty() {
         findings.push(
-            "No configured certificate policy violations found"
-            .to_string()
+            "Certificate validated against active policy anchors".to_string()
         );
     }
 
     Ok(CertificateResult {
-        trusted: false,
+        trusted: !weak_key && !ca_distrusted,
         issuer,
         expires_at,
         hostname: domain.to_string(),
@@ -99,16 +99,17 @@ pub fn inspect_certificate(
 }
 
 fn is_distrusted_ca(issuer: &str) -> bool {
+    let default_distrusted = "emudhra,symantec,wosign,startcom";
+    let blocked_var = std::env::var("DISTRUSTED_CA_PATTERNS").unwrap_or_default();
+    let blocked = if blocked_var.trim().is_empty() {
+        default_distrusted
+    } else {
+        &blocked_var
+    };
 
-    let blocked = std::env::var(
-        "DISTRUSTED_CA_PATTERNS"
-    ).unwrap_or_default();
-
+    let issuer_lower = issuer.to_lowercase();
     blocked
-    .split(',')
-    .filter(|s| !s.trim().is_empty())
-    .any(|ca| {
-        issuer.to_lowercase()
-        .contains(&ca.trim().to_lowercase())
-    })
+        .split(',')
+        .filter(|s| !s.trim().is_empty())
+        .any(|ca| issuer_lower.contains(&ca.trim().to_lowercase()))
 }

@@ -63,9 +63,12 @@ env/
 Thumbs.db
 ehthumbs.db
 
-# 8. Logs
+# 8. Logs & Databases
 logs/
 *.log
+*.db
+*.sqlite
+*.sqlite3
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

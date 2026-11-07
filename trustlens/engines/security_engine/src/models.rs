@@ -1,6 +1,29 @@
 use serde::Serialize;
 
 #[derive(Serialize)]
+pub struct Evidence {
+    pub signal: String,
+    pub severity: String,
+    pub explanation: String,
+}
+
+#[derive(Serialize)]
+pub struct EngineResult {
+    pub engine_name: String,
+    pub risk_score: u8,
+    pub evidence: Vec<Evidence>,
+}
+
+#[derive(Serialize)]
+pub struct AnalyzeResponse {
+    pub url: String,
+    pub score: u8,
+    pub verdict: String,
+    pub results: Vec<EngineResult>,
+    pub evidence: Vec<Evidence>,
+}
+
+#[derive(Serialize)]
 pub struct ScanResponse {
     pub domain: String,
     pub certificate: CertificateResult,
@@ -34,5 +57,3 @@ pub struct HygieneResult {
     pub server_banner: String,
     pub findings: Vec<String>,
 }
-
-
