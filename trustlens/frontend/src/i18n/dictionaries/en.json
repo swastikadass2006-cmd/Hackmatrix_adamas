@@ -1,0 +1,43 @@
+{
+  "common": {
+    "trustScore": "Trust Score",
+    "safe": "Safe",
+    "suspicious": "Suspicious",
+    "malicious": "Malicious",
+    "overrideActive": "Hard Override Active",
+    "explainScore": "Explain Score",
+    "scanNow": "Analyze URL",
+    "scanning": "Scanning...",
+    "quickDemo": "Quick Scenarios",
+    "viewReport": "View Full Dossier",
+    "exportJson": "Export STIX/JSON",
+    "copyLink": "Copy Permlink",
+    "linkCopied": "Link Copied!",
+    "liveEngine": "Threat Engine Active"
+  },
+  "hero": {
+    "title": "Explainable Multi-Signal Digital Trust Platform",
+    "subtitle": "Stop zero-day phishing lures, detect Fermat-factorable cryptographic keys, and expose untrusted CA chains before breach.",
+    "inputPlaceholder": "Enter URL, FQDN or IP (e.g. https://onlinesbi.sbi)...",
+    "neutralizedStats": "14,291 Phishing Portals Neutralized",
+    "weakKeysBlocked": "84 Weak Keys Blocked",
+    "activeMonitors": "310 Enterprise Brands Guarded"
+  },
+  "tabs": {
+    "crypto": "Certificate & Cryptography",
+    "phishing": "Phishing & Brand Match",
+    "hygiene": "Web Security Hygiene",
+    "intel": "Infrastructure & Threat Graph",
+    "evidence": "Evidence Breakdown"
+  },
+  "dossier": {
+    "target": "Target Asset",
+    "scanned": "Scanned At",
+    "asn": "Hosting Infrastructure",
+    "verdictTitle": "Consensus Verdict",
+    "rootCa": "Root CA Trust Anchor",
+    "keySize": "Asymmetric Key Length",
+    "leafExpiry": "Cert Expiry Horizon"
+  }
+}
+

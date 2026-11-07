@@ -1,0 +1,86 @@
+'use client';
+
+import React from 'react';
+import { CheckCircle2, Loader2, Clock, AlertTriangle, Terminal } from 'lucide-react';
+import { WorkerStep } from '../../hooks/useScan';
+import { Card } from '../ui/Card';
+
+export interface ScanProgressStreamProps {
+  steps: WorkerStep[];
+}
+
+export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps }) => {
+  return (
+    <Card className="p-4 sm:p-5 bg-zinc-950/90 border border-zinc-800">
+      <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+        <div className="flex items-center gap-2">
+          <Terminal className="w-4 h-4 text-emerald-400" />
+          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200">
+            Parallel Worker Pipeline Execution (4 Threads)
+          </h4>
+        </div>
+        <span className="text-[11px] font-mono text-zinc-500">Real-time Telemetry</span>
+      </div>
+
+      <div className="space-y-3 font-mono text-xs">
+        {steps.map((step) => {
+          const isDone = step.status === 'completed';
+          const isRunning = step.status === 'running';
+          const isWarning = step.status === 'warning';
+
+          return (
+            <div
+              key={step.id}
+              className={`p-3 rounded-lg border transition-all ${
+                isRunning
+                  ? 'bg-emerald-950/20 border-emerald-500/40'
+                  : isDone
+                  ? 'bg-zinc-900/60 border-zinc-800'
+                  : 'bg-zinc-950 border-zinc-900 opacity-60'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-2">
+                  {isDone ? (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  ) : isRunning ? (
+                    <Loader2 className="w-4 h-4 text-emerald-400 animate-spin shrink-0" />
+                  ) : isWarning ? (
+                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+                  ) : (
+                    <Clock className="w-4 h-4 text-zinc-600 shrink-0" />
+                  )}
+                  <span
+                    className={`font-medium ${
+                      isRunning ? 'text-emerald-300' : isDone ? 'text-zinc-200' : 'text-zinc-500'
+                    }`}
+                  >
+                    {step.workerLabel}
+                  </span>
+                  <span className="text-[10px] text-zinc-500 hidden sm:inline">— {step.name}</span>
+                </div>
+
+                <span
+                  className={`text-[10px] uppercase px-1.5 py-0.5 rounded font-mono ${
+                    isRunning
+                      ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/30 animate-pulse'
+                      : isDone
+                      ? 'bg-zinc-800 text-zinc-300'
+                      : 'bg-zinc-900 text-zinc-600'
+                  }`}
+                >
+                  {step.status}
+                </span>
+              </div>
+
+              <p className="text-[11px] text-zinc-400 pl-6 leading-relaxed">
+                &gt; {step.log}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </Card>
+  );
+};
+
