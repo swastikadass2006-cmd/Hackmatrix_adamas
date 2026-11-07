@@ -17,3 +17,4 @@ COPY --from=builder /usr/src/security_engine/target/release/security_engine /usr
 EXPOSE 8001
 
 CMD ["security_engine"]
+
