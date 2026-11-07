@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from database import engine, Base
 from routes import scan, reports, export
+from routes.voting import router as voting_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -16,6 +17,7 @@ app = FastAPI(
 # Connect API routes
 app.include_router(scan.router, tags=["Website Scanning"])
 app.include_router(reports.router, tags=["Community Reports"])
+app.include_router(voting_router)
 app.include_router(export.router, tags=["Threat Intelligence Export"])
 
 
