@@ -1,21 +1,33 @@
 version: '3.8'
 
 services:
-  # Member 3's Python Gateway
+  # Fast-API Gateway & In-Process Phishing Engine
   api_gateway:
     build: ./gateway
     ports:
       - "8000:8000"
     environment:
       - SECURITY_ENGINE_URL=http://rust_security:8001
+    depends_on:
+      - rust_security
 
-  # Your Rust Security Engine
+  # Rust Security & X.509 Cryptographic Engine
   rust_security:
-    image: rust:1.75-slim
-    working_dir: /usr/src/app
-    volumes:
-      - ./engines/security_engine:/usr/src/app
+    build: ./engines/security_engine
     ports:
       - "8001:8001"
-    # Compiles in release mode and runs the binary
-    command: bash -c "apt-get update && apt-get install -y libssl-dev pkg-config && cargo run --release"
+    environment:
+      - DISTRUSTED_CA_PATTERNS=emudhra,symantec,wosign,startcom
+
+  # Next.js Digital Trust Dashboard
+  frontend:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - api_gateway
