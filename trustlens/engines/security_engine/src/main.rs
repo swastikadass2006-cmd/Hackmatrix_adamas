@@ -211,3 +211,46 @@ async fn check_web_hygiene(url: String) -> EngineResponse {
 fn max_score(a: u8, b: u8) -> u8 {
     if a > b { a } else { b }
 }
+
+mod models;
+mod routes;
+mod certificate;
+mod transparency;
+mod hygiene;
+mod security;
+
+use axum::{
+    routing::get,
+    Router
+};
+
+use tower_http::cors::CorsLayer;
+
+#[tokio::main]
+async fn main() {
+
+    tracing_subscriber::fmt::init();
+
+    let app = Router::new()
+        .route("/health", get(health))
+        .route("/scan", get(routes::scan))
+        .layer(CorsLayer::permissive());
+
+    let listener = tokio::net::TcpListener::bind(
+        "0.0.0.0:8001"
+    )
+        .await
+        .unwrap();
+
+    println!(
+        "TrustLens Security Engine running on port 8001"
+    );
+
+    axum::serve(listener, app)
+        .await
+        .unwrap();
+}
+
+async fn health() -> &'static str {
+    "TrustLens Security Engine is running"
+}

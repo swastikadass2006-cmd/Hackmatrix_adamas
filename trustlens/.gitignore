@@ -1,2 +1,7 @@
+# IDE 
 .github/
 .openidea/
+.
+
+# Ignore Git Bash scripts
+setup.sh
