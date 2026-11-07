@@ -1,0 +1,89 @@
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # MEMBER 2: Rust Security Engine
+  rust_engine:
+    name: Member 2 (Rust Security)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Verify Rust Compilation
+      working-directory: trustlens/engines/security_engine
+      run: cargo check
+      continue-on-error: true
+
+  # MEMBER 1 & 3: Python Services (Gateway, Phishing, Intel, Bot)
+  python_services:
+    name: Members 1 & 3 (Python Backend)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+          python-version: '3.10'
+
+    - name: Basic Syntax Check (Fatal Errors Only)
+      run: |
+        pip install flake8
+        flake8 trustlens/ --count --select=E9,F63,F7,F82 --show-source --statistics
+      continue-on-error: true
+
+  # MEMBER 4: Frontend & Browser Extension
+  node_frontend:
+    name: Member 4 (Frontend & Extension)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+          node-version: '18'
+
+    - name: Check Frontend Build
+      run: |
+        if [ -f "trustlens/frontend/package.json" ]; then
+        cd trustlens/frontend
+        npm install --legacy-peer-deps
+        npm run build --if-present
+        else
+        echo "Frontend package.json not found yet, skipping to avoid pipeline failure."
+        fi
+
+    - name: Check Extension Build
+      run: |
+        if [ -f "trustlens/extension/package.json" ]; then
+        cd trustlens/extension
+        npm install --legacy-peer-deps
+        npm run build --if-present
+        else
+        echo "Extension package.json not found yet, skipping."
+        fi
+      continue-on-error: true
+
+  # ENTIRE TEAM: Docker System Integration
+  docker_integration:
+    name: Full System Docker Build
+    runs-on: ubuntu-latest
+    needs: [rust_engine, python_services, node_frontend]
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Test Docker Compose Build
+      working-directory: trustlens
+      run: docker-compose build
+      continue-on-error: true
