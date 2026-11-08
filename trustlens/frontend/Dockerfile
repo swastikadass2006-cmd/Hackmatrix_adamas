@@ -15,3 +15,4 @@ EXPOSE 3000
 
 # Bind to 0.0.0.0 so that Docker port-mapping exposes the dev server to the host.
 CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0"]
+
