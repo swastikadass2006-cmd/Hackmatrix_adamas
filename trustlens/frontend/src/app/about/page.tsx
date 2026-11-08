@@ -32,11 +32,11 @@ export default function AboutMethodologyPage() {
           </p>
 
           <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-xl space-y-2 text-emerald-300">
-            <div className="font-bold text-[11px] text-zinc-400 uppercase">Fermat&apos;s Formulation:</div>
-            <div className="text-sm">
+            <div className="font-semibold text-xs text-zinc-300">Fermat&apos;s formulation:</div>
+            <div className="text-sm font-mono">
               N = a&sup2; - b&sup2; = (a - b)(a + b) = p &middot; q
             </div>
-            <div className="text-[11px] text-zinc-400">
+            <div className="text-xs text-zinc-400">
               Where a = &lceil;&radic;N&rceil;, &lceil;&radic;N&rceil; + 1, ... and we test whether a&sup2; - N = b&sup2; is a perfect square.
             </div>
           </div>

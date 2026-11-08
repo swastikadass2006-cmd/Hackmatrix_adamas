@@ -21,10 +21,10 @@ export const Navbar: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/80">
+    <nav className="sticky top-0 z-40 w-full bg-zinc-950/95 border-b border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80">
           <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:border-emerald-500/60 transition-colors">
             <Shield className="w-5 h-5 fill-emerald-500/20" />
           </div>
@@ -35,7 +35,7 @@ export const Navbar: React.FC = () => {
                 v2.4
               </span>
             </div>
-            <p className="text-[10px] font-mono text-zinc-400 hidden sm:block">Explainable Threat Intel</p>
+            <p className="text-xs text-zinc-400 hidden sm:block">Explainable Threat Intel</p>
           </div>
         </Link>
 
@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                  'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75',
                   isActive
                     ? 'bg-zinc-800/80 text-emerald-400 border border-zinc-700/60'
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
           <LanguageSelector />
           <Link
             href="/org/login"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 border border-zinc-700/80 text-zinc-200 hover:border-emerald-500/50 hover:text-emerald-400 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 border border-zinc-700/80 text-zinc-200 hover:border-emerald-500/50 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75"
           >
             <Lock className="w-3.5 h-3.5" />
             <span>SOC Portal</span>
@@ -83,7 +83,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation menu"
-            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
+            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75 disabled:opacity-50"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>

@@ -15,14 +15,14 @@ export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps })
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
         <div className="flex items-center gap-2">
           <Terminal className="w-4 h-4 text-emerald-400" />
-          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200">
-            Parallel Worker Pipeline Execution (4 Threads)
-          </h4>
+          <h3 className="text-xs font-semibold text-zinc-200">
+            Parallel worker pipeline execution (4 threads)
+          </h3>
         </div>
-        <span className="text-[11px] font-mono text-zinc-500">Real-time Telemetry</span>
+        <span className="text-xs text-zinc-500">Real-time telemetry</span>
       </div>
 
-      <div className="space-y-3 font-mono text-xs">
+      <div className="space-y-3 text-xs">
         {steps.map((step) => {
           const isDone = step.status === 'completed';
           const isRunning = step.status === 'running';
@@ -31,7 +31,7 @@ export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps })
           return (
             <div
               key={step.id}
-              className={`p-3 rounded-lg border transition-all ${
+              className={`p-3 rounded-lg border transition-colors ${
                 isRunning
                   ? 'bg-emerald-950/20 border-emerald-500/40'
                   : isDone
@@ -44,7 +44,7 @@ export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps })
                   {isDone ? (
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   ) : isRunning ? (
-                    <Loader2 className="w-4 h-4 text-emerald-400 animate-spin shrink-0" />
+                    <Loader2 className="w-4 h-4 text-emerald-400 animate-spin motion-reduce:animate-none shrink-0" />
                   ) : isWarning ? (
                     <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
                   ) : (
@@ -57,13 +57,13 @@ export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps })
                   >
                     {step.workerLabel}
                   </span>
-                  <span className="text-[10px] text-zinc-500 hidden sm:inline">— {step.name}</span>
+                  <span className="text-xs text-zinc-500 hidden sm:inline">/ {step.name}</span>
                 </div>
 
                 <span
-                  className={`text-[10px] uppercase px-1.5 py-0.5 rounded font-mono ${
+                  className={`text-xs px-1.5 py-0.5 rounded font-mono ${
                     isRunning
-                      ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/30 animate-pulse'
+                      ? 'bg-emerald-950 text-emerald-400 border border-emerald-500/30 motion-safe:animate-pulse'
                       : isDone
                       ? 'bg-zinc-800 text-zinc-300'
                       : 'bg-zinc-900 text-zinc-600'
@@ -73,7 +73,7 @@ export const ScanProgressStream: React.FC<ScanProgressStreamProps> = ({ steps })
                 </span>
               </div>
 
-              <p className="text-[11px] text-zinc-400 pl-6 leading-relaxed">
+              <p className="text-xs font-mono text-zinc-400 pl-6 leading-relaxed">
                 &gt; {step.log}
               </p>
             </div>

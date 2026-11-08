@@ -27,21 +27,15 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
   const angle = -180 + (trustScore / 100) * 180;
 
   return (
-    <div className="relative flex flex-col items-center justify-center p-6 bg-zinc-950/80 border border-zinc-800 rounded-2xl overflow-hidden">
-      {/* Background radial glow */}
-      <div
-        className="absolute w-44 h-44 rounded-full blur-3xl pointer-events-none opacity-40 transition-colors"
-        style={{ backgroundColor: colors.stroke }}
-      />
-
+    <div className="relative flex flex-col items-center justify-center p-6 bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden">
       {/* Header bar */}
       <div className="w-full flex items-center justify-between mb-2 z-10">
-        <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold">
+        <span className="text-xs text-zinc-400 font-medium">
           Digital Trust Index
         </span>
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-400 hover:text-emerald-400 transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-emerald-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75 disabled:opacity-50 transition-colors"
         >
           <HelpCircle className="w-3.5 h-3.5" />
           <span>Explain</span>
@@ -50,7 +44,7 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* SVG Semicircular Gauge */}
       <div className="relative w-64 h-36 flex items-end justify-center z-10">
-        <svg viewBox="0 0 220 125" className="w-full h-full overflow-visible">
+        <svg viewBox="0 0 220 125" className="w-full h-full overflow-visible" aria-hidden="true">
           <defs>
             <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#f43f5e" />
@@ -77,13 +71,13 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
+            className="transition-[stroke-dashoffset] duration-1000 ease-out motion-reduce:transition-none"
           />
 
           {/* Needle Indicator */}
           <g
             transform={`rotate(${angle} 110 110)`}
-            className="transition-transform duration-1000 ease-out"
+            className="transition-transform duration-1000 ease-out motion-reduce:transition-none"
           >
             <line
               x1="110"
@@ -117,12 +111,12 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
       {/* Grade and Verdict Badges */}
       <div className="mt-4 flex items-center gap-2 z-10">
         <span
-          className={`font-mono text-xs px-2.5 py-1 rounded-md font-bold uppercase border ${colors.badgeBg}`}
+          className={`text-xs px-2.5 py-1 rounded-md font-semibold border ${colors.badgeBg}`}
         >
           Grade {grade}
         </span>
         <span
-          className={`font-mono text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider border ${
+          className={`text-xs px-2.5 py-1 rounded-md font-semibold border ${
             verdict === 'safe'
               ? 'bg-emerald-950/70 text-emerald-400 border-emerald-500/40'
               : verdict === 'suspicious'
@@ -136,10 +130,10 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* Hard Override Hazard Banner */}
       {overrideActive && (
-        <div className="mt-3.5 w-full p-2.5 bg-rose-950/30 border border-rose-500/40 rounded-xl flex items-start gap-2 text-rose-300 text-[11px] leading-tight z-10 animate-pulse">
+        <div className="mt-3.5 w-full p-2.5 bg-rose-950/30 border border-rose-500/40 rounded-xl flex items-start gap-2 text-rose-300 text-xs leading-tight z-10 motion-safe:animate-pulse">
           <AlertOctagon className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
           <div>
-            <span className="font-mono font-bold uppercase tracking-wider text-rose-400">
+            <span className="font-semibold text-rose-400">
               Hard Override Active:
             </span>{' '}
             <span>{scan.overrideReason}</span>

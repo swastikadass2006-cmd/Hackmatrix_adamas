@@ -40,15 +40,22 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={cn(base, variants[variant], sizes[size], className)}
+      className={cn(
+        'focus-visible:outline-none focus-visible:ring-2 active:opacity-90 disabled:opacity-50',
+        base,
+        variants[variant],
+        sizes[size],
+        className
+      )}
       disabled={disabled || isLoading}
       {...props}
     >
       {isLoading && (
         <svg
-          className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
+          className="animate-spin motion-reduce:animate-none -ml-1 mr-2 h-4 w-4 text-current"
           fill="none"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <circle
             className="opacity-25"
