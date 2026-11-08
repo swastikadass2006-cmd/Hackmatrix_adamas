@@ -1,57 +1,81 @@
 version: '3.8'
 
 services:
-  # ── Rust Security & X.509 Cryptographic Engine ───────────────────────────────
+  # 1. Rust Security Engine
   rust_security:
     build: ./engines/security_engine
     ports:
-      - "8001:8001"
+    - "8001:8001"
     environment:
-      - DISTRUSTED_CA_PATTERNS=emudhra,symantec,wosign,startcom
+    - DISTRUSTED_CA_PATTERNS=emudhra,symantec,wosign,startcom
     restart: unless-stopped
     networks:
-      - trustlens-net
+    - trustlens-net
 
-  # ── FastAPI Gateway & In-Process Phishing Engine ─────────────────────────────
+  # 2. FastAPI Gateway & AI Engine
   api_gateway:
     build:
       context: ./gateway
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+    - "8000:8000"
     environment:
-      # Rust engine running inside Docker:
-      - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
-      # Uncomment below if Rust runs natively on the host instead:
-      # - SECURITY_ENGINE_URL=http://host.docker.internal:8001/api/v1/security/analyze
-      - COLAB_ML_URL=https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    - DATABASE_URL=postgresql+asyncpg://trustlens:hackathon2026@postgres:5432/trustlensdb
+    - REDIS_URL=redis://redis:6379/0
+    - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
+    - COLAB_ML_URL=https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze
     depends_on:
-      - rust_security
+    - rust_security
+    - postgres
+    - redis
     restart: unless-stopped
     networks:
-      - trustlens-net
+    - trustlens-net
 
-  # ── Next.js Digital Trust Dashboard ──────────────────────────────────────────
+  # 3. Next.js Frontend
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+    - "3000:3000"
     volumes:
-      - ./frontend:/app          # live-reload: host source overrides container
-      - /app/node_modules        # keep container's node_modules intact
-      - /app/.next               # keep Next.js build cache inside container
+    - ./frontend:/app
+    - /app/node_modules
+    - /app/.next
     environment:
-      - NEXT_PUBLIC_API_URL=http://api_gateway:8000
-      - NODE_ENV=development
+    - NEXT_PUBLIC_API_URL=http://api_gateway:8000
+    - NODE_ENV=development
     depends_on:
-      - api_gateway
+    - api_gateway
     networks:
-      - trustlens-net
+    - trustlens-net
+
+  # 4. PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+    - POSTGRES_USER=trustlens
+    - POSTGRES_PASSWORD=hackathon2026
+    - POSTGRES_DB=trustlensdb
+    ports:
+    - "5432:5432"
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+    networks:
+    - trustlens-net
+
+  # 5. Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+    - "6379:6379"
+    networks:
+    - trustlens-net
 
 networks:
   trustlens-net:
     driver: bridge
+
+volumes:
+  pgdata:

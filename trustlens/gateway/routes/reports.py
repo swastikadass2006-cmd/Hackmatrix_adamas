@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from models import ThreatReport
 from schemas import ReportRequest
+from threat_intelligence.models import ThreatReport, ThreatVote
 
 router = APIRouter()
 

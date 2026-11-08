@@ -1,12 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from database import engine, Base
 from routes import scan, reports, export
 from routes.voting import router as voting_router
-
-# Create database tables
-Base.metadata.create_all(bind=engine)
 
 # Create FastAPI application
 app = FastAPI(
@@ -30,6 +26,16 @@ app.include_router(reports.router, tags=["Community Reports"])
 app.include_router(voting_router, tags=["Threat Voting"])
 app.include_router(export.router, tags=["Threat Intelligence Export"])
 
+@app.on_event("startup")
+async def startup_event():
+    """Asynchronously create database tables on startup if they don't already exist"""
+    try:
+        async with engine.begin() as conn:
+            # run_sync with checkfirst=True prevents attempting to recreate existing tables/indexes
+            await conn.run_sync(Base.metadata.create_all, checkfirst=True)
+    except Exception as e:
+        # Log or pass if tables are already fully initialized
+        print(f"Database startup info: {e}")
 
 @app.get("/")
 def home():
@@ -38,7 +44,6 @@ def home():
         "status": "Online",
         "version": "1.0.0"
     }
-
 
 @app.get("/health")
 def health():

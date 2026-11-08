@@ -1,25 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+import os
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 
-DATABASE_URL = "sqlite:///./trustlens.db"
+# Fetch from environment (set in docker-compose.yml)
+# Note: asyncpg requires postgresql+asyncpg:// prefix
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+asyncpg://trustlens:hackathon2026@localhost:5432/trustlensdb"
+).replace("postgresql://", "postgresql+asyncpg://")
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}
-)
-
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
-
+engine = create_async_engine(DATABASE_URL, echo=False)
+AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db():
+    """Dependency for FastAPI routes to get a DB session."""
+    async with AsyncSessionLocal() as session:
+        yield session

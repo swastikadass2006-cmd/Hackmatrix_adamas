@@ -1,54 +1,39 @@
 import os
 import httpx
 import logging
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 
-# Target microservice URLs
-COLAB_ML_URL = os.getenv(
-    "COLAB_ML_URL",
-    "https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze"
-)
-SECURITY_ENGINE_URL = os.getenv(
-    "SECURITY_ENGINE_URL",
-    "http://rust_security:8001/api/v1/security/analyze"
-)
+# Fetch the URL from the docker-compose environment variables
+RUST_ENGINE_URL = os.getenv("SECURITY_ENGINE_URL", "http://rust_security:8001/api/v1/security/analyze")
 
-def analyze_security_sync(url: str) -> dict:
+async def fetch_rust_security_evidence(target_url: str) -> Dict[str, Any]:
     """
-    Synchronous Security Analysis Entrypoint called by routes/scan.py.
-    Aggregates telemetry from Member 2 (Rust) and Member 1 (Cloud ML).
+    Calls Member 2's Rust Security Engine to get SSRF and TLS Certificate findings.
     """
-    aggregated_response = {
-        "url": url,
-        "overall_trust_score": 100,
-        "ml_analysis": {},
-        "rust_security": {},
-        "status": "success"
-    }
-
-    # 1. Fetch Rust Engine Telemetry (Port 8001)
     try:
-        with httpx.Client(timeout=10.0) as client:
-            rust_res = client.get(SECURITY_ENGINE_URL, params={"url": url})
-            if rust_res.status_code == 200:
-                aggregated_response["rust_security"] = rust_res.json()
-            else:
-                aggregated_response["rust_security"] = {"status_code": rust_res.status_code}
-    except Exception as e:
-        logger.error(f"Failed to connect to Rust Engine: {e}")
-        aggregated_response["rust_security"] = {"error": str(e), "engine_name": "Rust Offline"}
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            response = await client.get(
+                RUST_ENGINE_URL,
+                params={"url": target_url}
+            )
+            response.raise_for_status()
+            return response.json()
 
-    # 2. Fetch Colab ML Inference (Cloudflare Tunnel)
-    try:
-        with httpx.Client(timeout=15.0) as client:
-            ml_res = client.get(COLAB_ML_URL, params={"url": url})
-            if ml_res.status_code == 200:
-                aggregated_response["ml_analysis"] = ml_res.json()
-            else:
-                aggregated_response["ml_analysis"] = {"status_code": ml_res.status_code}
-    except Exception as e:
-        logger.error(f"Failed to connect to Colab ML Engine: {e}")
-        aggregated_response["ml_analysis"] = {"error": str(e), "phishing_score": 0}
-
-    return aggregated_response
+    except httpx.RequestError as e:
+        logger.error(f"Failed to connect to Rust engine: {e}")
+        return {
+            "engine_name": "rust_security_core",
+            "coverage": "Failed to reach engine",
+            "limitations": [f"Network error connecting to Rust backend: {str(e)}"],
+            "findings": []
+        }
+    except httpx.HTTPStatusError as e:
+        logger.error(f"Rust engine returned an error status: {e}")
+        return {
+            "engine_name": "rust_security_core",
+            "coverage": "Engine returned error",
+            "limitations": [f"HTTP {e.response.status_code} from Rust backend"],
+            "findings": []
+        }

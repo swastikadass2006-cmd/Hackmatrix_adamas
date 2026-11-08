@@ -1,63 +1,62 @@
-from typing import List, Dict, Any, Optional
+import logging
+from typing import Dict, Any, List
+from services.evidence_validator import EvidenceValidator
 
+logger = logging.getLogger(__name__)
 
-def generate_plain_language_explanation(
-    trust_score: int,
-    verdict: str,
-    override_active: bool,
-    override_reason: Optional[str],
-    evidence: List[Dict[str, Any]],
-) -> Dict[str, Any]:
+async def generate_explanation(target_url: str, engine_results: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
-    Translates raw multi-engine telemetry and risk scores into clear,
-    human-readable explanations and action recommendations.
+    Task 2: LLM Explainer.
+    Generates a structured explanation where EVERY claim references an evidence ID.
     """
-    reasons: List[str] = []
+    logger.info(f"Generating validated explanation for {target_url}")
 
-    if override_active and override_reason:
-        reasons.append(override_reason)
+    # Flatten all findings from all engines into a single list
+    all_findings = []
+    for result in engine_results:
+        all_findings.extend(result.get("findings", []))
 
-    critical_evidence = [e for e in evidence if e.get("severity") in ("critical", "high")]
-    medium_evidence = [e for e in evidence if e.get("severity") == "medium"]
+    # --- MVP Simulation of an LLM generating claims based on the findings ---
+    raw_llm_claims = []
 
-    for ev in critical_evidence:
-        reasons.append(f"Critical Concern: {ev.get('signal')} — {ev.get('explanation')}")
+    # Look for the SSRF block
+    ssrf_blocks = [f for f in all_findings if f.get("signal") == "SSRF_Policy_Violation"]
+    if ssrf_blocks:
+        raw_llm_claims.append({
+            "text": "The target resolved to a restricted internal IP address, triggering our SSRF protection policies.",
+            "evidence_id": ssrf_blocks[0].get("id")
+        })
 
-    for ev in medium_evidence[:2]:
-        reasons.append(f"Observation: {ev.get('signal')} — {ev.get('explanation')}")
+    # Look for Distrusted CA
+    bad_certs = [f for f in all_findings if f.get("signal") == "Distrusted_Certificate_Authority"]
+    if bad_certs:
+        raw_llm_claims.append({
+            "text": "The cryptographic certificate was issued by a known distrusted authority, posing a critical interception risk.",
+            "evidence_id": bad_certs[0].get("id")
+        })
 
-    if not reasons:
-        reasons.append(
-            "Target domain meets all zero-trust criteria: valid public certificate chain, "
-            "standard security transport headers, and no brand spoofing indicators."
-        )
+    # Look for Valid CA
+    good_certs = [f for f in all_findings if f.get("signal") == "Valid_Certificate_Authority"]
+    if good_certs:
+        raw_llm_claims.append({
+            "text": "The target uses a trusted TLS certificate, ensuring encrypted communication.",
+            "evidence_id": good_certs[0].get("id")
+        })
 
-    # Action recommendation
-    if verdict == "malicious":
-        action = (
-            "DO NOT ENTER CREDENTIALS. This portal displays signatures of an active phishing "
-            "clone or severely degraded cryptographic trust. Disconnect immediately."
-        )
-    elif verdict == "suspicious":
-        action = (
-            "PROCEED WITH CAUTION. Subtle security anomalies or missing transport encryption "
-            "policies were detected. Verify the authenticity of this portal before submitting data."
-        )
-    else:
-        action = (
-            "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to "
-            "standard enterprise security baselines."
-        )
+    # Simulate a hallucination to prove the validator works!
+    raw_llm_claims.append({
+        "text": "The website contains Russian malware payloads in the HTML body.",
+        "evidence_id": "FAKE-AI-ID-999"
+    })
 
-    summary_headline = (
-        f"Score {trust_score}/100 [{verdict.upper()}]: "
-        + (f"Hard override enforced. " if override_active else "")
-        + f"{len(critical_evidence)} high-risk flags identified."
+    # --- Task 3: Enforce Validation ---
+    # Pass the LLM's claims through the Evidence Validator to strip out hallucinations
+    validated_claims = EvidenceValidator.validate_llm_explanation(
+        explanation_claims=raw_llm_claims,
+        engine_findings=all_findings
     )
 
     return {
-        "headline": summary_headline,
-        "reasons": reasons,
-        "recommended_action": action,
+        "summary": "Threat analysis completed based on cryptographic and network evidence.",
+        "validated_claims": validated_claims
     }
-
