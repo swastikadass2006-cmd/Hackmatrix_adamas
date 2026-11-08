@@ -1,7 +1,35 @@
-export type Severity = 'low' | 'medium' | 'high' | 'critical';
+export type Severity = 'low' | 'medium' | 'high' | 'critical' | 'info';
 export type EvidenceCategory = 'crypto' | 'phishing' | 'hygiene' | 'intel';
 export type Verdict = 'safe' | 'suspicious' | 'malicious';
 export type TrustGrade = 'A' | 'B' | 'C' | 'D' | 'F';
+
+/**
+ * Five-class classification system replacing binary Safe/Malicious.
+ * Rule: NEVER display "Safe" — absence of indicators is not proof of safety.
+ */
+export type ThreatClassification =
+  | 'No indicators found'
+  | 'Suspicious'
+  | 'High Risk'
+  | 'Confirmed Malicious'
+  | 'Inconclusive';
+
+export interface EvidenceCoverage {
+  completed: number;
+  total: number;
+  display: string;
+}
+
+export interface OnChainRecord {
+  registered: boolean;
+  txHash?: string;
+  reportHash?: string;
+  reporter?: string;
+  timestamp?: number;
+  network?: string;
+  contractAddress?: string;
+  explorerUrl?: string;
+}
 
 export interface EvidenceItem {
   id: string;
@@ -10,7 +38,10 @@ export interface EvidenceItem {
   severity: Severity;
   explanation: string;
   weight: number;
+  source?: string;
+  timestamp?: string;
   technicalRef?: string;
+  authoritative?: boolean;
 }
 
 export interface CertNode {
@@ -106,9 +137,12 @@ export interface ScanResult {
   asn: string;
   geoCountry: string;
   scannedAt: string;
+  classification?: ThreatClassification;
   trustScore: number;
   grade: TrustGrade;
   verdict: Verdict;
+  evidenceCoverage?: EvidenceCoverage;
+  limitations?: string[];
   overrideActive: boolean;
   overrideReason?: string;
   phishing: PhishingDetails;
@@ -116,5 +150,6 @@ export interface ScanResult {
   hygiene: WebHygiene;
   threatIntel?: ThreatNode;
   evidence: EvidenceItem[];
+  onChain?: OnChainRecord;
+  salt?: string;
 }
-

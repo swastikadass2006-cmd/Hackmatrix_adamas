@@ -3,16 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, Radio, Layers, Eye, BookOpen, Code, Menu, X, Lock } from 'lucide-react';
+import { Shield, Radio, Layers, Eye, BookOpen, Code, Menu, X, Lock, MessageSquare, FileCheck2 } from 'lucide-react';
 import { cn } from '../../lib/utils/cn';
 import { LanguageSelector } from './LanguageSelector';
 
 const NAV_LINKS = [
   { label: 'Scanner', href: '/', icon: Shield },
+  { label: 'Scam Analyzer', href: '/analyze', icon: MessageSquare },
+  { label: 'Web3 Verifier', href: '/verify', icon: FileCheck2 },
   { label: 'Intel Feed', href: '/feed', icon: Radio },
   { label: 'Campaigns', href: '/campaigns', icon: Layers },
   { label: 'SOC Watchlist', href: '/org/watchlist', icon: Eye },
-  { label: 'Methodology', href: '/about', icon: BookOpen },
   { label: 'API Docs', href: '/api-docs', icon: Code },
 ];
 

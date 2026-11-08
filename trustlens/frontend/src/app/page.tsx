@@ -35,7 +35,7 @@ export default function HomePage() {
 
           {/* Subtitle */}
           <p className="max-w-3xl mx-auto text-sm sm:text-base text-zinc-400 leading-relaxed">
-            TrustLens fuses X.509 certificate chain validation, Fermat prime factorization checks, computer vision perceptual hashing, and passive web hygiene into a single deterministic 0–100 Trust Score.
+            TrustLens fuses X.509 cryptographic validation, Fermat factorization checks, computer vision perceptual hashing, and social engineering linguistic analysis into five transparent risk classes backed by an immutable on-chain registry.
           </p>
 
           {/* Scanner Input with Demo Pills */}
