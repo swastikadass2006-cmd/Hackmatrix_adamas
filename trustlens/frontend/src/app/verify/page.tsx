@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { canonicalizeJson, hashReport } from '../../lib/web3/canonicalJson';
 import { verifyReportHash, OnChainVerificationResult } from '../../lib/web3/registryService';
@@ -11,14 +11,13 @@ import {
   FileSearch,
   Upload,
   CheckCircle2,
-  XCircle,
   ExternalLink,
-  Lock,
   Cpu,
   RefreshCw,
   AlertOctagon,
-  Sparkles,
 } from 'lucide-react';
+
+export const dynamic = 'force-dynamic';
 
 const GENESIS_SAMPLE_REPORT = {
   id: 'TL-2026-TEST01',
@@ -42,7 +41,7 @@ const GENESIS_SAMPLE_REPORT = {
   salt: 'a9f182c4-0000-4b6e-9271-trustlens',
 };
 
-export default function IndependentVerificationPage() {
+function VerificationContent() {
   const searchParams = useSearchParams();
   const initialHash = searchParams.get('hash') || '';
 
@@ -56,7 +55,6 @@ export default function IndependentVerificationPage() {
     useState<OnChainVerificationResult | null>(null);
   const [parseError, setParseError] = useState<string | null>(null);
 
-  // Automatically compute hash when JSON changes
   const evaluateHash = (jsonStr: string) => {
     try {
       setParseError(null);
@@ -89,15 +87,13 @@ export default function IndependentVerificationPage() {
     }
   };
 
-  // Initial load
   useEffect(() => {
-    const hash = evaluateHash(inputJson);
-    if (hash) {
-      handleVerify(hash);
+    const target = initialHash || evaluateHash(inputJson);
+    if (target) {
+      handleVerify(target);
     }
-  }, []);
+  }, [initialHash]);
 
-  // Demo Actions
   const handleLoadSample = () => {
     const sampleStr = JSON.stringify(GENESIS_SAMPLE_REPORT, null, 2);
     setInputJson(sampleStr);
@@ -108,7 +104,6 @@ export default function IndependentVerificationPage() {
   const handleTamperReport = () => {
     try {
       const parsed = JSON.parse(inputJson);
-      // Change just one character or status
       parsed.classification =
         parsed.classification === 'High Risk' ? 'Suspicious' : 'High Risk';
       const modifiedStr = JSON.stringify(parsed, null, 2);
@@ -176,93 +171,93 @@ export default function IndependentVerificationPage() {
             accept=".json,application/json"
             onChange={handleFileUpload}
             className="hidden"
-          />
+            />
         </label>
       </div>
 
       {/* Verification Result Banner */}
       {verificationResult && (
-        <div
-          className={`p-6 rounded-2xl border ${
-            verificationResult.verified
-              ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-100'
-              : 'bg-rose-950/40 border-rose-500/50 text-rose-100'
-          }`}
+      <div
+        className={`p-6 rounded-2xl border ${
+          verificationResult.verified
+          ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-100'
+          : 'bg-rose-950/40 border-rose-500/50 text-rose-100'
+        }`}
         >
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-start gap-3">
-              {verificationResult.verified ? (
-                <ShieldCheck className="w-8 h-8 text-emerald-400 shrink-0 mt-0.5" />
-              ) : (
-                <ShieldX className="w-8 h-8 text-rose-400 shrink-0 mt-0.5" />
-              )}
-              <div className="space-y-1">
-                <h3 className="text-base font-bold">
-                  {verificationResult.verified
-                    ? 'VERIFIED: Report Proven Tamper-Evident & Authentic On-Chain'
-                    : 'TAMPER ALERT: Report Hash Mismatch or Unregistered'}
-                </h3>
-                <p className="text-xs text-zinc-300 font-sans leading-relaxed">
-                  {verificationResult.verified
-                    ? `This exact report was cryptographically registered on ${verificationResult.network}. Zero bits have been modified since submission.`
-                    : 'The recomputed Keccak-256 hash does not exist in the smart contract registry. Even a single modified punctuation mark or score invalidates the cryptographic proof.'}
-                </p>
-              </div>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            {verificationResult.verified ? (
+          <ShieldCheck className="w-8 h-8 text-emerald-400 shrink-0 mt-0.5" />
+        ) : (
+          <ShieldX className="w-8 h-8 text-rose-400 shrink-0 mt-0.5" />
+        )}
+            <div className="space-y-1">
+              <h3 className="text-base font-bold">
+                {verificationResult.verified
+                  ? 'VERIFIED: Report Proven Tamper-Evident & Authentic On-Chain'
+                : 'TAMPER ALERT: Report Hash Mismatch or Unregistered'}
+              </h3>
+              <p className="text-xs text-zinc-300 font-sans leading-relaxed">
+                {verificationResult.verified
+                  ? `This exact report was cryptographically registered on ${verificationResult.network}. Zero bits have been modified since submission.`
+                  : 'The recomputed Keccak-256 hash does not exist in the smart contract registry. Even a single modified punctuation mark or score invalidates the cryptographic proof.'}
+              </p>
             </div>
-
-            <Button
-              size="sm"
-              onClick={() => handleVerify()}
-              disabled={isVerifying}
-              className="shrink-0"
-            >
-              <RefreshCw
-                className={`w-3.5 h-3.5 mr-1.5 ${isVerifying ? 'animate-spin' : ''}`}
-              />
-              Re-Verify Contract
-            </Button>
           </div>
 
-          {/* Audit Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-6 mt-6 border-t border-zinc-800/80 text-xs">
-            <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
-              <span className="text-[10px] text-zinc-500 block uppercase">Registration Status</span>
-              <span className={`font-bold ${verificationResult.verified ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {verificationResult.verified ? 'VALIDATED ON-CHAIN' : 'NOT FOUND'}
-              </span>
-            </div>
+          <Button
+            size="sm"
+            onClick={() => handleVerify()}
+            disabled={isVerifying}
+            className="shrink-0"
+            >
+            <RefreshCw
+              className={`w-3.5 h-3.5 mr-1.5 ${isVerifying ? 'animate-spin' : ''}`}
+              />
+            Re-Verify Contract
+          </Button>
+        </div>
 
-            <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
-              <span className="text-[10px] text-zinc-500 block uppercase">Reporter Address</span>
-              <span className="text-zinc-300 truncate block">
-                {verificationResult.reporter || '—'}
-              </span>
-            </div>
+        {/* Audit Details Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-6 mt-6 border-t border-zinc-800/80 text-xs">
+          <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 block uppercase">Registration Status</span>
+            <span className={`font-bold ${verificationResult.verified ? 'text-emerald-400' : 'text-rose-400'}`}>
+              {verificationResult.verified ? 'VALIDATED ON-CHAIN' : 'NOT FOUND'}
+            </span>
+          </div>
 
-            <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
-              <span className="text-[10px] text-zinc-500 block uppercase">On-Chain Timestamp</span>
-              <span className="text-zinc-300 block">
-                {verificationResult.timestamp
-                  ? new Date(verificationResult.timestamp * 1000).toLocaleString()
-                  : '—'}
-              </span>
-            </div>
+          <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 block uppercase">Reporter Address</span>
+            <span className="text-zinc-300 truncate block">
+              {verificationResult.reporter || '—'}
+            </span>
+          </div>
 
-            <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
-              <span className="text-[10px] text-zinc-500 block uppercase">Registry Contract</span>
-              <a
-                href={verificationResult.explorerUrl || '#'}
-                target="_blank"
-                rel="noreferrer"
-                className="text-emerald-400 hover:underline flex items-center gap-1 truncate"
+          <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 block uppercase">On-Chain Timestamp</span>
+            <span className="text-zinc-300 block">
+              {verificationResult.timestamp
+                ? new Date(verificationResult.timestamp * 1000).toLocaleString()
+              : '—'}
+            </span>
+          </div>
+
+          <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 block uppercase">Registry Contract</span>
+            <a
+              href={verificationResult.explorerUrl || '#'}
+              target="_blank"
+              rel="noreferrer"
+              className="text-emerald-400 hover:underline flex items-center gap-1 truncate"
               >
-                {verificationResult.contractAddress.slice(0, 8)}...{verificationResult.contractAddress.slice(-6)}
-                <ExternalLink className="w-3 h-3 shrink-0" />
-              </a>
-            </div>
+              {verificationResult.contractAddress.slice(0, 8)}...{verificationResult.contractAddress.slice(-6)}
+              <ExternalLink className="w-3 h-3 shrink-0" />
+            </a>
           </div>
         </div>
-      )}
+      </div>
+    )}
 
       {/* Hash Comparison & Cryptographic Proof */}
       <div className="p-6 bg-zinc-900/80 border border-zinc-800 rounded-2xl space-y-4">
@@ -290,7 +285,7 @@ export default function IndependentVerificationPage() {
             <div className="p-3 bg-zinc-950 border border-zinc-800 rounded-xl font-mono text-zinc-200 break-all select-all">
               {verificationResult?.verified
                 ? recomputedHash
-                : 'No registered match found on-chain'}
+              : 'No registered match found on-chain'}
             </div>
           </div>
         </div>
@@ -305,8 +300,8 @@ export default function IndependentVerificationPage() {
               Report JSON Document
             </label>
             {parseError && (
-              <span className="text-[10px] text-rose-400">{parseError}</span>
-            )}
+      <span className="text-[10px] text-rose-400">{parseError}</span>
+    )}
           </div>
           <textarea
             rows={14}
@@ -316,7 +311,7 @@ export default function IndependentVerificationPage() {
               evaluateHash(e.target.value);
             }}
             className="w-full bg-zinc-900/90 border border-zinc-800 rounded-xl p-3 font-mono text-xs text-zinc-200 focus:outline-none focus:border-emerald-500 transition"
-          />
+            />
         </div>
 
         {/* Right: RFC 8785 Canonical JSON */}
@@ -333,9 +328,17 @@ export default function IndependentVerificationPage() {
             value={canonicalString}
             placeholder="Canonical representation will appear here..."
             className="w-full bg-zinc-900/40 border border-zinc-850 rounded-xl p-3 font-mono text-xs text-zinc-400 focus:outline-none select-all"
-          />
+            />
         </div>
       </div>
     </div>
+  );
+}
+
+export default function IndependentVerificationPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-zinc-500 font-mono text-sm">Loading on-chain verifier...</div>}>
+      <VerificationContent />
+    </Suspense>
   );
 }
