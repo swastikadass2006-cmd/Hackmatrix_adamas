@@ -21,7 +21,7 @@ services:
     - DATABASE_URL=postgresql+asyncpg://trustlens:hackathon2026@postgres:5432/trustlensdb
     - REDIS_URL=redis://redis:6379/0
     - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
-    - COLAB_ML_URL=https://hackmatrix-adamas.onrender.com/predict
+    - RENDER_ML_URL=https://hackmatrix-adamas.onrender.com/predict
     depends_on:
     - rust_security
     - postgres

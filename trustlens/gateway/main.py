@@ -20,8 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Connect API routes
 app.include_router(scan.router, tags=["Website Scanning"])
+app.include_router(scan.router, prefix="/api/v1", tags=["Website Scanning"])
 app.include_router(reports.router, tags=["Community Reports"])
 app.include_router(voting_router, tags=["Threat Voting"])
 app.include_router(export.router, tags=["Threat Intelligence Export"])
