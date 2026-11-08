@@ -39,3 +39,26 @@ venv/
 .DS_Store
 Thumbs.db
 *.log
+
+# --- Rust Security Engine ---
+/engines/security_engine/target/
+/engines/security_engine/.cargo-artifact-lock
+/engines/security_engine/.cargo-build-lock
+/engines/security_engine/.cargo-lock
+*.rs.bk
+
+# --- Node.js / Next.js Frontend ---
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+
+# --- Python / FastAPI Gateway ---
+__pycache__/
+*.py[cod]
+*.log
+venv/
+.env
+
+# --- OS Specific Files ---
+.DS_Store
+Thumbs.db
