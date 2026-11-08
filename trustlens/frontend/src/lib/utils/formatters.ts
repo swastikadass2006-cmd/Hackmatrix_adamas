@@ -68,32 +68,32 @@ export function getSeverityColor(sev: Severity): {
   switch (sev) {
     case 'critical':
       return {
-        bg: 'bg-rose-500/10',
-        text: 'text-rose-400',
-        border: 'border-rose-500/30',
-        dot: 'bg-rose-500',
+        bg: 'bg-tl-rose/10',
+        text: 'text-tl-rose',
+        border: 'border-tl-rose/30',
+        dot: 'bg-tl-rose',
       };
     case 'high':
       return {
-        bg: 'bg-orange-500/10',
-        text: 'text-orange-400',
-        border: 'border-orange-500/30',
-        dot: 'bg-orange-500',
+        bg: 'bg-tl-orange/10',
+        text: 'text-tl-orange',
+        border: 'border-tl-orange/30',
+        dot: 'bg-tl-orange',
       };
     case 'medium':
       return {
-        bg: 'bg-amber-500/10',
-        text: 'text-amber-400',
-        border: 'border-amber-500/30',
-        dot: 'bg-amber-500',
+        bg: 'bg-tl-amber/10',
+        text: 'text-tl-amber',
+        border: 'border-tl-amber/30',
+        dot: 'bg-tl-amber',
       };
     case 'low':
     default:
       return {
-        bg: 'bg-emerald-500/10',
-        text: 'text-emerald-400',
-        border: 'border-emerald-500/30',
-        dot: 'bg-emerald-500',
+        bg: 'bg-tl-emerald/10',
+        text: 'text-tl-emerald',
+        border: 'border-tl-emerald/30',
+        dot: 'bg-tl-emerald',
       };
   }
 }
@@ -106,25 +106,25 @@ export function getScoreColor(score: number): {
 } {
   if (score >= 80) {
     return {
-      text: 'text-emerald-400',
+      text: 'text-tl-emerald',
       stroke: '#10b981',
-      bgGlow: 'rgba(16, 185, 129, 0.25)',
-      badgeBg: 'bg-emerald-950/40 border-emerald-500/40 text-emerald-400',
+      bgGlow: 'rgba(16, 185, 129, 0.15)',
+      badgeBg: 'bg-tl-emerald/10 border-tl-emerald/30 text-tl-emerald',
     };
   }
   if (score >= 50) {
     return {
-      text: 'text-amber-400',
+      text: 'text-tl-amber',
       stroke: '#f59e0b',
-      bgGlow: 'rgba(245, 158, 11, 0.25)',
-      badgeBg: 'bg-amber-950/40 border-amber-500/40 text-amber-400',
+      bgGlow: 'rgba(245, 158, 11, 0.15)',
+      badgeBg: 'bg-tl-amber/10 border-tl-amber/30 text-tl-amber',
     };
   }
   return {
-    text: 'text-rose-500',
+    text: 'text-tl-rose',
     stroke: '#f43f5e',
-    bgGlow: 'rgba(244, 63, 94, 0.35)',
-    badgeBg: 'bg-rose-950/50 border-rose-500/50 text-rose-400',
+    bgGlow: 'rgba(244, 63, 94, 0.2)',
+    badgeBg: 'bg-tl-rose/10 border-tl-rose/30 text-tl-rose',
   };
 }
 

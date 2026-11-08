@@ -13,16 +13,16 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const glowStyles = {
     none: '',
-    emerald: 'shadow-[0_0_25px_-5px_rgba(16,185,129,0.15)] border-emerald-500/30',
-    rose: 'shadow-[0_0_25px_-5px_rgba(244,63,94,0.2)] border-rose-500/40',
-    amber: 'shadow-[0_0_25px_-5px_rgba(245,158,11,0.15)] border-amber-500/30',
-    cyan: 'shadow-[0_0_25px_-5px_rgba(6,182,212,0.15)] border-cyan-500/30',
+    emerald: 'border-tl-emerald/40',
+    rose: 'border-tl-rose/40',
+    amber: 'border-tl-amber/40',
+    cyan: 'border-tl-cyan/40',
   };
 
   return (
     <div
       className={cn(
-        'bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 overflow-hidden',
+        'bg-tl-card border border-tl-border rounded-panel text-tl-text overflow-hidden transition-colors',
         glowStyles[glow],
         className
       )}

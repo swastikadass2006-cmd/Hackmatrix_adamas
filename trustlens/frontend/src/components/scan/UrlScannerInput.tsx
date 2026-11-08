@@ -1,129 +1,170 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Search, Globe, ArrowRight, ShieldCheck, ShieldAlert, KeyRound, Sparkles } from 'lucide-react';
-import { QUICK_DEMO_SCANS } from '../../lib/mocks/scanData';
+import React, { useState, useEffect } from 'react';
+import { Search, Globe, ArrowRight, ShieldAlert, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useScan } from '../../hooks/useScan';
 import { ScanProgressStream } from '../progress/ScanProgressStream';
+import {
+  getRecentInvestigations,
+  saveRecentInvestigation,
+  RecentInvestigation,
+} from '../../lib/utils/investigationStorage';
 
 export const UrlScannerInput: React.FC = () => {
   const [url, setUrl] = useState('');
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [recentList, setRecentList] = useState<RecentInvestigation[]>([]);
   const { isScanning, workerSteps, startScan, error } = useScan();
+
+  useEffect(() => {
+    setRecentList(getRecentInvestigations());
+  }, []);
+
+  const sanitizeAndValidate = (input: string): string | null => {
+    const trimmed = input.trim();
+    if (!trimmed) {
+      setValidationError('Please enter a target URL, domain, or IP address.');
+      return null;
+    }
+
+    // Check scheme safety: reject dangerous schemes
+    if (/^(javascript|data|file|vbscript|ftp):/i.test(trimmed)) {
+      setValidationError('Security Alert: Only HTTP and HTTPS protocol schemes are permitted.');
+      return null;
+    }
+
+    // Auto-normalize if user typed domain without scheme
+    let formatted = trimmed;
+    if (!/^https?:\/\//i.test(formatted)) {
+      formatted = `https://${formatted}`;
+    }
+
+    try {
+      const parsed = new URL(formatted);
+      if (!parsed.hostname || parsed.hostname.includes(' ')) {
+        setValidationError('Invalid host or domain name structure.');
+        return null;
+      }
+      setValidationError(null);
+      return formatted;
+    } catch {
+      setValidationError('Invalid URL syntax.');
+      return null;
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url.trim()) return;
-    startScan(url.trim());
-  };
+    const validated = sanitizeAndValidate(url);
+    if (!validated) return;
 
-  const handleSelectDemo = (scanId: string) => {
-    const demo = QUICK_DEMO_SCANS.find((d) => d.id === scanId);
-    if (!demo) return;
-    if (scanId === 'scan-sbi-phish') setUrl('https://onlinesbi-kyc-pan-update.top/login.php');
-    else if (scanId === 'scan-emudhra-crypto') setUrl('https://secure-portal-gov-gateway.in');
-    else setUrl('https://github.com');
+    // Save to real recent list for sidebar & audit history
+    saveRecentInvestigation({
+      id: encodeURIComponent(validated.replace(/^https?:\/\//, '')),
+      targetUrl: validated,
+      classification: 'Analyzing',
+    });
 
-    startScan(demo.id);
+    startScan(validated);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-4">
+    <div className="w-full max-w-3xl mx-auto space-y-5 font-sans select-none">
       {/* Search Input Bar */}
-      <form onSubmit={handleSubmit} className="relative group">
-        <div className="relative flex items-center bg-zinc-900 border-2 border-zinc-700/80 rounded-2xl p-2 transition-colors focus-within:border-emerald-500/80 focus-within:ring-2 focus-within:ring-emerald-500/20">
-          <div className="pl-3 pr-2 text-zinc-500 flex items-center gap-2">
-            <Globe className="w-5 h-5 text-emerald-400" />
-            <span className="text-zinc-500 text-xs hidden sm:inline">target://</span>
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <div className="relative flex items-center bg-tl-card border border-tl-border focus-within:border-tl-cyan rounded-xl p-2 transition shadow-panel">
+          <div className="pl-3 pr-2 text-tl-text-muted flex items-center gap-2">
+            <Globe className="w-4 h-4 text-tl-cyan" />
+            <span className="text-[11px] font-mono hidden sm:inline text-tl-text-secondary">
+              target://
+            </span>
           </div>
 
           <input
             type="text"
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Enter URL, FQDN or IP (e.g. onlinesbi-kyc-verify.top or github.com)..."
+            onChange={(e) => {
+              setUrl(e.target.value);
+              if (validationError) setValidationError(null);
+            }}
+            placeholder="Enter URL, domain or IP (e.g. secure-login.org or 104.21.48.12)..."
             disabled={isScanning}
-            className="w-full bg-transparent border-none text-zinc-100 placeholder-zinc-500 font-mono text-sm sm:text-base focus:outline-none px-2 py-2"
+            className="w-full bg-transparent border-none text-tl-text-primary placeholder-tl-text-muted font-mono text-xs sm:text-sm focus:outline-none px-2 py-1.5"
           />
 
           <Button
             type="submit"
-            size="lg"
+            size="md"
             variant="primary"
             isLoading={isScanning}
             disabled={!url.trim()}
-            className="shrink-0 rounded-xl px-5 sm:px-6"
+            className="shrink-0 rounded-lg px-4 font-mono text-xs"
           >
-            <span>Analyze</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <span>Analyze Target</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1" />
           </Button>
         </div>
+
+        {/* Validation or Engine Error */}
+        {(validationError || error) && (
+          <div className="p-3 bg-tl-rose/10 border border-tl-rose/30 rounded-lg text-tl-rose text-xs flex items-center gap-2 font-mono">
+            <ShieldAlert className="w-4 h-4 shrink-0" />
+            <span>{validationError || error}</span>
+          </div>
+        )}
       </form>
 
-      {/* Error Notice */}
-      {error && (
-        <div className="p-3 bg-rose-950/40 border border-rose-500/30 rounded-xl text-rose-400 text-xs flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* Worker Pipeline Streaming Logs if Scanning */}
+      {/* Real-Time Worker Pipeline Stream */}
       {isScanning && (
         <div className="mt-4">
           <ScanProgressStream steps={workerSteps} />
         </div>
       )}
 
-      {/* Quick Demo Scenarios */}
+      {/* Recent Investigations from actual records (No fabricated scenarios) */}
       {!isScanning && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Interactive Threat Scenarios (Click to test directly):</span>
+        <div className="pt-2 space-y-2">
+          <div className="flex items-center justify-between text-xs font-mono text-tl-text-muted px-1">
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Recent Investigated Targets</span>
+            </div>
+            <span>{recentList.length} recorded</span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            {QUICK_DEMO_SCANS.map((demo) => {
-              const isRose = demo.badgeColor === 'rose';
-              const isAmber = demo.badgeColor === 'amber';
-              return (
+          {recentList.length === 0 ? (
+            <div className="p-4 bg-tl-card/40 border border-tl-border/60 rounded-xl text-center">
+              <p className="text-xs text-tl-text-secondary">
+                No investigations recorded in this session.
+              </p>
+              <p className="text-[11px] text-tl-text-muted mt-0.5">
+                Enter an FQDN or target URL above to perform a cryptographic and lexical audit.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {recentList.slice(0, 4).map((rec) => (
                 <button
-                  key={demo.id}
-                  type="button"
-                  onClick={() => handleSelectDemo(demo.id)}
-                  className={`text-left p-3 rounded-xl border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80 disabled:opacity-50 flex flex-col justify-between ${
-                    isRose
-                      ? 'bg-rose-950/20 border-rose-500/30 hover:border-rose-500/60 hover:bg-rose-950/40'
-                      : isAmber
-                      ? 'bg-amber-950/20 border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-950/40'
-                      : 'bg-emerald-950/20 border-emerald-500/30 hover:border-emerald-500/60 hover:bg-emerald-950/40'
-                  }`}
+                  key={rec.id}
+                  onClick={() => {
+                    setUrl(rec.targetUrl);
+                    startScan(rec.targetUrl);
+                  }}
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-left transition text-xs font-mono group"
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-semibold text-zinc-200">{demo.label}</span>
-                    <span
-                      className={`text-xs px-1.5 py-0.5 rounded border ${
-                        isRose
-                          ? 'bg-rose-950 text-rose-400 border-rose-500/30'
-                          : isAmber
-                          ? 'bg-amber-950 text-amber-400 border-amber-500/30'
-                          : 'bg-emerald-950 text-emerald-400 border-emerald-500/30'
-                      }`}
-                    >
-                      {demo.badge}
-                    </span>
-                  </div>
-                  <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                    {demo.desc}
-                  </p>
+                  <span className="text-tl-text-primary group-hover:text-tl-cyan truncate">
+                    {rec.targetUrl.replace(/^https?:\/\//, '')}
+                  </span>
+                  <span className="text-[10px] text-tl-text-muted shrink-0 ml-2">
+                    Audit again &rarr;
+                  </span>
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 };
-

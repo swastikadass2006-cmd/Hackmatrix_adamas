@@ -3,133 +3,130 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, Radio, Layers, Eye, BookOpen, Code, Menu, X, Lock, MessageSquare, FileCheck2 } from 'lucide-react';
-import { cn } from '../../lib/utils/cn';
+import {
+  Shield,
+  Layers,
+  Search,
+  MessageSquare,
+  FileCheck2,
+  Radio,
+  Code,
+  Menu,
+  X,
+  Activity,
+} from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 
-const NAV_LINKS = [
-  { label: 'Scanner', href: '/', icon: Shield },
+const NAV_TABS = [
+  { label: 'Overview', href: '/', icon: Layers },
+  { label: 'Scanner', href: '/scanner', icon: Search },
   { label: 'Scam Analyzer', href: '/analyze', icon: MessageSquare },
   { label: 'Web3 Verifier', href: '/verify', icon: FileCheck2 },
   { label: 'Intel Feed', href: '/feed', icon: Radio },
-  { label: 'Campaigns', href: '/campaigns', icon: Layers },
-  { label: 'SOC Watchlist', href: '/org/watchlist', icon: Eye },
   { label: 'API Docs', href: '/api-docs', icon: Code },
 ];
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-zinc-950/95 border-b border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80">
-          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:border-emerald-500/60 transition-colors">
-            <Shield className="w-5 h-5 fill-emerald-500/20" />
+    <header className="h-14 bg-tl-panel border-b border-tl-border flex items-center px-4 sm:px-6 z-30 select-none">
+      <div className="w-full flex items-center justify-between">
+        {/* Brand / Logo */}
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-tl-card border border-tl-border flex items-center justify-center text-tl-cyan group-hover:border-tl-border-active transition">
+            <Shield className="w-4 h-4 fill-tl-cyan/20" />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-bold text-base tracking-tight text-zinc-100">TrustLens</span>
-              <span className="px-1.5 py-0.2 bg-emerald-950/80 border border-emerald-500/30 text-[10px] font-mono text-emerald-400 rounded">
-                v2.4
-              </span>
-            </div>
-            <p className="text-xs text-zinc-400 hidden sm:block">Explainable Threat Intel</p>
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-bold text-sm tracking-tight text-tl-text-primary">
+              TrustLens
+            </span>
+            <span className="text-[10px] font-mono text-tl-text-muted hidden sm:inline">
+              v2.4
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link) => {
-            const Icon = link.icon;
+        {/* Central Pill-Style Horizontal Navigation (Reference Image 1) */}
+        <nav className="hidden md:flex items-center p-1 rounded-xl bg-tl-card border border-tl-border space-x-1">
+          {NAV_TABS.map((tab) => {
+            const Icon = tab.icon;
             const isActive =
-              link.href === '/'
+              tab.href === '/'
                 ? pathname === '/'
-                : pathname.startsWith(link.href);
+                : pathname.startsWith(tab.href);
+
             return (
               <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75',
+                key={tab.href}
+                href={tab.href}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition ${
                   isActive
-                    ? 'bg-zinc-800/80 text-emerald-400 border border-zinc-700/60'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
-                )}
+                    ? 'bg-tl-elevated text-tl-text-primary shadow-sm border border-tl-border-active'
+                    : 'text-tl-text-secondary hover:text-tl-text-primary hover:bg-tl-hover/40'
+                }`}
               >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{link.label}</span>
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-tl-cyan' : 'text-tl-text-muted'}`} />
+                <span>{tab.label}</span>
               </Link>
             );
           })}
-        </div>
+        </nav>
 
-        {/* Right CTA & Lang */}
-        <div className="hidden md:flex items-center gap-3">
-          <LanguageSelector />
-          <Link
-            href="/org/login"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-900 border border-zinc-700/80 text-zinc-200 hover:border-emerald-500/50 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75"
-          >
-            <Lock className="w-3.5 h-3.5" />
-            <span>SOC Portal</span>
-          </Link>
-        </div>
+        {/* Right Status & Controls */}
+        <div className="flex items-center gap-3">
+          {/* Status Indicator */}
+          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-tl-card border border-tl-border text-[11px] font-mono">
+            <span className="flex h-1.5 w-1.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tl-emerald opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-tl-emerald" />
+            </span>
+            <span className="text-tl-text-secondary">Security Core:</span>
+            <span className="text-tl-emerald font-medium">Ready</span>
+          </div>
 
-        {/* Mobile toggle */}
-        <div className="flex items-center gap-2 md:hidden">
           <LanguageSelector />
+
+          {/* Mobile menu trigger */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle navigation menu"
-            className="p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75 disabled:opacity-50"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-1.5 rounded-lg bg-tl-card border border-tl-border text-tl-text-secondary hover:text-tl-text-primary"
+            aria-label="Toggle Navigation"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="md:hidden border-b border-zinc-800 bg-zinc-950 px-4 py-4 space-y-1">
-          {NAV_LINKS.map((link) => {
-            const Icon = link.icon;
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-14 left-0 w-full bg-tl-panel border-b border-tl-border p-4 space-y-2 z-50">
+          {NAV_TABS.map((tab) => {
+            const Icon = tab.icon;
             const isActive =
-              link.href === '/'
+              tab.href === '/'
                 ? pathname === '/'
-                : pathname.startsWith(link.href);
+                : pathname.startsWith(tab.href);
+
             return (
               <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  'flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                key={tab.href}
+                href={tab.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition ${
                   isActive
-                    ? 'bg-zinc-800 text-emerald-400 font-semibold'
-                    : 'text-zinc-400 hover:text-zinc-100'
-                )}
+                    ? 'bg-tl-card text-tl-text-primary border border-tl-border'
+                    : 'text-tl-text-secondary hover:bg-tl-card/60'
+                }`}
               >
-                <Icon className="w-4 h-4" />
-                <span>{link.label}</span>
+                <Icon className="w-4 h-4 text-tl-cyan" />
+                <span>{tab.label}</span>
               </Link>
             );
           })}
-          <div className="pt-2 border-t border-zinc-900 mt-2">
-            <Link
-              href="/org/login"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-emerald-400 bg-zinc-900"
-            >
-              <Lock className="w-4 h-4" />
-              <span>SOC Portal Login</span>
-            </Link>
-          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
-

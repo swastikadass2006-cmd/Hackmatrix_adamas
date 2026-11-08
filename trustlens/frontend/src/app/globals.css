@@ -1,36 +1,49 @@
-/* Hallmark · theme: custom · posture: restrained · hero: stage · nav: edge-aligned · footer: columns · job: explainable threat intelligence · prompt: remove ai slops */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
-  --grid-line: rgba(255, 255, 255, 0.03);
+  --background: #090E16;
+  --foreground: #E9EEF5;
+  --font-mono: 'JetBrains Mono', 'Geist Mono', 'Fira Code', monospace;
 }
 
 html,
 body {
   overflow-x: clip;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  letter-spacing: -0.01em;
 }
 
-/* Custom cyber scanline effect on dark hero */
-.cyber-grid {
-  background-size: 40px 40px;
+/* Subtle enterprise desktop backdrop illumination inspired by Reference Image 1 */
+.tl-desktop-canvas {
+  background-color: #090E16;
   background-image: 
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    radial-gradient(ellipse 900px 450px at 50% -10%, rgba(30, 58, 138, 0.22), transparent 75%),
+    radial-gradient(ellipse 700px 350px at 100% 50%, rgba(20, 80, 120, 0.12), transparent 70%);
 }
 
-/* Hide scrollbar for tabs */
+/* Scrollbar refinement */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090E16;
+}
+::-webkit-scrollbar-thumb {
+  background: #223042;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #32455C;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -38,5 +51,3 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-

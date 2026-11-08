@@ -24,7 +24,7 @@ export const Tabs: React.FC<TabsProps> = ({
   return (
     <div
       className={cn(
-        'flex border-b border-zinc-800/80 overflow-x-auto no-scrollbar gap-1',
+        'flex p-1 bg-tl-card border border-tl-border rounded-xl overflow-x-auto no-scrollbar gap-1 shadow-panel',
         className
       )}
     >
@@ -35,21 +35,21 @@ export const Tabs: React.FC<TabsProps> = ({
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={cn(
-              'flex items-center gap-2 px-4 py-3 text-xs sm:text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80 disabled:opacity-50 border-b-2 whitespace-nowrap',
+              'flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg transition whitespace-nowrap',
               isActive
-                ? 'border-emerald-400 text-emerald-400 bg-emerald-500/5'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
+                ? 'bg-tl-elevated text-tl-text-primary shadow-sm border border-tl-border-active'
+                : 'text-tl-text-secondary hover:text-tl-text-primary hover:bg-tl-hover/40'
             )}
           >
-            {tab.icon && <span className="w-4 h-4 shrink-0">{tab.icon}</span>}
+            {tab.icon && <span className="w-3.5 h-3.5 shrink-0 text-tl-cyan">{tab.icon}</span>}
             <span>{tab.label}</span>
             {tab.badge !== undefined && (
               <span
                 className={cn(
-                  'px-1.5 py-0.5 text-xs rounded-full font-semibold',
+                  'px-1.5 py-0.2 text-[10px] font-mono rounded-full font-semibold',
                   isActive
-                    ? 'bg-emerald-500/20 text-emerald-300'
-                    : 'bg-zinc-800 text-zinc-400'
+                    ? 'bg-tl-cyan/20 text-tl-cyan'
+                    : 'bg-tl-panel text-tl-text-muted'
                 )}
               >
                 {tab.badge}
@@ -61,4 +61,3 @@ export const Tabs: React.FC<TabsProps> = ({
     </div>
   );
 };
-

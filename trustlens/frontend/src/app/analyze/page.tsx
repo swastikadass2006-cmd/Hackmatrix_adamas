@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import {
   analyzeScamMessage,
   ScamAnalysisResult,
   ExtractedIndicator,
 } from '../../lib/scam/scamAnalyzer';
-import { canonicalizeJson, hashReport } from '../../lib/web3/canonicalJson';
+import { hashReport } from '../../lib/web3/canonicalJson';
 import { registerReportOnChain, RegisterResult } from '../../lib/web3/registryService';
 import { Button } from '../../components/ui/Button';
 import {
@@ -23,6 +22,9 @@ import {
   Sparkles,
   Link2,
   FileCheck2,
+  ArrowRight,
+  Shield,
+  Info,
 } from 'lucide-react';
 
 const DEMO_SAMPLES = [
@@ -35,12 +37,12 @@ const DEMO_SAMPLES = [
     text: 'URGENT: Dear Consumer, your electricity power will be disconnected tonight at 9:30 PM from the power station because your previous month bill was not updated. Please contact our electricity officer immediately at 9876501234 or pay via UPI billdesk@okhdfcbank to prevent disconnection.',
   },
   {
-    title: 'Benign Order Update',
-    text: 'Your Amazon order #402-9182371 has been shipped via BlueDart. You can track your package at https://amazon.in/orders/track. Thank you for shopping with us.',
+    title: 'Standard Delivery Notice',
+    text: 'Your package order #402-9182371 has been dispatched via BlueDart. Track package status at https://amazon.in/orders/track. Thank you for shopping with us.',
   },
 ];
 
-export default function ScamAnalyzerPage() {
+export default function ScamMessageAnalyzerPage() {
   const router = useRouter();
   const [inputText, setInputText] = useState(DEMO_SAMPLES[0].text);
   const [analysis, setAnalysis] = useState<ScamAnalysisResult | null>(null);
@@ -88,7 +90,7 @@ export default function ScamAnalyzerPage() {
       };
 
       const computedHash = hashReport(reportPayload);
-      const receipt = await registerReportOnChain(computedHash, 2); // 2 = ScamMessage
+      const receipt = await registerReportOnChain(computedHash, 2);
       setRegResult(receipt);
     } catch (err) {
       console.error('Failed to register scam report:', err);
@@ -98,38 +100,38 @@ export default function ScamAnalyzerPage() {
   };
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8">
-      {/* Page Header */}
-      <div className="space-y-2">
+    <div className="flex-1 p-6 max-w-6xl w-full mx-auto space-y-6 select-none font-sans">
+      {/* Header */}
+      <div className="space-y-1.5 pb-4 border-b border-tl-border/60">
         <div className="flex items-center gap-2">
-          <MessageSquare className="w-6 h-6 text-emerald-400" />
-          <h1 className="text-xl sm:text-2xl font-bold text-zinc-100 font-mono">
-            Social Engineering & Scam Message Analyzer
+          <MessageSquare className="w-5 h-5 text-tl-amber" />
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-tl-text-primary">
+            Scam Message &amp; Social Engineering Analyzer
           </h1>
         </div>
-        <p className="text-sm text-zinc-400 max-w-3xl leading-relaxed">
-          Paste suspicious SMS, WhatsApp, or Telegram messages. TrustLens parses defanged indicators,
-          evaluates psychological coercion patterns, and correlates extracted domains against verified security engines.
+        <p className="text-xs sm:text-sm text-tl-text-secondary">
+          Deconstruct suspicious SMS, WhatsApp, and Telegram text. Extracts defanged indicators and evaluates psychological coercion heuristics against verified threat feeds.
         </p>
       </div>
 
-      {/* Input Section */}
-      <div className="p-6 bg-zinc-900/80 border border-zinc-800 rounded-2xl space-y-4">
+      {/* Input Workspace */}
+      <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <label className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-300">
-            Paste Raw Message Content
+          <label className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text-secondary">
+            Message Text Input
           </label>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-zinc-500">Demo Presets:</span>
+          <div className="flex items-center gap-1.5 text-xs font-mono">
+            <span className="text-tl-text-muted text-[11px]">Presets:</span>
             {DEMO_SAMPLES.map((sample, idx) => (
               <button
                 key={idx}
+                type="button"
                 onClick={() => {
                   setInputText(sample.text);
                   setAnalysis(null);
                   setRegResult(null);
                 }}
-                className="text-xs font-mono px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 transition"
+                className="px-2 py-1 rounded bg-tl-elevated hover:bg-tl-hover text-tl-text-secondary hover:text-tl-text-primary border border-tl-border transition text-[11px]"
               >
                 {sample.title}
               </button>
@@ -142,125 +144,134 @@ export default function ScamAnalyzerPage() {
           maxLength={5000}
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Paste SMS, WhatsApp, or email text here (e.g., 'Dear customer, your electricity will be disconnected...')"
-          className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-4 font-mono text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-emerald-500 transition"
+          placeholder="Paste message text here (e.g. 'Dear customer, your electricity will be disconnected...')"
+          className="w-full bg-tl-panel border border-tl-border rounded-xl p-3.5 font-mono text-xs sm:text-sm text-tl-text-primary placeholder-tl-text-muted focus:outline-none focus:border-tl-cyan transition"
         />
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-            <Lock className="w-3.5 h-3.5 text-emerald-500" />
-            <span>
-              Privacy Guarantee: Message content is sanitized and never stored unless you register an immutable report.
-            </span>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
+          <div className="flex items-center gap-2 text-[11px] font-mono text-tl-text-muted">
+            <Lock className="w-3.5 h-3.5 text-tl-cyan" />
+            <span>Privacy Note: Message content is parsed locally and never stored unless you commit a Web3 report.</span>
+            <span>&bull;</span>
+            <span className="text-tl-text-secondary">{inputText.length} / 5000 chars</span>
           </div>
 
-          <Button onClick={handleAnalyze} className="w-full sm:w-auto font-mono text-xs">
-            <Sparkles className="w-4 h-4 mr-1.5" />
-            Deconstruct & Analyze Message
+          <Button
+            onClick={handleAnalyze}
+            disabled={!inputText.trim()}
+            className="w-full sm:w-auto font-mono text-xs"
+          >
+            <span>Analyze Message</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
           </Button>
         </div>
       </div>
 
-      {/* Analysis Results View */}
+      {/* Analysis Output Section */}
       {analysis && (
         <div className="space-y-6">
-          {/* Top Recommendation Bar */}
+          {/* Triage Recommendation Card */}
           <div
-            className={`p-5 rounded-2xl border flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+            className={`p-5 rounded-panel border flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-panel ${
               analysis.languageSignals.some((s) => s.severity === 'critical')
-                ? 'bg-rose-950/40 border-rose-800/80 text-rose-200'
+                ? 'bg-tl-rose/10 border-tl-rose/30 text-tl-rose'
                 : analysis.languageSignals.length > 0
-                ? 'bg-amber-950/40 border-amber-800/80 text-amber-200'
-                : 'bg-emerald-950/40 border-emerald-800/80 text-emerald-200'
+                ? 'bg-tl-amber/10 border-tl-amber/30 text-tl-amber'
+                : 'bg-tl-emerald/10 border-tl-emerald/30 text-tl-emerald'
             }`}
           >
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <ShieldAlert className="w-5 h-5 shrink-0" />
+                <ShieldAlert className="w-4 h-4 shrink-0" />
                 <span className="font-mono text-xs uppercase tracking-wider font-bold">
-                  Consensus Triage Recommendation
+                  Consensus Triage Assessment
                 </span>
               </div>
-              <p className="text-sm font-semibold">{analysis.riskSummary.overallRecommendation}</p>
+              <p className="text-sm font-semibold font-sans">{analysis.riskSummary.overallRecommendation}</p>
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
+            <button
               onClick={handleRegisterOnChain}
               disabled={isRegistering}
-              className="shrink-0 font-mono text-xs"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-tl-elevated hover:bg-tl-hover border border-tl-border text-tl-text-primary text-xs font-mono font-semibold transition shrink-0"
             >
-              <FileCheck2 className="w-4 h-4 mr-1.5 text-emerald-400" />
-              {isRegistering ? 'Registering on Sepolia...' : 'Register Scam Report On-Chain'}
-            </Button>
+              <FileCheck2 className="w-4 h-4 text-tl-cyan" />
+              <span>{isRegistering ? 'Registering on Sepolia...' : 'Register On-Chain'}</span>
+            </button>
           </div>
 
           {/* On-Chain Success Box */}
           {regResult && (
-            <div className="p-4 bg-zinc-900 border border-emerald-500/40 rounded-xl space-y-2 font-mono text-xs">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold">
+            <div className="p-4 bg-tl-card border border-tl-cyan/40 rounded-xl space-y-2 font-mono text-xs">
+              <div className="flex items-center gap-2 text-tl-cyan font-bold">
                 <CheckCircle className="w-4 h-4" />
                 <span>Scam Report Hash Registered On-Chain (Tamper-Evident)</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-zinc-400">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-tl-text-secondary text-[11px]">
                 <div>
-                  Report Hash: <span className="text-zinc-200 break-all">{regResult.reportHash}</span>
+                  Report Hash: <span className="text-tl-text-primary break-all select-all">{regResult.reportHash}</span>
                 </div>
                 <div>
-                  Tx Hash: <span className="text-zinc-200 break-all">{regResult.txHash}</span>
+                  Tx Hash: <span className="text-tl-text-primary break-all select-all">{regResult.txHash}</span>
                 </div>
               </div>
-              <div className="pt-2 flex items-center gap-4">
+              <div className="pt-2 flex items-center gap-4 text-[11px]">
                 <a
                   href={regResult.explorerUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-emerald-400 hover:underline flex items-center gap-1 text-[11px]"
+                  className="text-tl-cyan hover:underline flex items-center gap-1"
                 >
                   View on Sepolia Explorer <ExternalLink className="w-3 h-3" />
                 </a>
-                <a
-                  href={`/verify?hash=${regResult.reportHash}`}
-                  className="text-zinc-300 hover:text-white flex items-center gap-1 text-[11px]"
+                <button
+                  onClick={() => router.push(`/verify?hash=${regResult.reportHash}`)}
+                  className="text-tl-text-secondary hover:text-tl-text-primary flex items-center gap-1"
                 >
-                  Verify in Independent Verifier <Check className="w-3 h-3" />
-                </a>
+                  Verify Cryptographic Proof <ArrowRight className="w-3 h-3" />
+                </button>
               </div>
             </div>
           )}
 
-          {/* Extracted Indicators Panel */}
-          <div className="p-6 bg-zinc-900/80 border border-zinc-800 rounded-2xl space-y-3">
-            <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400">
-              Extracted Indicators & Defanged Artifacts ({analysis.indicators.length})
-            </h3>
+          {/* Extracted Indicators Panel (Defanged Artifacts) */}
+          <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-3 shadow-panel">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text-secondary">
+                Extracted Indicators &amp; Defanged Artifacts ({analysis.indicators.length})
+              </h3>
+              <span className="text-[10px] font-mono text-tl-text-muted">
+                Safe defanged representation prevents automatic click execution
+              </span>
+            </div>
+
             {analysis.indicators.length === 0 ? (
-              <p className="text-xs text-zinc-500 font-mono">No target URLs, UPI handles, or contact phones detected.</p>
+              <p className="text-xs text-tl-text-muted font-mono">No target URLs, UPI handles, or contact phones detected.</p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {analysis.indicators.map((ind, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-zinc-950 border border-zinc-800 rounded-lg font-mono text-xs text-zinc-200"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-tl-panel border border-tl-border rounded-lg font-mono text-xs text-tl-text-primary"
                   >
-                    <span className="text-[10px] text-zinc-500 uppercase">{ind.type}:</span>
-                    <span className="text-emerald-400 font-semibold">{ind.defanged}</span>
+                    <span className="text-[10px] text-tl-text-muted uppercase">{ind.type}:</span>
+                    {/* Defanged text (example[.]com) */}
+                    <span className="text-tl-cyan font-semibold select-all">{ind.defanged}</span>
                     <button
                       onClick={() => handleCopy(ind.raw, `ind-${i}`)}
-                      className="text-zinc-400 hover:text-zinc-200 ml-1"
-                      title="Copy raw indicator"
+                      className="text-tl-text-muted hover:text-tl-text-primary ml-1"
+                      title="Copy indicator"
                     >
-                      {copiedIndex === `ind-${i}` ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedIndex === `ind-${i}` ? <Check className="w-3.5 h-3.5 text-tl-emerald" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                     {ind.type === 'url' && (
                       <button
                         onClick={() => router.push(`/scan/${encodeURIComponent(ind.raw.replace(/^https?:\/\//, ''))}`)}
-                        className="text-zinc-400 hover:text-emerald-400 ml-1 flex items-center gap-0.5 text-[10px]"
+                        className="text-tl-text-secondary hover:text-tl-cyan ml-1 flex items-center gap-1 text-[10px]"
                         title="Investigate with deep scanner"
                       >
-                        <Link2 className="w-3.5 h-3.5" />
-                        Scan
+                        <Link2 className="w-3 h-3" />
+                        <span>Audit Target</span>
                       </button>
                     )}
                   </div>
@@ -269,53 +280,53 @@ export default function ScamAnalyzerPage() {
             )}
           </div>
 
-          {/* The Key UI Concept: Two-Column Language vs Verified Evidence View */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Two-Column Presentation: Column 1 = Suspicious Language, Column 2 = Verified Evidence */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Column 1: Suspicious Language (Heuristic) */}
-            <div className="p-6 bg-zinc-950 border border-zinc-800 rounded-2xl space-y-4">
+            <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-tl-amber flex items-center gap-1.5">
                     <AlertTriangle className="w-4 h-4" />
                     Suspicious Language (Heuristic)
                   </h3>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 text-amber-400 border border-amber-800/40">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-tl-amber/15 text-tl-amber border border-tl-amber/30">
                     Signals, not proof
                   </span>
                 </div>
-                <p className="text-[11px] text-zinc-500 font-mono">
+                <p className="text-[11px] text-tl-text-muted font-sans">
                   Linguistic psychology analysis detecting artificial urgency, fear hooks, and coercive framing.
                 </p>
               </div>
 
               {analysis.languageSignals.length === 0 ? (
-                <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-xs text-zinc-500 font-mono">
-                  No coercive linguistic urgency or harvesting keywords flagged in the text body.
+                <div className="p-4 bg-tl-panel/60 rounded-xl border border-tl-border text-xs text-tl-text-muted font-mono">
+                  No coercive urgency or harvesting keywords flagged in the text body.
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {analysis.languageSignals.map((sig, idx) => (
                     <div
                       key={idx}
-                      className="p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-xl space-y-2 font-mono text-xs"
+                      className="p-3 bg-tl-panel border border-tl-border rounded-xl space-y-1.5 font-mono text-xs"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-zinc-200">{sig.pattern}</span>
+                        <span className="font-semibold text-tl-text-primary">{sig.pattern}</span>
                         <span
-                          className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${
+                          className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded ${
                             sig.severity === 'critical'
-                              ? 'bg-rose-950 text-rose-400'
-                              : 'bg-amber-950 text-amber-400'
+                              ? 'bg-tl-rose/15 text-tl-rose border border-tl-rose/30'
+                              : 'bg-tl-amber/15 text-tl-amber border border-tl-amber/30'
                           }`}
                         >
                           {sig.severity}
                         </span>
                       </div>
-                      <div className="text-[11px] text-zinc-400 italic bg-zinc-950 p-2 rounded border border-zinc-850">
+                      <div className="text-[11px] text-tl-text-secondary italic bg-tl-elevated/60 p-2 rounded border border-tl-border/60">
                         {sig.snippet}
                       </div>
-                      <div className="flex items-center justify-between text-[10px] text-zinc-500">
-                        <span>Category: {sig.category}</span>
+                      <div className="flex items-center justify-between text-[10px] text-tl-text-muted">
+                        <span>Theme: {sig.category}</span>
                         <span>Confidence: {Math.round(sig.confidence * 100)}%</span>
                       </div>
                     </div>
@@ -325,42 +336,42 @@ export default function ScamAnalyzerPage() {
             </div>
 
             {/* Column 2: Verified Evidence (From Security Engines) */}
-            <div className="p-6 bg-zinc-950 border border-zinc-800 rounded-2xl space-y-4">
+            <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-tl-emerald flex items-center gap-1.5">
                     <CheckCircle className="w-4 h-4" />
                     Verified Evidence (Engines)
                   </h3>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-tl-emerald/15 text-tl-emerald border border-tl-emerald/30">
                     Engine Attested
                   </span>
                 </div>
-                <p className="text-[11px] text-zinc-500 font-mono">
+                <p className="text-[11px] text-tl-text-muted font-sans">
                   Deterministic signals verified by cryptographic cert linter, brand lookalike model, and ASN threat feeds.
                 </p>
               </div>
 
               {analysis.verifiedEvidence.length === 0 ? (
-                <div className="p-4 bg-zinc-900/50 rounded-xl border border-zinc-800 text-xs text-zinc-500 font-mono">
+                <div className="p-4 bg-tl-panel/60 rounded-xl border border-tl-border text-xs text-tl-text-muted font-mono">
                   No high-risk brand lookalikes or flagged infrastructure detected in message links.
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {analysis.verifiedEvidence.map((ev, idx) => (
                     <div
                       key={idx}
-                      className="p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-xl space-y-2 font-mono text-xs"
+                      className="p-3 bg-tl-panel border border-tl-border rounded-xl space-y-1.5 font-mono text-xs"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-emerald-400">{ev.indicator}</span>
-                        <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-rose-950 text-rose-400">
+                        <span className="font-semibold text-tl-cyan">{ev.indicator}</span>
+                        <span className="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-tl-rose/15 text-tl-rose border border-tl-rose/30">
                           {ev.verdict}
                         </span>
                       </div>
-                      <p className="text-[11px] text-zinc-300">{ev.detail}</p>
-                      <div className="text-[10px] text-zinc-500">
-                        Attesting Engine: <strong className="text-zinc-400">{ev.source}</strong>
+                      <p className="text-[11px] text-tl-text-secondary font-sans">{ev.detail}</p>
+                      <div className="text-[10px] text-tl-text-muted">
+                        Attesting Engine: <strong className="text-tl-text-primary">{ev.source}</strong>
                       </div>
                     </div>
                   ))}

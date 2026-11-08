@@ -17,31 +17,30 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const base =
-    'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 disabled:pointer-events-none disabled:opacity-50 select-none';
+    'inline-flex items-center justify-center font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan disabled:pointer-events-none disabled:opacity-50 select-none';
 
   const variants = {
     primary:
-      'bg-emerald-500 text-zinc-950 font-semibold hover:bg-emerald-400 active:bg-emerald-600 shadow-sm shadow-emerald-500/20',
+      'bg-tl-cyan text-tl-canvas font-semibold hover:bg-tl-cyan/90 active:bg-tl-cyan/80 shadow-sm',
     secondary:
-      'bg-zinc-800 text-zinc-100 hover:bg-zinc-700 active:bg-zinc-900 border border-zinc-700/60',
+      'bg-tl-card text-tl-text-primary hover:bg-tl-hover active:bg-tl-elevated border border-tl-border',
     danger:
-      'bg-rose-600 text-white hover:bg-rose-500 active:bg-rose-700 shadow-sm shadow-rose-600/20',
+      'bg-tl-rose text-white hover:bg-tl-rose/90 active:bg-tl-rose/80 shadow-sm',
     ghost:
-      'text-zinc-300 hover:bg-zinc-800/80 hover:text-zinc-100',
+      'text-tl-text-secondary hover:bg-tl-card hover:text-tl-text-primary',
     outline:
-      'border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-zinc-100 hover:bg-zinc-800/40',
+      'border border-tl-border text-tl-text-secondary hover:border-tl-border-active hover:text-tl-text-primary hover:bg-tl-card/50',
   };
 
   const sizes = {
-    sm: 'h-8 px-3 text-xs rounded-md gap-1.5',
-    md: 'h-10 px-4 text-sm rounded-lg gap-2',
-    lg: 'h-12 px-6 text-base rounded-xl gap-2.5',
+    sm: 'h-8 px-2.5 text-xs rounded-lg gap-1.5',
+    md: 'h-9 px-3.5 text-xs sm:text-sm rounded-lg gap-2',
+    lg: 'h-11 px-5 text-sm rounded-xl gap-2.5',
   };
 
   return (
     <button
       className={cn(
-        'focus-visible:outline-none focus-visible:ring-2 active:opacity-90 disabled:opacity-50',
         base,
         variants[variant],
         sizes[size],
@@ -52,7 +51,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {isLoading && (
         <svg
-          className="animate-spin motion-reduce:animate-none -ml-1 mr-2 h-4 w-4 text-current"
+          className="animate-spin -ml-0.5 mr-1.5 h-3.5 w-3.5 text-current"
           fill="none"
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -76,4 +75,3 @@ export const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-

@@ -19,29 +19,29 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
   const selectedNode: CertNode | undefined = certificate.chain[selectedNodeIndex];
 
   return (
-    <Card className="p-5 bg-zinc-950/80 border border-zinc-800 space-y-4">
+    <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
+      <div className="flex items-center justify-between pb-3 border-b border-tl-border">
         <div className="flex items-center gap-2">
-          <KeyRound className="w-4 h-4 text-emerald-400" />
-          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200">
+          <KeyRound className="w-4 h-4 text-tl-cyan" />
+          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text-primary">
             X.509 Certificate Chain & Cryptographic Sieve
           </h4>
         </div>
 
         <div className="flex items-center gap-2 font-mono text-[10px]">
           {certificate.fermatFactorable && (
-            <span className="px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-500/40 font-bold animate-pulse">
+            <span className="px-2 py-0.5 rounded bg-tl-rose/15 text-tl-rose border border-tl-rose/40 font-bold">
               Fermat Factorable
             </span>
           )}
           {certificate.ccadbDistrusted && (
-            <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/40 font-bold">
+            <span className="px-2 py-0.5 rounded bg-tl-amber/15 text-tl-amber border border-tl-amber/40 font-bold">
               CCADB Distrusted CA
             </span>
           )}
           {!certificate.fermatFactorable && !certificate.ccadbDistrusted && (
-            <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">
+            <span className="px-2 py-0.5 rounded bg-tl-emerald/15 text-tl-emerald border border-tl-emerald/30">
               Valid Public Trust Anchor
             </span>
           )}
@@ -236,7 +236,7 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
           </p>
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

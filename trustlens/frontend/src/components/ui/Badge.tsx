@@ -17,20 +17,20 @@ export const Badge: React.FC<BadgeProps> = ({
   className,
 }) => {
   const variants = {
-    emerald: 'bg-emerald-950/60 border-emerald-500/30 text-emerald-400',
-    rose: 'bg-rose-950/60 border-rose-500/30 text-rose-400',
-    amber: 'bg-amber-950/60 border-amber-500/30 text-amber-400',
-    sky: 'bg-sky-950/60 border-sky-500/30 text-sky-400',
-    zinc: 'bg-zinc-900 border-zinc-700/60 text-zinc-300',
+    emerald: 'bg-tl-emerald/10 border-tl-emerald/30 text-tl-emerald',
+    rose: 'bg-tl-rose/10 border-tl-rose/30 text-tl-rose',
+    amber: 'bg-tl-amber/10 border-tl-amber/30 text-tl-amber',
+    sky: 'bg-tl-cyan/10 border-tl-cyan/30 text-tl-cyan',
+    zinc: 'bg-tl-panel border-tl-border text-tl-text',
     purple: 'bg-purple-950/60 border-purple-500/30 text-purple-400',
   };
 
   const dots = {
-    emerald: 'bg-emerald-400',
-    rose: 'bg-rose-400',
-    amber: 'bg-amber-400',
-    sky: 'bg-sky-400',
-    zinc: 'bg-zinc-400',
+    emerald: 'bg-tl-emerald',
+    rose: 'bg-tl-rose',
+    amber: 'bg-tl-amber',
+    sky: 'bg-tl-cyan',
+    zinc: 'bg-tl-muted',
     purple: 'bg-purple-400',
   };
 

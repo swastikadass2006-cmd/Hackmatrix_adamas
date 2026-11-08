@@ -24,11 +24,11 @@ export const Input: React.FC<InputProps> = ({
         )}
         <input
           className={cn(
-            'w-full bg-zinc-950/80 border border-zinc-800 rounded-lg py-2.5 text-sm text-zinc-100 placeholder-zinc-500 transition-colors',
-            'focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30',
+            'w-full bg-tl-panel border border-tl-border rounded py-2.5 text-sm text-tl-text placeholder-tl-muted transition-colors',
+            'focus:outline-none focus:border-tl-cyan focus:ring-1 focus:ring-tl-cyan/30',
             icon ? 'pl-10' : 'pl-3.5',
             rightElement ? 'pr-12' : 'pr-3.5',
-            error && 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/30',
+            error && 'border-tl-rose focus:border-tl-rose focus:ring-tl-rose/30',
             className
           )}
           {...props}
