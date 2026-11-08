@@ -30,22 +30,22 @@ export const EvidenceBreakdown: React.FC<EvidenceBreakdownProps> = ({ evidence }
           <span className="text-xs font-semibold text-zinc-200">
             Contributing Signals ({evidence.length})
           </span>
-          <span className="text-xs font-mono text-rose-400 font-bold bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/30">
-            Total Deductions: -{totalDeductions} pts
+          <span className="text-xs text-rose-400 font-medium bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/30">
+            Total deductions: <span className="font-mono font-bold">-{totalDeductions}</span> pts
           </span>
         </div>
 
         {/* Filter Badges */}
-        <div className="flex items-center gap-2 text-xs font-mono">
+        <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center gap-1 text-zinc-400">
             <Filter className="w-3.5 h-3.5" />
-            <span className="text-[11px]">Filter:</span>
+            <span className="text-xs">Filter:</span>
           </div>
 
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-zinc-300 text-xs focus:outline-none"
+            className="bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-zinc-300 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80 disabled:opacity-50"
           >
             <option value="all">All Categories</option>
             <option value="crypto">Cryptography</option>
@@ -57,7 +57,7 @@ export const EvidenceBreakdown: React.FC<EvidenceBreakdownProps> = ({ evidence }
           <select
             value={selectedSeverity}
             onChange={(e) => setSelectedSeverity(e.target.value)}
-            className="bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-zinc-300 text-xs focus:outline-none"
+            className="bg-zinc-900 border border-zinc-800 rounded px-2 py-1 text-zinc-300 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80 disabled:opacity-50"
           >
             <option value="all">All Severities</option>
             <option value="critical">Critical</option>
@@ -73,7 +73,7 @@ export const EvidenceBreakdown: React.FC<EvidenceBreakdownProps> = ({ evidence }
         {filtered.length > 0 ? (
           filtered.map((item) => <FindingCard key={item.id} item={item} />)
         ) : (
-          <div className="text-center py-8 text-zinc-500 font-mono text-xs bg-zinc-950/40 border border-zinc-900 rounded-xl">
+          <div className="text-center py-8 text-zinc-500 text-xs bg-zinc-950/40 border border-zinc-900 rounded-xl">
             No risk signals matching selected filter criteria.
           </div>
         )}

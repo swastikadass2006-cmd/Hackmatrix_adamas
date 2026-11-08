@@ -20,27 +20,27 @@ export const Footer: React.FC = () => {
 
           {/* Core Modules */}
           <div>
-            <h4 className="text-zinc-200 font-semibold mb-3 uppercase tracking-wider text-[11px] font-mono">
-              Detection Engines
+            <h4 className="text-zinc-200 font-semibold mb-3 text-xs">
+              Detection engines
             </h4>
             <ul className="space-y-2 text-zinc-400">
               <li>
-                <Link href="/about" className="hover:text-emerald-400 transition-colors">
+                <Link href="/about" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   Fermat Sieve Cryptanalysis
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-emerald-400 transition-colors">
+                <Link href="/about" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   Visual SSIM Brand Impersonation
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-emerald-400 transition-colors">
+                <Link href="/about" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   CCADB Trust Anchor Linter
                 </Link>
               </li>
               <li>
-                <Link href="/campaigns" className="hover:text-emerald-400 transition-colors">
+                <Link href="/campaigns" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   ASN Infrastructure Clustering
                 </Link>
               </li>
@@ -49,22 +49,22 @@ export const Footer: React.FC = () => {
 
           {/* Resources & Intel */}
           <div>
-            <h4 className="text-zinc-200 font-semibold mb-3 uppercase tracking-wider text-[11px] font-mono">
-              Intelligence & API
+            <h4 className="text-zinc-200 font-semibold mb-3 text-xs">
+              Intelligence and API
             </h4>
             <ul className="space-y-2 text-zinc-400">
               <li>
-                <Link href="/feed" className="hover:text-emerald-400 transition-colors">
+                <Link href="/feed" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   Real-time Threat Feed
                 </Link>
               </li>
               <li>
-                <Link href="/api-docs" className="hover:text-emerald-400 transition-colors">
+                <Link href="/api-docs" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   STIX 2.1 Taxii Integrations
                 </Link>
               </li>
               <li>
-                <Link href="/org/watchlist" className="hover:text-emerald-400 transition-colors">
+                <Link href="/org/watchlist" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75">
                   Enterprise Brand Watchlist
                 </Link>
               </li>
@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
                   href="https://ccadb.org"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1"
+                  className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-75 inline-flex items-center gap-1"
                 >
                   <span>CCADB Root Program</span>
                   <ExternalLink className="w-3 h-3" />
@@ -84,31 +84,31 @@ export const Footer: React.FC = () => {
 
           {/* Technical Specs */}
           <div>
-            <h4 className="text-zinc-200 font-semibold mb-3 uppercase tracking-wider text-[11px] font-mono">
-              Engine Status
+            <h4 className="text-zinc-200 font-semibold mb-3 text-xs">
+              Engine status
             </h4>
-            <div className="bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 space-y-2 font-mono text-[11px]">
+            <div className="bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 space-y-2 text-xs">
               <div className="flex justify-between">
                 <span className="text-zinc-500">Node Pipeline:</span>
-                <span className="text-emerald-400">ONLINE (4/4)</span>
+                <span className="text-emerald-400 font-mono text-[11px]">ONLINE (4/4)</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-500">Fermat Factor Sieve:</span>
-                <span className="text-zinc-300">&lt; 100 iters</span>
+                <span className="text-zinc-300 font-mono text-[11px]">&lt; 100 iters</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-500">SSIM Threshold:</span>
-                <span className="text-zinc-300">0.85 (Hard Cap)</span>
+                <span className="text-zinc-300 font-mono text-[11px]">0.85 (Hard Cap)</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-zinc-500">Active CCADB Baseline:</span>
-                <span className="text-zinc-300">v2.8 Compliant</span>
+                <span className="text-zinc-300 font-mono text-[11px]">v2.8 Compliant</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500 text-[11px] font-mono">
+        <div className="pt-6 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-zinc-500 text-xs">
           <div>© {new Date().getFullYear()} TrustLens Digital Trust Framework. Open Security Intelligence.</div>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5 text-zinc-400">

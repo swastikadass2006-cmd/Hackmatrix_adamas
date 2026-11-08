@@ -31,10 +31,10 @@ export const UrlScannerInput: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto space-y-4">
       {/* Search Input Bar */}
       <form onSubmit={handleSubmit} className="relative group">
-        <div className="relative flex items-center bg-zinc-900/90 border-2 border-zinc-700/80 rounded-2xl shadow-2xl p-2 transition-all focus-within:border-emerald-500/80 focus-within:ring-4 focus-within:ring-emerald-500/10">
+        <div className="relative flex items-center bg-zinc-900 border-2 border-zinc-700/80 rounded-2xl p-2 transition-colors focus-within:border-emerald-500/80 focus-within:ring-2 focus-within:ring-emerald-500/20">
           <div className="pl-3 pr-2 text-zinc-500 flex items-center gap-2">
             <Globe className="w-5 h-5 text-emerald-400" />
-            <span className="text-zinc-600 font-mono text-xs hidden sm:inline">target://</span>
+            <span className="text-zinc-500 text-xs hidden sm:inline">target://</span>
           </div>
 
           <input
@@ -78,7 +78,7 @@ export const UrlScannerInput: React.FC = () => {
       {/* Quick Demo Scenarios */}
       {!isScanning && (
         <div className="space-y-2">
-          <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-mono">
+          <div className="flex items-center gap-1.5 text-xs text-zinc-400 font-medium">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
             <span>Interactive Threat Scenarios (Click to test directly):</span>
           </div>
@@ -92,7 +92,7 @@ export const UrlScannerInput: React.FC = () => {
                   key={demo.id}
                   type="button"
                   onClick={() => handleSelectDemo(demo.id)}
-                  className={`text-left p-3 rounded-xl border transition-all flex flex-col justify-between ${
+                  className={`text-left p-3 rounded-xl border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-400 active:opacity-80 disabled:opacity-50 flex flex-col justify-between ${
                     isRose
                       ? 'bg-rose-950/20 border-rose-500/30 hover:border-rose-500/60 hover:bg-rose-950/40'
                       : isAmber
@@ -103,7 +103,7 @@ export const UrlScannerInput: React.FC = () => {
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-semibold text-zinc-200">{demo.label}</span>
                     <span
-                      className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${
+                      className={`text-xs px-1.5 py-0.5 rounded border ${
                         isRose
                           ? 'bg-rose-950 text-rose-400 border-rose-500/30'
                           : isAmber
@@ -114,7 +114,7 @@ export const UrlScannerInput: React.FC = () => {
                       {demo.badge}
                     </span>
                   </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
                     {demo.desc}
                   </p>
                 </button>

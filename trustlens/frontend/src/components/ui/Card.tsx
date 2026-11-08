@@ -22,7 +22,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        'bg-zinc-900/70 border border-zinc-800/80 rounded-xl backdrop-blur-sm text-zinc-100 overflow-hidden',
+        'bg-zinc-900 border border-zinc-800 rounded-xl text-zinc-100 overflow-hidden',
         glowStyles[glow],
         className
       )}
