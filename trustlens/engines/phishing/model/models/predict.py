@@ -12,10 +12,8 @@ from feature_extraction import extract_url_vector
 # XGBoost + SHAP Explainable AI
 # =====================================================
 
-# Dynamically resolve paths relative to predict.py's directory
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Check if model is directly in BASE_DIR or in a 'models/' subfolder
 def resolve_path(file_name):
     direct_path = os.path.join(BASE_DIR, file_name)
     subfolder_path = os.path.join(BASE_DIR, "models", file_name)
@@ -194,7 +192,8 @@ app = FastAPI(title="TrustLens ML Phishing Engine")
 class ScanRequest(BaseModel):
     url: str
 
-@app.get("/")
+# Support both GET and HEAD for Render Health Checks
+@app.api_route("/", methods=["GET", "HEAD"])
 def health_check():
     return {"status": "healthy", "engine": "TrustLens ML Model"}
 

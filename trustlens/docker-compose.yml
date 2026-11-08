@@ -14,16 +14,14 @@ services:
 
   # 2. FastAPI Gateway & AI Engine
   api_gateway:
-    build:
-      context: ./gateway
-      dockerfile: Dockerfile
+    build: ./gateway  # Replace with your actual gateway build context if applicable
     ports:
     - "8000:8000"
     environment:
     - DATABASE_URL=postgresql+asyncpg://trustlens:hackathon2026@postgres:5432/trustlensdb
     - REDIS_URL=redis://redis:6379/0
     - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
-    - COLAB_ML_URL=https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze
+    - COLAB_ML_URL=https://hackmatrix-adamas.onrender.com/predict
     depends_on:
     - rust_security
     - postgres
@@ -44,7 +42,7 @@ services:
     - /app/node_modules
     - /app/.next
     environment:
-    - NEXT_PUBLIC_API_URL=http://api_gateway:8000
+    - NEXT_PUBLIC_API_URL=http://localhost:8000
     - NODE_ENV=development
     depends_on:
     - api_gateway
