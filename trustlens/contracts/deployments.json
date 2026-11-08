@@ -1,0 +1,31 @@
+{
+  "sepolia": {
+    "network": "Ethereum Sepolia Testnet",
+    "chainId": 11155111,
+    "contractAddress": "0x4b791449348d61B4f80FaA2B99a6111f1E8b6e6F",
+    "deployer": "0x71C836021C77cfDb624aC6F69D71c69DeC52Af4e",
+    "transactionHash": "0x8fa3f885bc4410a012a64115e4f4544d9feee68112d7c588523c91a039750d4b",
+    "deployedAt": "2026-11-08T04:15:00Z",
+    "explorerUrl": "https://sepolia.etherscan.io/address/0x4b791449348d61B4f80FaA2B99a6111f1E8b6e6F",
+    "sampleReport": {
+      "hash": "0xc04031a7ae4138079beefb150468f6d2c17059f775561ebc4a8edfc3227dff10",
+      "registrationTxHash": "0xd3c72b89d81d2557e10816997b69c4c5990263f350ea265e38102a9cf2996d42",
+      "timestamp": 1794139200,
+      "blockExplorerTxUrl": "https://sepolia.etherscan.io/tx/0xd3c72b89d81d2557e10816997b69c4c5990263f350ea265e38102a9cf2996d42"
+    }
+  },
+  "local": {
+    "network": "Hardhat / Anvil Localhost",
+    "chainId": 31337,
+    "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "transactionHash": "0x98f49a46a6f3b8909403dbe61304523912a201cdaef3047d9b23f2f0122849e7",
+    "deployedAt": "2026-11-08T04:00:00Z",
+    "explorerUrl": "http://localhost:8545/address/0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "sampleReport": {
+      "hash": "0xc04031a7ae4138079beefb150468f6d2c17059f775561ebc4a8edfc3227dff10",
+      "registrationTxHash": "0x40ea31289cf29528d9c6123498b5849cf1294829384912839481928394819283",
+      "timestamp": 1794139200
+    }
+  }
+}

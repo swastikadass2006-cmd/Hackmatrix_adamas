@@ -1,0 +1,19 @@
+{
+  "name": "trustlens-contracts",
+  "version": "1.0.0",
+  "description": "TrustLens Web3 Tamper-Evident Report Registry",
+  "scripts": {
+    "test": "node scripts/test-contract.js",
+    "deploy:local": "node scripts/deploy.js --network local",
+    "deploy:sepolia": "node scripts/deploy.js --network sepolia"
+  },
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "solc": "^0.8.20"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^7.0.0",
+    "hardhat": "^3.21.2"
+  },
+  "type": "module"
+}
