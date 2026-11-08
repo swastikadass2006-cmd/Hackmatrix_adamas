@@ -57,7 +57,7 @@ export function useScan() {
     setWorkerSteps(INITIAL_WORKERS.map((s) => ({ ...s, status: 'pending' })));
 
     try {
-      // Step 1: Worker 1
+      // Step 1: Worker 1 — visual progress while API call is in-flight
       setWorkerSteps((prev) =>
         prev.map((s) =>
           s.id === 1
@@ -106,7 +106,7 @@ export function useScan() {
         )
       );
 
-      // Step 4: Worker 4
+      // Step 4: Worker 4 — fires real API call concurrently during animation
       setWorkerSteps((prev) =>
         prev.map((s) =>
           s.id === 4
@@ -114,27 +114,28 @@ export function useScan() {
             : s
         )
       );
-      await new Promise((r) => setTimeout(r, 450));
+
+      // === LIVE API CALL ===
+      const { result, fromMock } = await apiClient.scanUrl(url);
+      setScanResult(result);
+
       setWorkerSteps((prev) =>
         prev.map((s) =>
           s.id === 4 ? { ...s, status: 'completed', log: 'Correlated with active campaigns. Risk fusion computed.' } : s
         )
       );
 
-      // Fetch scan
-      const normalizedTarget = url.toLowerCase().trim();
-      let targetId = 'scan-sbi-phish';
-      if (normalizedTarget.includes('emudhra') || normalizedTarget.includes('gov-gateway') || normalizedTarget.includes('crypto')) {
-        targetId = 'scan-emudhra-crypto';
-      } else if (normalizedTarget.includes('github') || normalizedTarget.includes('clean')) {
-        targetId = 'scan-github-clean';
-      } else {
-        targetId = encodeURIComponent(normalizedTarget.replace(/^https?:\/\//, ''));
+      // Store live result in sessionStorage so the results page can read it without
+      // re-fetching. Key = scan:${routeId} matches what page.tsx will look for.
+      const routeId = result.id ?? encodeURIComponent(url.replace(/^https?:\/\//, ''));
+      if (!fromMock) {
+        try {
+          sessionStorage.setItem(`scan:${routeId}`, JSON.stringify(result));
+        } catch {
+          // Quota exceeded or private-browsing — carry on gracefully
+        }
       }
-
-      const result = await apiClient.getScan(targetId);
-      setScanResult(result);
-      router.push(`/scan/${targetId}`);
+      router.push(`/scan/${routeId}`);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Analysis failed. Please check network connectivity.';
       setError(msg);
@@ -151,4 +152,3 @@ export function useScan() {
     startScan,
   };
 }
-
