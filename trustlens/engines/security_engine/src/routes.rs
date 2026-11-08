@@ -25,7 +25,7 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
     }
 
     match safe_fetch(&query.url).await {
-        Ok((status, _)) => {
+        Ok((status, body)) => {
             findings.push(SecurityFinding {
                 id: "SEC-FETCH-01".to_string(),
                 signal: "SSRF_Safe_Redirect".to_string(),
@@ -34,6 +34,20 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
                 source: "rust_network_fetcher".to_string(),
                 timestamp: Utc::now().to_rfc3339(),
             });
+
+            // --- NEW: Passive DOM Scan for Mixed Content ---
+            if query.url.starts_with("https://") {
+                if body.contains("src=\"http://") || body.contains("src='http://") {
+                    findings.push(SecurityFinding {
+                        id: "SEC-MIXED-01".to_string(),
+                        signal: "Mixed_Content_Detected".to_string(),
+                        severity: "Medium".to_string(),
+                        evidence: "Page loaded over HTTPS but includes unencrypted HTTP assets (images/scripts).".to_string(),
+                        source: "dom_scanner".to_string(),
+                        timestamp: Utc::now().to_rfc3339(),
+                    });
+                }
+            }
         }
         Err(e) => {
             findings.push(SecurityFinding {
