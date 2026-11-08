@@ -133,7 +133,6 @@ function VerificationContent() {
 
   return (
     <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8 font-mono">
-      {/* Page Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <FileSearch className="w-6 h-6 text-emerald-400" />
@@ -148,7 +147,6 @@ function VerificationContent() {
         </p>
       </div>
 
-      {/* Control Buttons & Demo Presets */}
       <div className="p-4 bg-zinc-900/60 border border-zinc-800 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
           <span className="text-zinc-500">Live Pitch Presets:</span>
@@ -175,7 +173,6 @@ function VerificationContent() {
         </label>
       </div>
 
-      {/* Verification Result Banner */}
       {verificationResult && (
       <div
         className={`p-6 rounded-2xl border ${
@@ -218,7 +215,6 @@ function VerificationContent() {
           </Button>
         </div>
 
-        {/* Audit Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-6 mt-6 border-t border-zinc-800/80 text-xs">
           <div className="p-3 bg-zinc-950/60 rounded-xl border border-zinc-800">
             <span className="text-[10px] text-zinc-500 block uppercase">Registration Status</span>
@@ -259,7 +255,6 @@ function VerificationContent() {
       </div>
     )}
 
-      {/* Hash Comparison & Cryptographic Proof */}
       <div className="p-6 bg-zinc-900/80 border border-zinc-800 rounded-2xl space-y-4">
         <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
           <Cpu className="w-4 h-4 text-emerald-400" />
@@ -291,9 +286,7 @@ function VerificationContent() {
         </div>
       </div>
 
-      {/* Editor & Canonical Representation */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: Raw JSON Input */}
         <div className="p-6 bg-zinc-950 border border-zinc-800 rounded-2xl space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
@@ -314,7 +307,6 @@ function VerificationContent() {
             />
         </div>
 
-        {/* Right: RFC 8785 Canonical JSON */}
         <div className="p-6 bg-zinc-950 border border-zinc-800 rounded-2xl space-y-3">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold uppercase tracking-wider text-zinc-400">
