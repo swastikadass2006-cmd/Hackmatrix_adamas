@@ -1,43 +1,57 @@
 version: '3.8'
 
 services:
-  # FastAPI Gateway & API Router
+  # ── Rust Security & X.509 Cryptographic Engine ───────────────────────────────
+  rust_security:
+    build: ./engines/security_engine
+    ports:
+      - "8001:8001"
+    environment:
+      - DISTRUSTED_CA_PATTERNS=emudhra,symantec,wosign,startcom
+    restart: unless-stopped
+    networks:
+      - trustlens-net
+
+  # ── FastAPI Gateway & In-Process Phishing Engine ─────────────────────────────
   api_gateway:
     build:
       context: ./gateway
       dockerfile: Dockerfile
     ports:
-    - "8000:8000"
+      - "8000:8000"
     environment:
-    # If Rust runs in Docker container:
-    - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
-    # If Rust runs natively on Linux Mint host:
-    # - SECURITY_ENGINE_URL=http://host.docker.internal:8001/api/v1/security/analyze
-    - COLAB_ML_URL=https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze
+      # Rust engine running inside Docker:
+      - SECURITY_ENGINE_URL=http://rust_security:8001/api/v1/security/analyze
+      # Uncomment below if Rust runs natively on the host instead:
+      # - SECURITY_ENGINE_URL=http://host.docker.internal:8001/api/v1/security/analyze
+      - COLAB_ML_URL=https://nursery-battle-identify-assign.trycloudflare.com/api/v1/ml/analyze
     extra_hosts:
-    - "host.docker.internal:host-gateway"
+      - "host.docker.internal:host-gateway"
     depends_on:
-    - rust_security
+      - rust_security
     restart: unless-stopped
+    networks:
+      - trustlens-net
 
-  # Rust Security Engine (Member 2)
-  rust_security:
-    build: ./engines/security_engine
-    ports:
-    - "8001:8001"
-    environment:
-    - DISTRUSTED_CA_PATTERNS=emudhra,symantec,wosign,startcom
-    restart: unless-stopped
-
-  # Next.js Dashboard (Member 4)
+  # ── Next.js Digital Trust Dashboard ──────────────────────────────────────────
   frontend:
-    image: node:18-alpine
-    working_dir: /app
-    volumes:
-    - ./frontend:/app
-    - /app/node_modules
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-    - "3000:3000"
-    command: sh -c "npm install && npm run dev"
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app          # live-reload: host source overrides container
+      - /app/node_modules        # keep container's node_modules intact
+      - /app/.next               # keep Next.js build cache inside container
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api_gateway:8000
+      - NODE_ENV=development
     depends_on:
-    - api_gateway
+      - api_gateway
+    networks:
+      - trustlens-net
+
+networks:
+  trustlens-net:
+    driver: bridge

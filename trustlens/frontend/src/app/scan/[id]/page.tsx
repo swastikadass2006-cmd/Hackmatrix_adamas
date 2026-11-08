@@ -25,9 +25,24 @@ export default function ScanReportPage() {
 
   useEffect(() => {
     let mounted = true;
+
+    // 1. Try live scan result stored in sessionStorage by useScan hook
+    try {
+      const cached = sessionStorage.getItem(`scan:${id}`);
+      if (cached) {
+        const parsed = JSON.parse(cached) as ScanResult;
+        if (mounted) setScan(parsed);
+        return () => { mounted = false; };
+      }
+    } catch {
+      // sessionStorage unavailable or JSON corrupt — fall through to mock
+    }
+
+    // 2. Fall back to mock/demo data (demo cards, offline mode)
     apiClient.getScan(id).then((res) => {
       if (mounted) setScan(res);
     });
+
     return () => {
       mounted = false;
     };
