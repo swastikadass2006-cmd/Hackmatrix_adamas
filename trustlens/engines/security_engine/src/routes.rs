@@ -17,17 +17,14 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
     let mut findings: Vec<SecurityFinding> = Vec::new();
     let mut limitations: Vec<String> = Vec::new();
 
-    // Extract domain from URL
     let domain = query.url.replace("https://", "").replace("http://", "")
         .split('/').next().unwrap_or("").to_lowercase();
 
-    // --- 1. Domain Validation (Clears validate_domain & is_public_ip warnings) ---
     if let Err(e) = validate_domain(&domain) {
         limitations.push(format!("Domain validation warning: {}", e));
     }
 
-    // --- 2. SSRF Fetcher Check ---
-    match safe_fetch(&query.url) {
+    match safe_fetch(&query.url).await {
         Ok((status, _)) => {
             findings.push(SecurityFinding {
                 id: "SEC-FETCH-01".to_string(),
@@ -52,7 +49,6 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
     }
 
     if !domain.is_empty() {
-        // --- 3. Distrusted CA Intelligence Check ---
         if let Ok(cert) = inspect_certificate(&domain) {
             if cert.ca_distrusted {
                 findings.push(SecurityFinding {
@@ -75,7 +71,6 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
             }
         }
 
-        // --- 4. Web Hygiene Scan (Clears scan_hygiene warning) ---
         if let Ok(hyg) = scan_hygiene(&domain).await {
             if !hyg.missing_headers.is_empty() {
                 findings.push(SecurityFinding {
@@ -99,7 +94,6 @@ pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Js
             }
         }
 
-        // --- 5. CT Transparency Log Check (Clears check_transparency warning) ---
         if let Ok(ct) = check_transparency(&domain).await {
             if ct.recent_certificates > 0 {
                 findings.push(SecurityFinding {
