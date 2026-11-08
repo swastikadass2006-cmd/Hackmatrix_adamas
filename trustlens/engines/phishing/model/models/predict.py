@@ -1,10 +1,10 @@
-
 import os
 import joblib
 import numpy as np
 import shap
-
 from urllib.parse import urlparse
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 from feature_extraction import extract_url_vector
 
 # =====================================================
@@ -12,8 +12,22 @@ from feature_extraction import extract_url_vector
 # XGBoost + SHAP Explainable AI
 # =====================================================
 
-MODEL_PATH = "models/url_xgboost.joblib"
-EXPLAINER_PATH = "models/url_shap.joblib"
+# Dynamically resolve paths relative to predict.py's directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Check if model is directly in BASE_DIR or in a 'models/' subfolder
+def resolve_path(file_name):
+    direct_path = os.path.join(BASE_DIR, file_name)
+    subfolder_path = os.path.join(BASE_DIR, "models", file_name)
+
+    if os.path.exists(direct_path):
+        return direct_path
+    elif os.path.exists(subfolder_path):
+        return subfolder_path
+    return direct_path
+
+MODEL_PATH = resolve_path("url_xgboost.joblib")
+EXPLAINER_PATH = resolve_path("url_shap.joblib")
 
 FEATURE_NAMES = [
     "url_length",
@@ -44,14 +58,12 @@ FEATURE_NAMES = [
     "has_bank_keyword"
 ]
 
-
 # =====================================================
 # 1. LOAD TRAINED MODEL
 # =====================================================
-
 if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(
-        "URL model not found. Run train_model.py first."
+        f"URL model not found at {MODEL_PATH}. Run train_model.py first."
     )
 
 model = joblib.load(MODEL_PATH)
@@ -63,13 +75,10 @@ if model.n_features_in_ != len(FEATURE_NAMES):
 
 print("TrustLens XGBoost model loaded successfully!")
 
-
 # =====================================================
 # 2. LOAD SHAP EXPLAINER
 # =====================================================
-
 explainer = None
-
 if os.path.exists(EXPLAINER_PATH):
     try:
         explainer = joblib.load(EXPLAINER_PATH)
@@ -79,21 +88,15 @@ if os.path.exists(EXPLAINER_PATH):
 else:
     print("SHAP explainer not found. Explanations disabled.")
 
-
 # =====================================================
 # 3. SHAP EXPLANATION FUNCTION
 # =====================================================
-
 def explain_url(X, top_n=5):
-
     if explainer is None:
-        print("\nSHAP explanation unavailable.")
         return []
 
     try:
         shap_values = explainer.shap_values(X)
-
-        # Handle different SHAP output formats.
         shap_values = np.asarray(shap_values)
 
         if shap_values.ndim == 3:
@@ -107,15 +110,10 @@ def explain_url(X, top_n=5):
             raise ValueError("Unexpected SHAP feature count.")
 
         ranked = np.argsort(np.abs(values))[::-1][:top_n]
-
         explanations = []
 
-        print("\n========== SHAP EXPLANATION ==========")
-
         for index in ranked:
-
             contribution = float(values[index])
-
             direction = (
                 "toward MALICIOUS"
                 if contribution > 0
@@ -127,16 +125,7 @@ def explain_url(X, top_n=5):
                 "contribution": round(contribution, 5),
                 "direction": direction
             }
-
             explanations.append(item)
-
-            print(
-                f"{item['feature']}: "
-                f"{item['contribution']} "
-                f"({item['direction']})"
-            )
-
-        print("======================================")
 
         return explanations
 
@@ -144,35 +133,24 @@ def explain_url(X, top_n=5):
         print("SHAP explanation error:", e)
         return []
 
-
 # =====================================================
 # 4. URL PREDICTION FUNCTION
 # =====================================================
-
-def predict_url(url):
-
+def predict_url(url: str):
     if not isinstance(url, str) or not url.strip():
         raise ValueError("Please enter a valid URL.")
 
     url = url.strip()
 
-    # Add HTTPS if scheme is missing.
     if not urlparse(url).scheme:
         url = "https://" + url
 
     parsed = urlparse(url)
 
-    if (
-        parsed.scheme not in ("http", "https")
-        or not parsed.hostname
-    ):
-        raise ValueError(
-            "Invalid URL. Enter a valid HTTP/HTTPS URL."
-        )
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+        raise ValueError("Invalid URL. Enter a valid HTTP/HTTPS URL.")
 
-    # Extract the same 26 features used during training.
     features = extract_url_vector(url)
-
     X = np.asarray([features], dtype=np.float32)
 
     if X.shape[1] != model.n_features_in_:
@@ -181,23 +159,15 @@ def predict_url(url):
             f"received {X.shape[1]}"
         )
 
-    # Predict class.
     prediction = int(model.predict(X)[0])
-
     probabilities = model.predict_proba(X)[0]
 
     malicious_index = list(model.classes_).index(1)
     benign_index = list(model.classes_).index(0)
 
-    malicious_probability = float(
-        probabilities[malicious_index]
-    )
+    malicious_probability = float(probabilities[malicious_index])
+    benign_probability = float(probabilities[benign_index])
 
-    benign_probability = float(
-        probabilities[benign_index]
-    )
-
-    # Risk classification based on model probability.
     if malicious_probability >= 0.80:
         risk = "HIGH"
     elif malicious_probability >= 0.50:
@@ -205,69 +175,36 @@ def predict_url(url):
     else:
         risk = "LOW"
 
-    # Generate explainable AI output.
     explanations = explain_url(X)
 
-    result = {
+    return {
         "url": url,
-        "prediction": (
-            "MALICIOUS" if prediction == 1 else "BENIGN"
-        ),
-        "malicious_probability": round(
-            malicious_probability * 100, 2
-        ),
-        "benign_probability": round(
-            benign_probability * 100, 2
-        ),
+        "prediction": "MALICIOUS" if prediction == 1 else "BENIGN",
+        "malicious_probability": round(malicious_probability * 100, 2),
+        "benign_probability": round(benign_probability * 100, 2),
         "risk_level": risk,
         "explanations": explanations
     }
 
-    return result
-
-
 # =====================================================
-# 5. COMMAND LINE URL SCANNER
+# 5. FASTAPI APPLICATION SETUP (FOR RENDER DEPLOYMENT)
 # =====================================================
+app = FastAPI(title="TrustLens ML Phishing Engine")
 
-if __name__ == "__main__":
+class ScanRequest(BaseModel):
+    url: str
 
-    print("\n======================================")
-    print("       TRUSTLENS AI URL SCANNER")
-    print("======================================")
+@app.get("/")
+def health_check():
+    return {"status": "healthy", "engine": "TrustLens ML Model"}
 
-    while True:
-
-        url = input(
-            "\nEnter URL (or type exit): "
-        ).strip()
-
-        if url.lower() == "exit":
-            print("\nTrustLens scanner closed.")
-            break
-
-        try:
-
-            result = predict_url(url)
-
-            print("\n========== SCAN RESULT ==========")
-
-            print("URL:", result["url"])
-            print("Prediction:", result["prediction"])
-
-            print(
-                "Malicious Probability:",
-                str(result["malicious_probability"]) + "%"
-            )
-
-            print(
-                "Benign Probability:",
-                str(result["benign_probability"]) + "%"
-            )
-
-            print("Risk Level:", result["risk_level"])
-
-            print("================================")
-
-        except Exception as e:
-            print("\nScan error:", e)
+@app.post("/predict")
+@app.get("/predict")
+def predict_api(url: str = None, body: ScanRequest = None):
+    target_url = url or (body.url if body else None)
+    if not target_url:
+        raise HTTPException(status_code=400, detail="URL parameter or body is required.")
+    try:
+        return predict_url(target_url)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
