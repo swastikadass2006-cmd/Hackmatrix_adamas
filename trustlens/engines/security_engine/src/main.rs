@@ -2,12 +2,14 @@ use std::net::SocketAddr;
 use axum::{routing::get, Router};
 use tower_http::cors::CorsLayer;
 
+// All module declarations must be at the top
 mod models;
 mod routes;
 mod certificate;
 mod transparency;
 mod hygiene;
 mod security;
+mod fetcher; // <- Added here!
 
 #[tokio::main]
 async fn main() {
@@ -28,4 +30,18 @@ async fn main() {
 
 async fn health() -> &'static str {
     "TrustLens Security Engine is running"
+}
+
+// Example usage function.
+// Eventually, you will want to call fetcher::safe_fetch(url)
+// directly inside your routes::scan or routes::analyze_security_layer functions.
+pub fn analyze_target(url: &str) {
+    match fetcher::safe_fetch(url) {
+        Ok((status, body)) => {
+            println!("Safely fetched target URL. Status: {}, Body length: {} bytes", status, body.len());
+        }
+        Err(e) => {
+            println!("Fetch blocked or failed due to safety policies: {}", e);
+        }
+    }
 }

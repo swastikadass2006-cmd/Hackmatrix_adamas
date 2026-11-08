@@ -1,11 +1,11 @@
 use chrono::{DateTime, Utc, Duration};
 use serde::Deserialize;
-
 use crate::models::CtResult;
 
 #[derive(Deserialize)]
 struct CtCertificate {
     not_before: Option<String>,
+    #[allow(dead_code)]
     common_name: Option<String>,
 }
 

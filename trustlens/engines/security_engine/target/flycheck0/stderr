@@ -1,9 +1,1 @@
-error: failed to parse manifest at `/home/barun/Desktop/Hackmatrix_adamas/trustlens/engines/security_engine/Cargo.toml`
-
-Caused by:
-  TOML parse error at line 16, column 1
-     |
-  16 | [package]
-     | ^
-  invalid table header
-  duplicate key `package` in document root
+error: expected a version like "1.32"

@@ -1,36 +1,31 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
-pub struct Evidence {
+// --- Hackathon Standardized Module 5 Output ---
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SecurityFinding {
+    pub id: String,
     pub signal: String,
     pub severity: String,
-    pub explanation: String,
+    pub evidence: String,
+    pub source: String,
+    pub timestamp: String,
 }
 
-#[derive(Serialize)]
-pub struct EngineResult {
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SecurityReport {
     pub engine_name: String,
-    pub risk_score: u8,
-    pub evidence: Vec<Evidence>,
+    pub coverage: String,
+    pub limitations: Vec<String>,
+    pub findings: Vec<SecurityFinding>,
 }
 
-#[derive(Serialize)]
-pub struct AnalyzeResponse {
+#[derive(Deserialize)]
+pub struct ScanQuery {
     pub url: String,
-    pub score: u8,
-    pub verdict: String,
-    pub results: Vec<EngineResult>,
-    pub evidence: Vec<Evidence>,
 }
 
-#[derive(Serialize)]
-pub struct ScanResponse {
-    pub domain: String,
-    pub certificate: CertificateResult,
-    pub transparency: CtResult,
-    pub hygiene: HygieneResult,
-    pub overall_risk: String,
-}
+// --- Internal Structs for your existing checks ---
 
 #[derive(Serialize)]
 pub struct CertificateResult {

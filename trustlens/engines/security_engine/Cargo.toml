@@ -4,23 +4,29 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# Web Framework & Async Runtime
 axum = "0.7"
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1.0", features = ["full"] }
+tower-http = { version = "0.5", features = ["cors"] }
 
+# HTTP Client (Merged features for both async gateway and blocking fetcher)
+reqwest = { version = "0.12", features = ["blocking", "json", "rustls-tls"], default-features = false }
+
+# Serialization & Parsing
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+url = "2.5"
 
-reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
-
+# Cryptography & Certificates
 openssl = "0.10"
 x509-parser = "0.15"
 
+# Utilities & Error Handling
 chrono = { version = "0.4", features = ["serde"] }
+thiserror = "2.0"
+anyhow = "1"
 
-tower-http = { version = "0.5", features = ["cors"] }
-
+# Logging & Tracing
+log = "0.4"
 tracing = "0.1"
 tracing-subscriber = "0.3"
-
-url = "2"
-anyhow = "1"
