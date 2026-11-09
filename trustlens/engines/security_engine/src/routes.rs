@@ -1,6 +1,7 @@
-use axum::{extract::Query, Json};
+use axum::{extract::Query, http::StatusCode, Json};
 use chrono::Utc;
 use crate::{
+    canonical::{canonicalize_report, keccak256, CanonicalResponse},
     certificate::inspect_certificate,
     fetcher::safe_fetch,
     models::{ScanQuery, SecurityFinding, SecurityReport},
@@ -11,6 +12,22 @@ use crate::{
 
 pub async fn scan() -> &'static str {
     "Scan endpoint active"
+}
+
+pub async fn canonicalize_report_endpoint(
+    Json(payload): Json<serde_json::Value>,
+) -> Result<Json<CanonicalResponse>, (StatusCode, String)> {
+    let canonical_json = canonicalize_report(&payload)
+        .map_err(|e| (StatusCode::BAD_REQUEST, e))?;
+
+    let hash = keccak256(canonical_json.as_bytes());
+
+    Ok(Json(CanonicalResponse {
+        canonical_json,
+        keccak256_hash: hash,
+        algorithm: "keccak256".to_string(),
+        rfc: "RFC 8785".to_string(),
+    }))
 }
 
 pub async fn analyze_security_layer(Query(query): Query<ScanQuery>) -> Result<Json<SecurityReport>, String> {

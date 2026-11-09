@@ -73,6 +73,19 @@ services:
     networks:
     - trustlens-net
 
+  # 6. Telegram Community Cyber-Threat Bot
+  telegram_bot:
+    build: ./bot
+    environment:
+    - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-}
+    - GATEWAY_URL=http://api_gateway:8000
+    - FRONTEND_URL=https://hackmatrixadamas.vercel.app
+    depends_on:
+    - api_gateway
+    restart: unless-stopped
+    networks:
+    - trustlens-net
+
 networks:
   trustlens-net:
     driver: bridge
