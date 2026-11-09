@@ -83,8 +83,8 @@ export default function InvestigationDossierPage() {
   if (!scan) {
     return (
       <div className="flex-1 flex items-center justify-center p-16 select-none font-sans">
-        <div className="text-center space-y-3 font-mono text-xs text-tl-text-secondary">
-          <div className="w-8 h-8 rounded-full border-2 border-tl-cyan border-t-transparent animate-spin mx-auto" />
+        <div className="text-center space-y-3 font-mono text-xs text-[#778496]">
+          <div className="w-8 h-8 rounded-full border-2 border-[#43B9DB] border-t-transparent animate-spin mx-auto shadow-[0_0_15px_rgba(67,185,219,0.4)]" />
           <p>Loading deep cryptographic and threat dossier...</p>
         </div>
       </div>
@@ -112,15 +112,15 @@ export default function InvestigationDossierPage() {
   const getClassificationStyle = (cls: ThreatClassification) => {
     switch (cls) {
       case 'Confirmed Malicious':
-        return 'bg-tl-rose/15 text-tl-rose border-tl-rose/30';
+        return 'bg-[#E11D48]/15 text-[#E11D48] border-[#E11D48]/30 shadow-[0_0_15px_rgba(225,29,72,0.15)]';
       case 'High Risk':
-        return 'bg-tl-orange/15 text-tl-orange border-tl-orange/30';
+        return 'bg-[#F97316]/15 text-[#F97316] border-[#F97316]/30 shadow-[0_0_15px_rgba(249,115,22,0.15)]';
       case 'Suspicious':
-        return 'bg-tl-amber/15 text-tl-amber border-tl-amber/30';
+        return 'bg-[#F59E0B]/15 text-[#F59E0B] border-[#F59E0B]/30 shadow-[0_0_15px_rgba(245,158,11,0.15)]';
       case 'No indicators found':
-        return 'bg-tl-emerald/15 text-tl-emerald border-tl-emerald/30';
+        return 'bg-[#45C69B]/15 text-[#45C69B] border-[#45C69B]/30 shadow-[0_0_15px_rgba(69,198,155,0.15)]';
       default:
-        return 'bg-tl-steel/15 text-tl-steel border-tl-steel/30';
+        return 'bg-[#63738A]/15 text-[#A0AEC0] border-[#63738A]/30';
     }
   };
 
@@ -178,29 +178,29 @@ export default function InvestigationDossierPage() {
   ];
 
   return (
-    <div className="flex-1 p-6 space-y-6 max-w-7xl w-full mx-auto select-none font-sans">
+    <div className="flex-1 p-4 sm:p-6 space-y-6 max-w-7xl w-full mx-auto select-none font-sans">
       {/* 1. Header Bar: Target URL (Non-clickable), Copy URL, Timestamp, Action Buttons */}
-      <div className="p-5 bg-tl-card border border-tl-border rounded-panel flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-panel">
+      <div className="p-5 glass-card flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1.5 min-w-0">
           <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-tl-cyan shrink-0" />
+            <Globe className="w-4 h-4 text-[#43B9DB] shrink-0" />
             {/* Rule: Scanned URL shown as non-clickable text */}
-            <span className="font-mono text-sm sm:text-base font-bold text-tl-text-primary break-all select-all">
+            <span className="font-mono text-sm sm:text-base font-bold text-[#F1F5F9] break-all select-all">
               {scan.targetUrl}
             </span>
             <button
               onClick={handleCopyUrl}
-              className="p-1 rounded hover:bg-tl-elevated text-tl-text-muted hover:text-tl-text-primary transition shrink-0"
+              className="p-1 rounded hover:bg-[#141E2E] text-[#778496] hover:text-[#F1F5F9] transition shrink-0"
               title="Copy Target URL"
             >
-              {copiedUrl ? <Check className="w-3.5 h-3.5 text-tl-emerald" /> : <Copy className="w-3.5 h-3.5" />}
+              {copiedUrl ? <Check className="w-3.5 h-3.5 text-[#45C69B]" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-tl-text-muted">
-            <span>Resolving IP: <strong className="text-tl-text-secondary">{scan.ipAddress}</strong></span>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#778496]">
+            <span>Resolving IP: <strong className="text-[#E9EEF5]">{scan.ipAddress}</strong></span>
             <span>&bull;</span>
-            <span>ASN: <strong className="text-tl-text-secondary">{scan.asn}</strong></span>
+            <span>ASN: <strong className="text-[#E9EEF5]">{scan.asn}</strong></span>
             <span>&bull;</span>
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
@@ -214,23 +214,23 @@ export default function InvestigationDossierPage() {
           <button
             onClick={handleRegisterOnChain}
             disabled={isRegistering}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tl-elevated hover:bg-tl-hover border border-tl-border text-tl-text-primary text-xs font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E2E]/80 hover:bg-[#162235] border border-white/[0.1] text-[#F1F5F9] text-xs font-semibold shadow-sm transition group"
           >
-            <FileCheck2 className="w-3.5 h-3.5 text-tl-cyan" />
+            <FileCheck2 className="w-3.5 h-3.5 text-[#43B9DB] group-hover:scale-110 transition-transform" />
             <span>{isRegistering ? 'Registering on Sepolia...' : 'Register On-Chain'}</span>
           </button>
 
           <button
             onClick={() => router.push(`/verify?hash=${regResult?.reportHash || ''}`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-tl-text-secondary hover:text-tl-text-primary text-xs font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E2E]/60 hover:bg-[#162235] border border-white/[0.08] text-[#778496] hover:text-[#F1F5F9] text-xs font-semibold transition"
           >
-            <Shield className="w-3.5 h-3.5 text-tl-emerald" />
+            <Shield className="w-3.5 h-3.5 text-[#45C69B]" />
             <span>Verify Proof</span>
           </button>
 
           <button
             onClick={handleExportJson}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-tl-text-secondary hover:text-tl-text-primary text-xs font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E2E]/60 hover:bg-[#162235] border border-white/[0.08] text-[#778496] hover:text-[#F1F5F9] text-xs font-semibold transition"
           >
             <Download className="w-3.5 h-3.5" />
             <span>JSON</span>
@@ -238,7 +238,7 @@ export default function InvestigationDossierPage() {
 
           <button
             onClick={() => router.push('/scanner')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-tl-text-secondary hover:text-tl-text-primary text-xs font-semibold transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E2E]/60 hover:bg-[#162235] border border-white/[0.08] text-[#778496] hover:text-[#F1F5F9] text-xs font-semibold transition"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Re-Scan</span>
@@ -248,21 +248,21 @@ export default function InvestigationDossierPage() {
 
       {/* On-Chain Confirmation Alert */}
       {regResult && (
-        <div className="p-4 bg-tl-card border border-tl-cyan/40 rounded-xl space-y-2 text-xs font-mono">
+        <div className="p-4 glass-elevated border border-[#43B9DB]/40 rounded-xl space-y-2 text-xs font-mono">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-tl-cyan font-bold">
+            <div className="flex items-center gap-2 text-[#43B9DB] font-bold">
               <CheckCircle2 className="w-4 h-4" />
               <span>Immutable Report Registered on Ethereum Sepolia Registry</span>
             </div>
-            <span className="text-[10px] text-tl-text-muted">RFC 8785 + Keccak-256</span>
+            <span className="text-[10px] text-[#778496]">RFC 8785 + Keccak-256</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-tl-text-secondary text-[11px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[#778496] text-[11px]">
             <div>
-              Hash: <span className="text-tl-text-primary break-all select-all">{regResult.reportHash}</span>
+              Hash: <span className="text-[#F1F5F9] break-all select-all">{regResult.reportHash}</span>
             </div>
             <div>
-              Tx: <span className="text-tl-text-primary break-all select-all">{regResult.txHash}</span>
+              Tx: <span className="text-[#F1F5F9] break-all select-all">{regResult.txHash}</span>
             </div>
           </div>
 
@@ -271,13 +271,13 @@ export default function InvestigationDossierPage() {
               href={regResult.explorerUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-tl-cyan hover:underline flex items-center gap-1"
+              className="text-[#43B9DB] hover:underline flex items-center gap-1"
             >
               View on Etherscan <ExternalLink className="w-3 h-3" />
             </a>
             <a
               href={`/verify?hash=${regResult.reportHash}`}
-              className="text-tl-text-secondary hover:text-tl-text-primary flex items-center gap-1"
+              className="text-[#778496] hover:text-[#F1F5F9] flex items-center gap-1"
             >
               Independent Verifier <ArrowRight className="w-3 h-3" />
             </a>
@@ -288,11 +288,11 @@ export default function InvestigationDossierPage() {
       {/* 2. Primary Classification & Consensus Breakdown Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left: Classification Badge & Evidence Coverage Bar (4 Cols) */}
-        <div className="lg:col-span-4 p-5 bg-tl-card border border-tl-border rounded-panel flex flex-col justify-between space-y-4 shadow-panel">
+        <div className="lg:col-span-4 p-5 glass-card flex flex-col justify-between space-y-4">
           <div className="space-y-3">
-            <div className="text-xs font-mono uppercase tracking-wider text-tl-text-muted font-semibold flex items-center justify-between">
+            <div className="text-xs font-mono uppercase tracking-wider text-[#778496] font-semibold flex items-center justify-between">
               <span>Primary Classification</span>
-              <span className="font-mono text-[10px] text-tl-text-secondary">Mandatory 5-Class</span>
+              <span className="font-mono text-[10px] text-[#778496]">Mandatory 5-Class</span>
             </div>
 
             {/* Classification Badge (Strict Rule: Text, Icon, and Color together) */}
@@ -314,7 +314,7 @@ export default function InvestigationDossierPage() {
                 <span className="text-xs font-bold uppercase tracking-wider block">
                   {classification}
                 </span>
-                <span className="text-[10px] text-tl-text-muted">
+                <span className="text-[10px] text-[#778496]">
                   {classification === 'No indicators found'
                     ? 'Zero adverse signals detected across evaluated modules'
                     : 'Deterministic multi-signal consensus trigger'}
@@ -323,35 +323,35 @@ export default function InvestigationDossierPage() {
             </div>
 
             {/* Evidence Coverage Bar ("6 of 8 checks completed") */}
-            <div className="p-3 bg-tl-elevated/40 border border-tl-border rounded-xl space-y-2">
+            <div className="p-3 bg-[#141E2E]/60 border border-white/[0.08] rounded-xl space-y-2">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-tl-text-secondary">Evidence Coverage:</span>
-                <span className="font-bold text-tl-text-primary">{coverage.display}</span>
+                <span className="text-[#778496]">Evidence Coverage:</span>
+                <span className="font-bold text-[#F1F5F9]">{coverage.display}</span>
               </div>
-              <div className="w-full h-1.5 bg-tl-panel rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-[#070B11] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-tl-cyan transition-all duration-700"
+                  className="h-full bg-[#43B9DB] transition-all duration-700"
                   style={{ width: `${coveragePercent}%` }}
                 />
               </div>
-              <p className="text-[10px] text-tl-text-muted leading-tight">
+              <p className="text-[10px] text-[#778496] leading-tight">
                 Reflects active engine execution across X.509, Fermat sieve, DOM SSIM, and passive headers.
               </p>
             </div>
           </div>
 
           {/* Limitations Panel */}
-          <div className="p-3 bg-tl-panel/80 border border-tl-border rounded-xl space-y-1.5 text-xs font-mono">
-            <div className="flex items-center gap-1.5 text-tl-text-secondary font-semibold text-[11px] uppercase">
-              <Info className="w-3.5 h-3.5 text-tl-text-muted" />
+          <div className="p-3 bg-[#0E1520]/80 border border-white/[0.06] rounded-xl space-y-1.5 text-xs font-mono">
+            <div className="flex items-center gap-1.5 text-[#778496] font-semibold text-[11px] uppercase">
+              <Info className="w-3.5 h-3.5 text-[#778496]" />
               <span>Limitations &amp; Unavailable Checks</span>
             </div>
             {(!scan.limitations || scan.limitations.length === 0) ? (
-              <p className="text-[10px] text-tl-text-muted">
+              <p className="text-[10px] text-[#778496]">
                 All scheduled cryptographic and transport checks completed without timeout.
               </p>
             ) : (
-              <ul className="space-y-1 text-[10px] text-tl-amber">
+              <ul className="space-y-1 text-[10px] text-[#F59E0B]">
                 {scan.limitations.map((lim, i) => (
                   <li key={i} className="flex items-start gap-1">
                     <span>&bull;</span>
@@ -364,14 +364,14 @@ export default function InvestigationDossierPage() {
         </div>
 
         {/* Right: Explanation Panel & Recommended Actions (8 Cols) */}
-        <div className="lg:col-span-8 p-5 bg-tl-card border border-tl-border rounded-panel flex flex-col justify-between space-y-5 shadow-panel">
+        <div className="lg:col-span-8 p-5 glass-card flex flex-col justify-between space-y-5">
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-tl-text-muted">
+            <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-[#778496]">
               <span>Multi-Signal Consensus Explanation</span>
-              <span className="text-tl-cyan font-bold">Ground-Truth Proof</span>
+              <span className="text-[#43B9DB] font-bold">Ground-Truth Proof</span>
             </div>
 
-            <h3 className="text-base sm:text-lg font-bold text-tl-text-primary tracking-tight">
+            <h3 className="text-base sm:text-lg font-bold text-[#F1F5F9] tracking-tight">
               {classification === 'Confirmed Malicious'
                 ? 'Authoritative Malicious Threat: Active Phishing/Credential Harvest Confirmed'
                 : classification === 'High Risk'
@@ -381,7 +381,7 @@ export default function InvestigationDossierPage() {
                 : 'No Adverse Indicators Identified on Passive Inspection'}
             </h3>
 
-            <p className="text-xs text-tl-text-secondary leading-relaxed">
+            <p className="text-xs text-[#778496] leading-relaxed">
               {scan.overrideActive
                 ? scan.overrideReason
                 : classification === 'No indicators found'
@@ -390,22 +390,22 @@ export default function InvestigationDossierPage() {
             </p>
 
             {/* Recommended Actions */}
-            <div className="p-3.5 bg-tl-elevated/50 border border-tl-border rounded-xl space-y-2">
-              <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-tl-text-primary block">
+            <div className="p-3.5 bg-[#141E2E]/60 border border-white/[0.08] rounded-xl space-y-2">
+              <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-[#F1F5F9] block">
                 SOC Recommended Actions
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div className="flex items-start gap-2 p-2 rounded bg-tl-panel/60 border border-tl-border/60">
-                  <span className="text-tl-cyan font-mono font-bold">1.</span>
-                  <span className="text-tl-text-secondary text-[11px]">
+                <div className="flex items-start gap-2 p-2.5 rounded-lg bg-[#0E1520]/70 border border-white/[0.06]">
+                  <span className="text-[#43B9DB] font-mono font-bold">1.</span>
+                  <span className="text-[#778496] text-[11px]">
                     {classification === 'Confirmed Malicious' || classification === 'High Risk'
                       ? 'Add FQDN and resolved IP to boundary firewall blocklist.'
                       : 'Preserve certificate fingerprint in internal trust cache.'}
                   </span>
                 </div>
-                <div className="flex items-start gap-2 p-2 rounded bg-tl-panel/60 border border-tl-border/60">
-                  <span className="text-tl-cyan font-mono font-bold">2.</span>
-                  <span className="text-tl-text-secondary text-[11px]">
+                <div className="flex items-start gap-2 p-2.5 rounded-lg bg-[#0E1520]/70 border border-white/[0.06]">
+                  <span className="text-[#43B9DB] font-mono font-bold">2.</span>
+                  <span className="text-[#778496] text-[11px]">
                     {classification === 'Confirmed Malicious' || classification === 'High Risk'
                       ? 'Notify registered brand abuse desk regarding unauthorized domain registration.'
                       : 'Schedule periodic CT log monitor check for unauthorized issuance.'}
@@ -416,31 +416,31 @@ export default function InvestigationDossierPage() {
           </div>
 
           {/* Quick Metrics Checklist */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-tl-border/60 font-mono text-xs">
-            <div className="p-2.5 bg-tl-panel rounded-lg border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block">Root CA Trust</span>
-              <span className={`font-semibold ${scan.certificate.ccadbDistrusted ? 'text-tl-rose' : 'text-tl-emerald'}`}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 border-t border-white/[0.06] font-mono text-xs">
+            <div className="p-2.5 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block">Root CA Trust</span>
+              <span className={`font-semibold ${scan.certificate.ccadbDistrusted ? 'text-[#E11D48]' : 'text-[#45C69B]'}`}>
                 {scan.certificate.ccadbDistrusted ? 'DISTRUSTED' : 'VALIDATED'}
               </span>
             </div>
 
-            <div className="p-2.5 bg-tl-panel rounded-lg border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block">Fermat Sieve</span>
-              <span className={`font-semibold ${scan.certificate.fermatFactorable ? 'text-tl-rose' : 'text-tl-emerald'}`}>
+            <div className="p-2.5 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block">Fermat Sieve</span>
+              <span className={`font-semibold ${scan.certificate.fermatFactorable ? 'text-[#E11D48]' : 'text-[#45C69B]'}`}>
                 {scan.certificate.fermatFactorable ? 'VULNERABLE' : 'SECURE'}
               </span>
             </div>
 
-            <div className="p-2.5 bg-tl-panel rounded-lg border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block">Brand Lookalike</span>
-              <span className={`font-semibold ${scan.phishing.visualImpersonation.detected ? 'text-tl-rose' : 'text-tl-emerald'}`}>
+            <div className="p-2.5 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block">Brand Lookalike</span>
+              <span className={`font-semibold ${scan.phishing.visualImpersonation.detected ? 'text-[#E11D48]' : 'text-[#45C69B]'}`}>
                 {scan.phishing.visualImpersonation.detected ? 'DETECTED' : 'CLEAN'}
               </span>
             </div>
 
-            <div className="p-2.5 bg-tl-panel rounded-lg border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block">HSTS Enforced</span>
-              <span className={`font-semibold ${scan.hygiene.securityHeaders.hsts ? 'text-tl-emerald' : 'text-tl-amber'}`}>
+            <div className="p-2.5 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block">HSTS Enforced</span>
+              <span className={`font-semibold ${scan.hygiene.securityHeaders.hsts ? 'text-[#45C69B]' : 'text-[#F59E0B]'}`}>
                 {scan.hygiene.securityHeaders.hsts ? 'ACTIVE' : 'DISABLED'}
               </span>
             </div>

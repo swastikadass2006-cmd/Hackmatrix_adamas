@@ -17,20 +17,20 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
   const ssim = visualImpersonation.ssimPercentage ?? 0;
 
   return (
-    <Card className="p-5 bg-tl-card border border-tl-border space-y-4">
+    <div className="p-5 glass-card space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-tl-border">
+      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div className="flex items-center gap-2">
-          <Eye className="w-4 h-4 text-tl-rose" />
-          <h4 className="text-xs font-semibold text-tl-text">
+          <Eye className="w-4 h-4 text-[#E11D48]" />
+          <h4 className="text-xs font-semibold text-[#F1F5F9]">
             Computer Vision Brand Impersonation & DOM Signals
           </h4>
         </div>
         <span
-          className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+          className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
             isImpersonating
-              ? 'bg-tl-rose/10 text-tl-rose border-tl-rose/30'
-              : 'bg-tl-emerald/10 text-tl-emerald border-tl-emerald/30'
+              ? 'bg-[#E11D48]/15 text-[#E11D48] border-[#E11D48]/30'
+              : 'bg-[#45C69B]/15 text-[#45C69B] border-[#45C69B]/30'
           }`}
         >
           {isImpersonating ? 'Active Clone Detected' : 'No Brand Spoof'}
@@ -180,7 +180,7 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
           </div>
         )}
       </div>
-    </Card>
+    </div>
   );
 };
 

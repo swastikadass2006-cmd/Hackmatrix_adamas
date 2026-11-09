@@ -100,28 +100,32 @@ export default function ScamMessageAnalyzerPage() {
   };
 
   return (
-    <div className="flex-1 p-6 max-w-6xl w-full mx-auto space-y-6 select-none font-sans">
+    <div className="flex-1 p-4 sm:p-6 max-w-6xl w-full mx-auto space-y-6 select-none font-sans">
       {/* Header */}
-      <div className="space-y-1.5 pb-4 border-b border-tl-border/60">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-tl-amber" />
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-tl-text-primary">
-            Scam Message &amp; Social Engineering Analyzer
-          </h1>
+      <div className="space-y-1.5 pb-4 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 rounded-xl bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B]">
+            <MessageSquare className="w-5 h-5" />
+          </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F5F9]">
+              Scam Message &amp; Social Engineering Analyzer
+            </h1>
+            <p className="text-xs sm:text-sm text-[#778496]">
+              Deconstruct suspicious SMS, WhatsApp, and Telegram text. Extracts defanged indicators and evaluates psychological coercion heuristics against verified threat feeds.
+            </p>
+          </div>
         </div>
-        <p className="text-xs sm:text-sm text-tl-text-secondary">
-          Deconstruct suspicious SMS, WhatsApp, and Telegram text. Extracts defanged indicators and evaluates psychological coercion heuristics against verified threat feeds.
-        </p>
       </div>
 
       {/* Input Workspace */}
-      <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
+      <div className="p-5 sm:p-6 glass-card space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <label className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text-secondary">
+          <label className="text-xs font-mono font-semibold uppercase tracking-wider text-[#778496]">
             Message Text Input
           </label>
           <div className="flex items-center gap-1.5 text-xs font-mono">
-            <span className="text-tl-text-muted text-[11px]">Presets:</span>
+            <span className="text-[#778496] text-[11px]">Presets:</span>
             {DEMO_SAMPLES.map((sample, idx) => (
               <button
                 key={idx}
@@ -131,7 +135,7 @@ export default function ScamMessageAnalyzerPage() {
                   setAnalysis(null);
                   setRegResult(null);
                 }}
-                className="px-2 py-1 rounded bg-tl-elevated hover:bg-tl-hover text-tl-text-secondary hover:text-tl-text-primary border border-tl-border transition text-[11px]"
+                className="px-2.5 py-1 rounded-lg bg-[#141E2E]/80 hover:bg-[#162235] text-[#778496] hover:text-[#F1F5F9] border border-white/[0.08] transition text-[11px]"
               >
                 {sample.title}
               </button>
@@ -145,15 +149,15 @@ export default function ScamMessageAnalyzerPage() {
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Paste message text here (e.g. 'Dear customer, your electricity will be disconnected...')"
-          className="w-full bg-tl-panel border border-tl-border rounded-xl p-3.5 font-mono text-xs sm:text-sm text-tl-text-primary placeholder-tl-text-muted focus:outline-none focus:border-tl-cyan transition"
+          className="w-full bg-[#070B11]/80 border border-white/[0.1] rounded-xl p-3.5 font-mono text-xs sm:text-sm text-[#F1F5F9] placeholder-[#778496] focus:outline-none focus:border-[#43B9DB]/60 transition"
         />
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
-          <div className="flex items-center gap-2 text-[11px] font-mono text-tl-text-muted">
-            <Lock className="w-3.5 h-3.5 text-tl-cyan" />
+          <div className="flex items-center gap-2 text-[11px] font-mono text-[#778496]">
+            <Lock className="w-3.5 h-3.5 text-[#43B9DB]" />
             <span>Privacy Note: Message content is parsed locally and never stored unless you commit a Web3 report.</span>
             <span>&bull;</span>
-            <span className="text-tl-text-secondary">{inputText.length} / 5000 chars</span>
+            <span className="text-[#E9EEF5]">{inputText.length} / 5000 chars</span>
           </div>
 
           <Button

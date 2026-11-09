@@ -19,29 +19,29 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
   const selectedNode: CertNode | undefined = certificate.chain[selectedNodeIndex];
 
   return (
-    <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel">
+    <div className="p-5 glass-card space-y-4 font-mono">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-tl-border">
+      <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div className="flex items-center gap-2">
-          <KeyRound className="w-4 h-4 text-tl-cyan" />
-          <h4 className="text-xs font-semibold text-tl-text-primary">
+          <KeyRound className="w-4 h-4 text-[#43B9DB]" />
+          <h4 className="text-xs font-semibold text-[#F1F5F9]">
             X.509 Certificate Chain & Cryptographic Sieve
           </h4>
         </div>
 
         <div className="flex items-center gap-2 text-[10px]">
           {certificate.fermatFactorable && (
-            <span className="px-2 py-0.5 rounded bg-tl-rose/15 text-tl-rose border border-tl-rose/40 font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-[#E11D48]/15 text-[#E11D48] border border-[#E11D48]/40 font-bold">
               Fermat Factorable
             </span>
           )}
           {certificate.ccadbDistrusted && (
-            <span className="px-2 py-0.5 rounded bg-tl-amber/15 text-tl-amber border border-tl-amber/40 font-bold">
+            <span className="px-2 py-0.5 rounded-full bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/40 font-bold">
               CCADB Distrusted CA
             </span>
           )}
           {!certificate.fermatFactorable && !certificate.ccadbDistrusted && (
-            <span className="px-2 py-0.5 rounded bg-tl-emerald/15 text-tl-emerald border border-tl-emerald/30">
+            <span className="px-2 py-0.5 rounded-full bg-[#45C69B]/15 text-[#45C69B] border border-[#45C69B]/30 font-medium">
               Valid Public Trust Anchor
             </span>
           )}

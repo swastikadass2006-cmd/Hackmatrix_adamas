@@ -75,10 +75,10 @@ export const UrlScannerInput: React.FC = () => {
     <div className="w-full max-w-3xl mx-auto space-y-5 font-sans select-none">
       {/* Search Input Bar */}
       <form onSubmit={handleSubmit} className="space-y-2">
-        <div className="relative flex items-center bg-tl-card border border-tl-border focus-within:border-tl-cyan rounded-xl p-2 transition shadow-panel">
-          <div className="pl-3 pr-2 text-tl-text-muted flex items-center gap-2">
-            <Globe className="w-4 h-4 text-tl-cyan" />
-            <span className="text-[11px] hidden sm:inline text-tl-text-secondary">
+        <div className="relative flex items-center bg-[#141E2E]/80 backdrop-blur-md border border-white/[0.1] focus-within:border-[#43B9DB]/60 focus-within:shadow-[0_0_25px_rgba(67,185,219,0.2)] rounded-xl p-2 transition-all duration-200">
+          <div className="pl-3 pr-2 text-[#778496] flex items-center gap-2">
+            <Globe className="w-4 h-4 text-[#43B9DB]" />
+            <span className="text-[11px] hidden sm:inline text-[#778496] font-mono">
               target://
             </span>
           </div>
@@ -92,7 +92,7 @@ export const UrlScannerInput: React.FC = () => {
             }}
             placeholder={t.scanner?.inputPlaceholder || "Enter target URL or FQDN (e.g. onlinesbi-kyc-verify.top or github.com)..."}
             disabled={isScanning}
-            className="w-full bg-transparent border-none text-tl-text-primary placeholder-tl-text-muted font-mono text-xs sm:text-sm focus:outline-none px-2 py-1.5"
+            className="w-full bg-transparent border-none text-[#F1F5F9] placeholder-[#778496] font-mono text-xs sm:text-sm focus:outline-none px-2 py-1.5"
           />
 
           <Button
@@ -101,7 +101,7 @@ export const UrlScannerInput: React.FC = () => {
             variant="primary"
             isLoading={isScanning}
             disabled={!url.trim()}
-            className="shrink-0 rounded-lg px-4 text-xs"
+            className="shrink-0 rounded-lg px-4 text-xs font-semibold"
           >
             <span>{isScanning ? (t.scanner?.analyzing || 'Analyzing...') : (t.scanner?.analyzeButton || 'Analyze Target')}</span>
             <ArrowRight className="w-3.5 h-3.5 ml-1" />
@@ -110,7 +110,7 @@ export const UrlScannerInput: React.FC = () => {
 
         {/* Validation or Engine Error */}
         {(validationError || error) && (
-          <div className="p-3 bg-tl-rose/10 border border-tl-rose/30 rounded-lg text-tl-rose text-xs flex items-center gap-2 font-mono">
+          <div className="p-3 bg-[#E11D48]/10 border border-[#E11D48]/30 rounded-xl text-[#E11D48] text-xs flex items-center gap-2 font-mono">
             <ShieldAlert className="w-4 h-4 shrink-0" />
             <span>{validationError || error}</span>
           </div>
@@ -127,7 +127,7 @@ export const UrlScannerInput: React.FC = () => {
       {/* Recent Investigations from actual records (No fabricated scenarios) */}
       {!isScanning && (
         <div className="pt-2 space-y-2">
-          <div className="flex items-center justify-between text-xs text-tl-text-muted px-1">
+          <div className="flex items-center justify-between text-xs text-[#778496] px-1 font-mono">
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>{t.scanner?.recentScans || 'Recent Investigated Targets'}</span>
@@ -136,11 +136,11 @@ export const UrlScannerInput: React.FC = () => {
           </div>
 
           {recentList.length === 0 ? (
-            <div className="p-4 bg-tl-card/40 border border-tl-border/60 rounded-xl text-center">
-              <p className="text-xs text-tl-text-secondary">
+            <div className="p-5 bg-[#141E2E]/50 border border-white/[0.07] rounded-xl text-center">
+              <p className="text-xs text-[#E9EEF5]">
                 {t.scanner?.noRecentScans || 'No investigations recorded in this session.'}
               </p>
-              <p className="text-[11px] text-tl-text-muted mt-0.5">
+              <p className="text-[11px] text-[#778496] mt-0.5">
                 Enter an FQDN or target URL above to perform a cryptographic and lexical audit.
               </p>
             </div>
@@ -153,13 +153,13 @@ export const UrlScannerInput: React.FC = () => {
                     setUrl(rec.targetUrl);
                     startScan(rec.targetUrl);
                   }}
-                  className="flex items-center justify-between p-2.5 rounded-lg bg-tl-card hover:bg-tl-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 border border-tl-border text-left transition text-xs group"
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-[#141E2E]/60 hover:bg-[#162235]/90 border border-white/[0.08] hover:border-[#43B9DB]/40 text-left transition text-xs group"
                 >
-                  <span className="text-tl-text-primary group-hover:text-tl-cyan truncate font-mono">
+                  <span className="text-[#F1F5F9] group-hover:text-[#43B9DB] truncate font-mono">
                     {rec.targetUrl.replace(/^https?:\/\//, '')}
                   </span>
-                  <span className="text-[10px] text-tl-text-muted shrink-0 ml-2">
-                    Audit again
+                  <span className="text-[10px] text-[#778496] font-mono shrink-0 ml-2 group-hover:text-[#43B9DB]">
+                    Audit again &rarr;
                   </span>
                 </button>
               ))}

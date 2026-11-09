@@ -133,39 +133,43 @@ export default function IndependentVerificationPage() {
   };
 
   return (
-    <div className="flex-1 p-6 max-w-6xl w-full mx-auto space-y-6 select-none font-sans">
+    <div className="flex-1 p-4 sm:p-6 max-w-6xl w-full mx-auto space-y-6 select-none font-sans">
       {/* Header */}
-      <div className="space-y-1.5 pb-4 border-b border-tl-border/60">
-        <div className="flex items-center gap-2">
-          <FileSearch className="w-5 h-5 text-tl-cyan" />
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-tl-text-primary">
-            Independent Web3 Report Verifier
-          </h1>
+      <div className="space-y-1.5 pb-4 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 rounded-xl bg-[#43B9DB]/10 border border-[#43B9DB]/20 text-[#43B9DB]">
+            <FileSearch className="w-5 h-5" />
+          </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F1F5F9]">
+              Independent Web3 Report Verifier
+            </h1>
+            <p className="text-xs sm:text-sm text-[#778496]">
+              Audit digital trust reports completely independently in your browser.
+              The client recomputes the exact RFC 8785 canonical Keccak-256 hash locally (no backend involvement)
+              and verifies the immutable Ethereum smart contract registry.
+            </p>
+          </div>
         </div>
-        <p className="text-xs sm:text-sm text-tl-text-secondary">
-          Audit digital trust reports completely independently in your browser.
-          The client recomputes the exact RFC 8785 canonical Keccak-256 hash locally (no backend involvement)
-          and verifies the immutable Ethereum smart contract registry.
-        </p>
       </div>
 
       {/* Control Buttons & Demo Presets */}
-      <div className="p-4 bg-tl-card border border-tl-border rounded-panel flex flex-wrap items-center justify-between gap-3 text-xs shadow-panel">
+      <div className="p-4 glass-card flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-tl-text-muted font-mono text-[11px]">Audit Presets:</span>
+          <span className="text-[#778496] font-mono text-[11px]">Audit Presets:</span>
           <Button size="sm" variant="secondary" onClick={handleLoadSample}>
-            <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-tl-emerald" />
+            <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-[#45C69B]" />
             Load Untouched Report (Match)
           </Button>
 
           <Button size="sm" variant="outline" onClick={handleTamperReport}>
-            <AlertOctagon className="w-3.5 h-3.5 mr-1 text-tl-rose" />
+            <AlertOctagon className="w-3.5 h-3.5 mr-1 text-[#E11D48]" />
             Tamper 1 Character (Mismatch Demo)
           </Button>
         </div>
 
-        <label className="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tl-elevated hover:bg-tl-hover text-tl-text-secondary hover:text-tl-text-primary border border-tl-border transition font-mono text-xs">
-          <Upload className="w-3.5 h-3.5 text-tl-text-muted" />
+        <label className="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E2E]/80 hover:bg-[#162235] text-[#778496] hover:text-[#F1F5F9] border border-white/[0.08] transition font-mono text-xs">
+          <Upload className="w-3.5 h-3.5 text-[#778496]" />
           <span>Upload JSON</span>
           <input
             type="file"
@@ -179,26 +183,26 @@ export default function IndependentVerificationPage() {
       {/* Verification Result Banner */}
       {verificationResult && (
         <div
-          className={`p-6 rounded-panel border shadow-panel ${
+          className={`p-6 glass-overlay rounded-card ${
             verificationResult.verified
-              ? 'bg-tl-emerald/10 border-tl-emerald/30 text-tl-emerald'
-              : 'bg-tl-rose/10 border-tl-rose/30 text-tl-rose'
+              ? 'border-[#45C69B]/40 shadow-[0_8px_32px_rgba(69,198,155,0.15)]'
+              : 'border-[#E11D48]/40 shadow-[0_8px_32px_rgba(225,29,72,0.15)]'
           }`}
         >
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
               {verificationResult.verified ? (
-                <ShieldCheck className="w-8 h-8 text-tl-emerald shrink-0 mt-0.5" />
+                <ShieldCheck className="w-8 h-8 text-[#45C69B] shrink-0 mt-0.5 drop-shadow-[0_0_10px_rgba(69,198,155,0.4)]" />
               ) : (
-                <ShieldX className="w-8 h-8 text-tl-rose shrink-0 mt-0.5" />
+                <ShieldX className="w-8 h-8 text-[#E11D48] shrink-0 mt-0.5 drop-shadow-[0_0_10px_rgba(225,29,72,0.4)]" />
               )}
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-tl-text-primary">
+                <h3 className="text-base font-bold text-[#F1F5F9]">
                   {verificationResult.verified
                     ? 'VERIFIED: Report Proven Tamper-Evident & Authentic On-Chain'
                     : 'TAMPER ALERT: Report Hash Mismatch or Unregistered'}
                 </h3>
-                <p className="text-xs text-tl-text-secondary leading-relaxed">
+                <p className="text-xs text-[#778496] leading-relaxed">
                   {verificationResult.verified
                     ? `This exact report was cryptographically registered on ${verificationResult.network}. Zero bits have been modified since submission.`
                     : 'The recomputed Keccak-256 hash does not exist in the smart contract registry. Even a single modified character invalidates the cryptographic proof.'}
@@ -220,32 +224,32 @@ export default function IndependentVerificationPage() {
           </div>
 
           {/* Audit Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-5 mt-5 border-t border-tl-border/60 text-xs font-mono">
-            <div className="p-3 bg-tl-panel rounded-xl border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block uppercase">Registration Status</span>
-              <span className={`font-bold ${verificationResult.verified ? 'text-tl-emerald' : 'text-tl-rose'}`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-5 mt-5 border-t border-white/[0.08] text-xs font-mono">
+            <div className="p-3 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block uppercase">Registration Status</span>
+              <span className={`font-bold ${verificationResult.verified ? 'text-[#45C69B]' : 'text-[#E11D48]'}`}>
                 {verificationResult.verified ? 'VALIDATED ON-CHAIN' : 'NOT FOUND'}
               </span>
             </div>
 
-            <div className="p-3 bg-tl-panel rounded-xl border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block uppercase">Reporter Address</span>
-              <span className="text-tl-text-primary truncate block font-mono">
+            <div className="p-3 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block uppercase">Reporter Address</span>
+              <span className="text-[#F1F5F9] truncate block font-mono">
                 {verificationResult.reporter || '—'}
               </span>
             </div>
 
-            <div className="p-3 bg-tl-panel rounded-xl border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block uppercase">On-Chain Timestamp</span>
-              <span className="text-tl-text-primary block font-mono">
+            <div className="p-3 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block uppercase">On-Chain Timestamp</span>
+              <span className="text-[#F1F5F9] block font-mono">
                 {verificationResult.timestamp
                   ? new Date(verificationResult.timestamp * 1000).toLocaleString()
                   : '—'}
               </span>
             </div>
 
-            <div className="p-3 bg-tl-panel rounded-xl border border-tl-border">
-              <span className="text-[10px] text-tl-text-muted block uppercase">Registry Contract</span>
+            <div className="p-3 bg-[#141E2E]/60 rounded-xl border border-white/[0.08]">
+              <span className="text-[10px] text-[#778496] block uppercase">Registry Contract</span>
               <a
                 href={verificationResult.explorerUrl || '#'}
                 target="_blank"

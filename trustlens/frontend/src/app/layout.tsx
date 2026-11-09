@@ -20,14 +20,16 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="min-h-screen flex flex-col bg-tl-canvas text-tl-text-primary antialiased tl-desktop-canvas">
         <LanguageProvider>
-          <Navbar />
-          <div className="flex-1 flex overflow-hidden w-full max-w-[1600px] mx-auto border-x border-tl-border/40 shadow-panel">
-            <Sidebar />
-            <main className="flex-1 flex flex-col overflow-y-auto min-w-0">
-              {children}
-            </main>
+          <div className="w-full max-w-[1600px] mx-auto px-0 sm:px-4 flex flex-col min-h-screen">
+            <Navbar />
+            <div className="flex-1 flex overflow-hidden w-full sm:rounded-2xl border sm:border-white/[0.07] shadow-[0_20px_60px_rgba(0,0,0,0.7)] bg-[#0A101A]/80 backdrop-blur-xl my-0 sm:my-3">
+              <Sidebar />
+              <main className="flex-1 flex flex-col overflow-y-auto min-w-0">
+                {children}
+              </main>
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </LanguageProvider>
       </body>
     </html>

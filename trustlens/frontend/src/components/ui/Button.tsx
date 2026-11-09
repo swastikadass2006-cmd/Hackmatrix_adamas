@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 import { cn } from '../../lib/utils/cn';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline';
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline' | 'glass';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
 }
@@ -17,19 +17,21 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const base =
-    'inline-flex items-center justify-center font-medium transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan disabled:pointer-events-none disabled:opacity-50 select-none';
+    'inline-flex items-center justify-center font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan disabled:pointer-events-none disabled:opacity-50 select-none';
 
   const variants = {
     primary:
-      'bg-tl-cyan text-tl-canvas font-semibold hover:bg-tl-cyan/90 active:bg-tl-cyan/80 shadow-sm',
+      'bg-tl-cyan text-[#070B11] font-semibold hover:bg-tl-cyan/90 hover:shadow-[0_0_20px_rgba(67,185,219,0.35)] active:scale-[0.98] shadow-sm',
     secondary:
-      'bg-tl-card text-tl-text-primary hover:bg-tl-hover active:bg-tl-elevated border border-tl-border',
+      'bg-[#141E2E]/80 backdrop-blur-md text-tl-text-primary hover:bg-[#1A273D] border border-white/[0.09] hover:border-white/[0.18]',
+    glass:
+      'bg-white/[0.05] backdrop-blur-md text-tl-text-primary hover:bg-white/[0.1] border border-white/[0.08] hover:border-white/[0.16]',
     danger:
-      'bg-tl-rose text-white hover:bg-tl-rose/90 active:bg-tl-rose/80 shadow-sm',
+      'bg-tl-rose text-white hover:bg-tl-rose/90 hover:shadow-[0_0_20px_rgba(244,63,94,0.3)] active:scale-[0.98] shadow-sm',
     ghost:
-      'text-tl-text-secondary hover:bg-tl-card hover:text-tl-text-primary',
+      'text-tl-text-secondary hover:bg-white/[0.05] hover:text-tl-text-primary',
     outline:
-      'border border-tl-border text-tl-text-secondary hover:border-tl-border-active hover:text-tl-text-primary hover:bg-tl-card/50',
+      'border border-white/[0.08] text-tl-text-secondary hover:border-tl-cyan/40 hover:text-tl-text-primary hover:bg-[#141E2E]/50',
   };
 
   const sizes = {
@@ -67,7 +69,7 @@ export const Button: React.FC<ButtonProps> = ({
           <path
             className="opacity-75"
             fill="currentColor"
-            d="M4 12a8 8 0 018-8v8H4z"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           />
         </svg>
       )}
