@@ -1,5 +1,3 @@
-import "@nomicfoundation/hardhat-toolbox";
-
 /** @type import('hardhat/config').HardhatUserConfig */
 export default {
   solidity: {
@@ -12,17 +10,18 @@ export default {
     },
   },
   networks: {
-    hardhat: {},
     localhost: {
+      type: "http",
       url: "http://127.0.0.1:8545",
     },
     sepolia: {
+      type: "http",
       url: process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org",
       accounts: process.env.SEPOLIA_PRIVATE_KEY ? [process.env.SEPOLIA_PRIVATE_KEY] : [],
     },
   },
   paths: {
-    sources: "./",
+    sources: "./contracts",
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts",

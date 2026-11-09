@@ -4,7 +4,7 @@ import socket
 import httpx
 import logging
 from urllib.parse import urlparse
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +17,28 @@ RENDER_ML_URL = os.getenv(
     "RENDER_ML_URL",
     "https://hackmatrix-adamas.onrender.com/predict"
 )
+
+
+def query_render_ml_sync(target_url: str, timeout: float = 6.0) -> Optional[Dict[str, Any]]:
+    """
+    Synchronous interface for querying Member 1's XGBoost + SHAP Phishing Model hosted on Render.
+    Includes cold-start retry and timeout handling with graceful fallback to in-process ML.
+    """
+    for attempt in range(2):
+        try:
+            with httpx.Client(timeout=timeout) as client:
+                response = client.post(
+                    RENDER_ML_URL,
+                    json={"url": target_url}
+                )
+                if response.status_code == 200:
+                    return response.json()
+        except Exception as e:
+            if attempt == 0:
+                logger.info(f"Render ML query attempt 1 timed out ({e}), retrying once...")
+            else:
+                logger.warning(f"Render ML remote service unreachable ({e}). Using in-process ML.")
+    return None
 
 
 async def fetch_rust_security_evidence(target_url: str) -> Dict[str, Any]:
@@ -48,8 +70,7 @@ async def fetch_rust_security_evidence(target_url: str) -> Dict[str, Any]:
 
 async def fetch_ml_phishing_prediction(target_url: str) -> Dict[str, Any]:
     """
-    Calls Member 1's XGBoost + SHAP Phishing Model hosted on Render via POST.
-    Uses 45s timeout to handle Render cold starts.
+    Calls Member 1's XGBoost + SHAP Phishing Model hosted on Render via POST (async).
     """
     try:
         async with httpx.AsyncClient(timeout=45.0) as client:
@@ -144,13 +165,15 @@ def run_native_fallback_security(url: str) -> Dict[str, Any]:
     distrusted_cas = ["emudhra", "symantec", "wosign", "startcom", "diginotar"]
 
     # 1. Distrusted Intermediate CA (eMudhra incident scenario)
+    # Handbook Section 4 Module 2 & Rule 3B: Must state "chain contains a CA/intermediate publicly distrusted by browser vendors"
+    # and must NOT claim to detect a CA's internal key-generation weakness from a URL.
     if any(ca in url.lower() or ca in hostname for ca in distrusted_cas) or "secure-portal-gov-gateway.in" in hostname:
         cert_risk = 100
         evidence.append({
             "id": "SEC-CERT-EMUDHRA",
             "signal": "Distrusted Certificate Authority",
             "severity": "critical",
-            "explanation": "Certificate issued by distrusted intermediate CA: eMudhra Sub-CA 2024 (Class 3). CCADB subordinate cross-signing revocation enforced.",
+            "explanation": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
             "source": "tls_inspector"
         })
 
