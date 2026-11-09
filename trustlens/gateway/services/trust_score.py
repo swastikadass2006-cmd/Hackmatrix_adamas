@@ -53,10 +53,23 @@ def calculate_trust_score(
         final_score = min(final_score, 20)
 
     # Rule C: Critical Phishing Credential Impersonation
-    if phishing_risk >= 85 and not override_active:
+    has_critical_phish = any(e.get("severity") == "critical" and "brand" in e.get("signal", "").lower() for e in (evidence or []))
+    if (phishing_risk >= 85 or has_critical_phish) and not override_active:
         override_active = True
         override_reason = (
             "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal."
+        )
+        final_score = min(final_score, 10)
+
+    # Rule D: Authoritative Threat Intelligence Blacklist / Feed Hit
+    is_threat_match = community_risk >= 80 or any(
+        "threat intelligence" in s.lower() or "phishing /" in s.lower() or "malware" in s.lower() or "blacklist" in s.lower()
+        for s in evidence_signals
+    )
+    if is_threat_match and not override_active:
+        override_active = True
+        override_reason = (
+            "HARD OVERRIDE: Domain listed in authoritative global threat dataset (PhishTank / URLhaus / CERT-In)."
         )
         final_score = min(final_score, 10)
 

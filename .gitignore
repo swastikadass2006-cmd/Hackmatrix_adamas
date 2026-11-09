@@ -80,3 +80,7 @@ setup_security_engine.sh
 **/setup_security_engine.sh
 .vercel
 .env*
+target/
+**/target/
+AGENT_CONTEXT.md
+

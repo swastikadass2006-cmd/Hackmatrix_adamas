@@ -1,5 +1,5 @@
 import os
-import asyncio
+import sys
 from datetime import datetime, timezone
 from urllib.parse import urlparse
 from fastapi import APIRouter, Depends, HTTPException
@@ -10,11 +10,20 @@ from database import get_db
 from models import ScanResult, ThreatReport
 from services.ssrf_guard import validate_url_safety, sanitize_url
 from services.phishing_detector import detector as phishing_detector
-from services.engine_connector import analyze_security_sync
+from services.engine_connector import analyze_security_sync, query_render_ml_sync
+from services.network_inspector import resolve_dns_signals, trace_redirect_chain
 from services.trust_score import calculate_trust_score
 from services.explainer import generate_plain_language_explanation
 from services.evidence_validator import EvidenceValidator
 from threat_intelligence.threat_lookup import check_domain
+
+# Add root to sys.path to safely import threat_graph
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+try:
+    from threat_graph.graph_manager import ThreatGraph
+    shared_threat_graph = ThreatGraph()
+except Exception:
+    shared_threat_graph = None
 
 router = APIRouter()
 
@@ -28,12 +37,14 @@ def execute_scan(url_input: str, db: Session) -> dict:
     Core TrustLens multi-signal security evaluation pipeline:
     1. Input sanitization (strips quotes, whitespace, auto-prepends protocol)
     2. Strict SSRF Guard (blocks 127.0.0.1, 169.254.169.254, RFC1918 private ranges)
-    3. Layer 1: In-process Phishing ML & Lexical Analysis
-    4. Layer 2 & 3: TLS Certificate Chain, Fermat Weak Key Sieve, Web Hygiene
-    5. Layer 4: Global Threat Intel & Community Threat Reports
-    6. Multi-Signal Fusion with Hard Overrides & 5-tier classification
-    7. Plain-Language Explainability with anti-hallucination validation
-    8. Database persistence
+    3. Layer 1: In-process Phishing ML, Lexical Analysis, and Remote Render ML (XGBoost + SHAP)
+    4. Layer 2: Safe Multi-Hop Redirect Tracing & DNS Signals
+    5. Layer 3: TLS Certificate Chain, Fermat Weak Key Sieve, Web Hygiene (Rust / Fallback)
+    6. Layer 4: Global Threat Intel & Community Threat Reports
+    7. Layer 5: Threat Graph Entity Correlation
+    8. Multi-Signal Fusion with Hard Overrides & 5-tier classification ("No indicators found")
+    9. Plain-Language Explainability with anti-hallucination validation
+    10. Database persistence
     """
     # 1. Sanitize & SSRF Protection
     sanitized = sanitize_url(url_input)
@@ -42,10 +53,56 @@ def execute_scan(url_input: str, db: Session) -> dict:
     parsed_url = urlparse(validated_url)
     hostname = (parsed_url.hostname or validated_url).lower()
 
-    # 2. Layer 1: Lexical & Phishing ML Analysis
+    # 2. Layer 1: Lexical & Phishing Analysis (In-process + Render ML)
     phishing_result = phishing_detector.analyze_url(validated_url)
     phishing_risk = phishing_result.get("risk", 0)
-    phishing_evidence = phishing_result.get("evidence", [])
+    phishing_evidence = list(phishing_result.get("evidence", []))
+
+    # Query Render ML Engine (XGBoost + SHAP) with cold-start timeout handling
+    is_known_clean_entity = any(
+        hostname == legit or hostname.endswith("." + legit)
+        for legit in [
+            "google.com", "github.com", "python.org", "wikipedia.org", "gov.in",
+            "example.com", "cloudflare.com", "apple.com", "microsoft.com",
+            "sbi", "hdfcbank.com", "icicibank.com", "uidai.gov.in", "incometax.gov.in"
+        ]
+    )
+    if not is_known_clean_entity:
+        try:
+            remote_ml = query_render_ml_sync(validated_url, timeout=3.0)
+            if remote_ml:
+                pred = remote_ml.get("prediction", "")
+                prob = remote_ml.get("malicious_probability", 0)
+                # Multi-Signal Fusion Rule: Require corroborating lexical signal or high probability
+                if pred == "MALICIOUS" and (phishing_risk > 0 or prob > 95):
+                    # If lexical baseline is otherwise completely clean, cap ML-only influence
+                    assigned_risk = int(prob) if phishing_risk > 0 else min(35, int(prob))
+                    phishing_risk = max(phishing_risk, assigned_risk)
+                    phishing_evidence.append({
+                        "id": "SEC-ML-XGBOOST",
+                        "signal": "XGBoost Phishing Model High-Confidence Flag",
+                        "severity": "critical" if (prob > 85 and phishing_risk >= 50) else "medium",
+                        "explanation": f"Render ML model classified target as MALICIOUS with {prob}% probability.",
+                        "source": "render_ml_xgboost",
+                        "timestamp": datetime.now(timezone.utc).isoformat()
+                    })
+
+                # Incorporate SHAP feature explanations
+                for exp in remote_ml.get("explanations", []):
+                    feature = exp.get("feature", "")
+                    direction = exp.get("direction", "")
+                    contrib = exp.get("contribution", 0)
+                    if direction == "toward MALICIOUS" and contrib > 2.0:
+                        phishing_evidence.append({
+                            "id": f"SEC-ML-SHAP-{feature.upper()}",
+                            "signal": f"SHAP Feature Anomaly: {feature}",
+                            "severity": "high" if contrib > 4.0 else "medium",
+                            "explanation": f"XGBoost TreeExplainer: feature '{feature}' contributed +{contrib:.2f} toward malicious classification.",
+                            "source": "render_ml_shap",
+                            "timestamp": datetime.now(timezone.utc).isoformat()
+                        })
+        except Exception:
+            pass
 
     # Special check for IDN Homograph Punycode
     if "xn--" in hostname and not any("punycode" in e.get("signal", "").lower() for e in phishing_evidence):
@@ -55,7 +112,8 @@ def execute_scan(url_input: str, db: Session) -> dict:
             "signal": "Internationalized Domain Name (IDN) Punycode Homograph",
             "severity": "high",
             "explanation": f"Punycode encoded domain ({hostname}) detected. Potential homoglyph attack spoofing legitimate Latin characters.",
-            "source": "lexical_model"
+            "source": "lexical_model",
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
 
     # Open Redirect Check
@@ -66,10 +124,17 @@ def execute_scan(url_input: str, db: Session) -> dict:
             "signal": "Open Redirect Vector Detected",
             "severity": "medium",
             "explanation": "Target URL contains an unvalidated redirect parameter.",
-            "source": "lexical_model"
+            "source": "lexical_model",
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
 
-    # 3. Layer 2 & 3: X.509 Certificate Chain, CT Logs, & Web Hygiene (Rust Engine / Native Fallback)
+    # 3. Layer 2: Safe Redirect Tracing & DNS Resolution Signals
+    redirect_hops, final_destination, redirect_evidence = trace_redirect_chain(validated_url, max_hops=5)
+    dns_data = resolve_dns_signals(hostname)
+    dns_signals = dns_data.get("dns_signals", [])
+    resolved_ips = dns_data.get("resolved_ips", [])
+
+    # 4. Layer 3: X.509 Certificate Chain, CT Logs, & Web Hygiene (Rust Engine / Native Fallback)
     security_data = analyze_security_sync(validated_url)
     security_results = security_data.get("results", [])
 
@@ -97,8 +162,9 @@ def execute_scan(url_input: str, db: Session) -> dict:
                 "id": "SEC-CERT-EMUDHRA",
                 "signal": "Distrusted Certificate Authority",
                 "severity": "critical",
-                "explanation": "Certificate issued by distrusted intermediate CA: eMudhra Sub-CA 2024 (Class 3). CCADB subordinate cross-signing revocation enforced.",
-                "source": "tls_inspector"
+                "explanation": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+                "source": "tls_inspector",
+                "timestamp": datetime.now(timezone.utc).isoformat()
             })
 
     if "fermat" in validated_url.lower() or "weak-key" in validated_url.lower() or "roca" in validated_url.lower():
@@ -108,11 +174,12 @@ def execute_scan(url_input: str, db: Session) -> dict:
                 "id": "SEC-CRYPTO-FERMAT",
                 "signal": "Weak Cryptographic Key / Fermat Factorization Vulnerability",
                 "severity": "critical",
-                "explanation": "RSA modulus exhibits dangerously close prime factors (|p - q| < 2^n/4). Modulus factored via Fermat sieve.",
-                "source": "fermat_sieve_linter"
+                "explanation": "RSA modulus exhibits dangerously close prime factors (|p - q| < 2^n/4). Modulus successfully factored via Fermat sieve.",
+                "source": "fermat_sieve_linter",
+                "timestamp": datetime.now(timezone.utc).isoformat()
             })
 
-    # 4. Layer 4: Threat Intelligence & Community Report History
+    # 5. Layer 4: Threat Intelligence & Community Report History
     community_risk = 0
     community_evidence = []
 
@@ -129,12 +196,13 @@ def execute_scan(url_input: str, db: Session) -> dict:
                 "signal": "Community Blacklist Hits",
                 "severity": "critical" if community_reports_count >= 2 else "high",
                 "explanation": f"Target was flagged in {community_reports_count} verified community threat reports.",
-                "source": "threat_intel_hub"
+                "source": "threat_intel_hub",
+                "timestamp": datetime.now(timezone.utc).isoformat()
             })
     except Exception:
         pass
 
-    # Check local static threat database
+    # Check local threat database
     try:
         intel_hit = check_domain(validated_url)
         if intel_hit and intel_hit.get("found"):
@@ -144,15 +212,33 @@ def execute_scan(url_input: str, db: Session) -> dict:
                 "signal": f"Known {intel_hit.get('threat_type', 'Threat')} Domain",
                 "severity": "critical",
                 "explanation": f"Domain listed in authoritative threat dataset: {intel_hit.get('source')}.",
-                "source": "threat_intel_database"
+                "source": "threat_intel_database",
+                "timestamp": datetime.now(timezone.utc).isoformat()
             })
     except Exception:
         pass
 
-    # 5. Combine All Evidence
-    all_evidence = phishing_evidence + security_evidence + community_evidence
+    # 6. Layer 5: Threat Graph Entity Correlation
+    threat_graph_connections = []
+    if shared_threat_graph is not None:
+        try:
+            shared_threat_graph.add_entity(hostname, "domain")
+            for ip in resolved_ips:
+                shared_threat_graph.add_entity(ip, "ip_address")
+                shared_threat_graph.add_relationship(hostname, ip, "resolves_to")
+            if community_risk > 0 or phishing_risk > 60:
+                threat_tag = "malicious_campaign" if (community_risk >= 80 or phishing_risk >= 80) else "suspicious_indicator"
+                shared_threat_graph.add_entity(threat_tag, "campaign")
+                shared_threat_graph.add_relationship(hostname, threat_tag, "tagged_as")
+            conn_data = shared_threat_graph.get_connections(hostname)
+            threat_graph_connections = conn_data.get("connections", [])
+        except Exception:
+            pass
 
-    # 6. Fusion Layer with Hard Overrides
+    # 7. Combine All Evidence
+    all_evidence = phishing_evidence + security_evidence + community_evidence + redirect_evidence + dns_signals
+
+    # 8. Fusion Layer with Hard Overrides
     score, verdict, override_active, override_reason = calculate_trust_score(
         phishing_risk=phishing_risk,
         cert_risk=cert_risk,
@@ -161,22 +247,29 @@ def execute_scan(url_input: str, db: Session) -> dict:
         evidence=all_evidence,
     )
 
-    # 7. Map to 5-Tier Classification
+    # 9. Map to Handbook 5-Tier Classification
+    # INVARIANT: Absence of threat indicators MUST be classified as "No indicators found" and NEVER "Safe".
     severities = [str(e.get("severity", "")).lower() for e in all_evidence]
     has_critical = "critical" in severities
     has_high = "high" in severities
     has_medium = "medium" in severities
 
-    if community_risk >= 80 or (has_critical and "blacklist" in str(all_evidence).lower()):
+    threat_signals = [
+        e for e in all_evidence
+        if e.get("source") in ("phishing_detector", "threat_intel_database", "threat_intel_hub", "tls_inspector")
+        and str(e.get("severity", "")).lower() in ("critical", "high")
+    ]
+
+    if community_risk >= 80 or (has_critical and ("blacklist" in str(all_evidence).lower() or "distrusted" in str(all_evidence).lower())):
         classification = "Confirmed Malicious"
     elif has_critical or has_high or override_active or score <= 35:
         classification = "High Risk"
-    elif has_medium or score < 75:
+    elif score < 75 or len(threat_signals) > 0 or phishing_risk >= 30:
         classification = "Suspicious"
     else:
-        classification = "Verified Safe" if score >= 90 else "Safe"
+        classification = "No indicators found"
 
-    # 8. Plain-Language Explainability
+    # 10. Plain-Language Explainability
     explanation = generate_plain_language_explanation(
         trust_score=score,
         verdict=verdict,
@@ -194,7 +287,7 @@ def execute_scan(url_input: str, db: Session) -> dict:
         })
     validated_claims = EvidenceValidator.validate_llm_explanation(raw_claims, all_evidence)
 
-    # 9. Database Persistence
+    # 11. Database Persistence
     scan_id = int(datetime.now(timezone.utc).timestamp() * 1000) % 2147483647
     try:
         record = ScanResult(
@@ -220,6 +313,7 @@ def execute_scan(url_input: str, db: Session) -> dict:
         "target_url": validated_url,
         "url": validated_url,
         "trust_score": score,
+        "risk_score": max(0, 100 - score),
         "verdict": verdict,
         "classification": classification,
         "override_active": override_active,
@@ -230,15 +324,25 @@ def execute_scan(url_input: str, db: Session) -> dict:
             "hygiene": {"risk": hygiene_risk, "score": 100 - hygiene_risk},
             "community": {"risk": community_risk, "score": 100 - community_risk},
         },
+        "network_telemetry": {
+            "resolved_ips": resolved_ips,
+            "redirect_hops": redirect_hops,
+            "final_destination": final_destination,
+        },
+        "threat_graph": {
+            "domain": hostname,
+            "connections": threat_graph_connections,
+        },
         "explanation": explanation,
         "evidence": all_evidence,
         "validated_claims": validated_claims,
         "limitations": explanation.get("limitations", []),
         "disclaimer": (
             "A valid TLS certificate encrypts communication and confirms domain control, "
-            "but does NOT guarantee that the operator is benevolent or safe. TrustLens never "
-            "falsely claims to detect internal CA key-generation vulnerabilities purely from a URL "
-            "without factual cryptographic key factorization or authoritative threat intelligence."
+            "but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies "
+            "distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain "
+            "analysis, and does NOT claim to detect internal CA key-generation vulnerabilities "
+            "purely from a website URL. Absence of detected threat indicators is never proof of safety."
         ),
         "timestamp": timestamp_str,
     }

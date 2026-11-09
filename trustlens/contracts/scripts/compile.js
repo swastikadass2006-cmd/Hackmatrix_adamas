@@ -1,8 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const solc = require('solc');
+import fs from 'fs';
+import path from 'path';
+import solc from 'solc';
+import { fileURLToPath } from 'url';
 
-function compile() {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export function compile() {
   const contractPath = path.resolve(__dirname, '..', 'TrustLensRegistry.sol');
   const source = fs.readFileSync(contractPath, 'utf8');
 
@@ -61,8 +65,4 @@ function compile() {
   return artifact;
 }
 
-if (require.main === module) {
-  compile();
-}
-
-module.exports = { compile };
+compile();
