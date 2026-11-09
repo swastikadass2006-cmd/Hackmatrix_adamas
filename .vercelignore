@@ -1,0 +1,11 @@
+cat << 'EOF' > ~/Desktop/Hackmatrix_adamas/.vercelignore
+**/node_modules
+**/.next
+.git
+**/__pycache__
+**/.venv
+**/venv
+trustlens/bot
+trustlens/engines
+trustlens/contracts
+EOF

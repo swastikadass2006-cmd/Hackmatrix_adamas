@@ -78,3 +78,5 @@ pnpm-debug.log*
 .openidea/
 setup_security_engine.sh
 **/setup_security_engine.sh
+.vercel
+.env*
