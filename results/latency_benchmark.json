@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-11-09T16:50:22Z",
+  "benchmarks": {
+    "gateway_health": {
+      "samples": 20,
+      "min_ms": 1.4,
+      "mean_ms": 2.97,
+      "p50_ms": 3.23,
+      "p90_ms": 3.6,
+      "p95_ms": 4.05,
+      "max_ms": 4.05
+    },
+    "rust_engine_health": {
+      "samples": 20,
+      "min_ms": 0.67,
+      "mean_ms": 1.36,
+      "p50_ms": 1.46,
+      "p90_ms": 1.81,
+      "p95_ms": 2.07,
+      "max_ms": 2.07
+    },
+    "rust_canonicalize": {
+      "samples": 25,
+      "min_ms": 0.81,
+      "mean_ms": 1.66,
+      "p50_ms": 1.6,
+      "p90_ms": 2.22,
+      "p95_ms": 2.89,
+      "max_ms": 3.63
+    },
+    "message_analyzer": {
+      "samples": 15,
+      "min_ms": 2.05,
+      "mean_ms": 3.97,
+      "p50_ms": 4.44,
+      "p90_ms": 5.17,
+      "p95_ms": 5.21,
+      "max_ms": 5.21
+    },
+    "url_scanner_benign": {
+      "samples": 10,
+      "min_ms": 3396.06,
+      "mean_ms": 6115.35,
+      "p50_ms": 6942.78,
+      "p90_ms": 7232.06,
+      "p95_ms": 7232.06,
+      "max_ms": 7232.06
+    }
+  }
+}

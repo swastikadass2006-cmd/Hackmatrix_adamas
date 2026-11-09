@@ -9,14 +9,17 @@ IP_REGEX = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
 SUSP_TLDS = (".xyz", ".top", ".tk", ".club", ".work", ".click", ".biz", ".site", ".online")
 
 BRAND_TARGETS = {
-    "sbi": ("State Bank of India", "onlinesbi.sbi"),
-    "hdfc": ("HDFC Bank", "netbanking.hdfcbank.com"),
-    "icici": ("ICICI Bank", "icicibank.com"),
-    "uidai": ("UIDAI (Aadhaar)", "myaadhaar.uidai.gov.in"),
-    "aadhaar": ("UIDAI (Aadhaar)", "uidai.gov.in"),
-    "incometax": ("Income Tax Department", "incometax.gov.in"),
-    "pan": ("Income Tax / NSDL PAN Portal", "incometax.gov.in"),
-    "gov": ("Government of India", "gov.in"),
+    "sbi": ("State Bank of India", ["sbi", "onlinesbi.sbi", "statebankofindia.com"]),
+    "hdfc": ("HDFC Bank", ["hdfcbank.com", "hdfc.com"]),
+    "icici": ("ICICI Bank", ["icicibank.com", "icici.com"]),
+    "uidai": ("UIDAI (Aadhaar)", ["uidai.gov.in"]),
+    "aadhaar": ("UIDAI (Aadhaar)", ["uidai.gov.in"]),
+    "incometax": ("Income Tax Department", ["incometax.gov.in", "incometaxindia.gov.in"]),
+    "paytm": ("Paytm", ["paytm.com", "paytmbank.com"]),
+    "paypal": ("PayPal", ["paypal.com"]),
+    "apple": ("Apple", ["apple.com", "icloud.com"]),
+    "netflix": ("Netflix", ["netflix.com"]),
+    "chase": ("JPMorgan Chase", ["chase.com"]),
 }
 
 
@@ -130,18 +133,20 @@ class PhishingDetector:
             })
 
         # Heuristic Signal 3: Brand Spoofing Check (India-First Banking & Identity)
-        for key, (brand_name, canonical_dom) in BRAND_TARGETS.items():
-            if key in hostname and canonical_dom not in hostname:
-                risk_score += 55
-                evidence.append({
-                    "id": f"SEC-PHISH-BRAND-{key.upper()}",
-                    "signal": f"Brand Lookalike Impersonation ({brand_name})",
-                    "severity": "critical",
-                    "explanation": f"Hostname mimics protected entity '{brand_name}' on unauthorized host '{hostname}'.",
-                    "source": "phishing_detector",
-                    "timestamp": now_ts,
-                })
-                break
+        for key, (brand_name, valid_domains) in BRAND_TARGETS.items():
+            if key in hostname:
+                is_legit = any(hostname == vd or hostname.endswith("." + vd) for vd in valid_domains)
+                if not is_legit:
+                    risk_score += 55
+                    evidence.append({
+                        "id": f"SEC-PHISH-BRAND-{key.upper()}",
+                        "signal": f"Brand Lookalike Impersonation ({brand_name})",
+                        "severity": "critical",
+                        "explanation": f"Hostname mimics protected entity '{brand_name}' on unauthorized host '{hostname}'.",
+                        "source": "phishing_detector",
+                        "timestamp": now_ts,
+                    })
+                    break
 
         # Heuristic Signal 4: Lexical Entropy
         entropy = shannon_entropy(url)

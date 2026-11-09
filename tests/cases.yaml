@@ -1,0 +1,335 @@
+# TrustLens Comprehensive Ground-Truth Test Cases
+# Schema:
+#  - id: Unique test case identifier
+#  - category: [suspicious_urls, benign_urls, scam_messages, benign_urgent_messages, tls_fixtures, ssrf_fixtures]
+#  - input: target string (URL or message text)
+#  - expected_classification: [Confirmed Malicious, High Risk, Suspicious, No indicators found, Inconclusive, Blocked]
+#  - expected_risk_min: int (0-100)
+#  - expected_risk_max: int (0-100)
+#  - expected_signals: list of signal names that must be present in findings
+
+cases:
+  # ============================================================================
+  # 1. Suspicious & Phishing URLs (10 Cases)
+  # ============================================================================
+  - id: S-URL-01
+    category: suspicious_urls
+    input: "https://onlinesbi-kyc-pan-update.top"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target", "Threat Intelligence Match"]
+
+  - id: S-URL-02
+    category: suspicious_urls
+    input: "https://hdfcbank-netbanking-alert.xyz"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target", "Threat Intelligence Match"]
+
+  - id: S-URL-03
+    category: suspicious_urls
+    input: "https://myaadhaar-update-card.click"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Threat Intelligence Match"]
+
+  - id: S-URL-04
+    category: suspicious_urls
+    input: "https://netfiixgt.com"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Threat Intelligence Match"]
+
+  - id: S-URL-05
+    category: suspicious_urls
+    input: "https://secure-portal-gov-gateway.in"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 80
+    expected_risk_max: 100
+    expected_signals: ["Distrusted Certificate Authority"]
+
+  - id: S-URL-06
+    category: suspicious_urls
+    input: "http://paypal-security-verification.cfd"
+    expected_classification: "High Risk"
+    expected_risk_min: 60
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target"]
+
+  - id: S-URL-07
+    category: suspicious_urls
+    input: "https://paytm-kyc-reward-claim.online"
+    expected_classification: "High Risk"
+    expected_risk_min: 60
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target"]
+
+  - id: S-URL-08
+    category: suspicious_urls
+    input: "https://allegrolokalnie.search0046.cfd"
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Threat Intelligence Match"]
+
+  - id: S-URL-09
+    category: suspicious_urls
+    input: "http://chase-security-update-now.xyz"
+    expected_classification: "High Risk"
+    expected_risk_min: 60
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target"]
+
+  - id: S-URL-10
+    category: suspicious_urls
+    input: "https://apple-id-verify-icloud.club"
+    expected_classification: "High Risk"
+    expected_risk_min: 60
+    expected_risk_max: 100
+    expected_signals: ["Brand Impersonation Target"]
+
+  # ============================================================================
+  # 2. Benign URLs (10 Cases)
+  # ============================================================================
+  - id: B-URL-01
+    category: benign_urls
+    input: "https://example.com"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: ["Lexical Baseline Clean"]
+
+  - id: B-URL-02
+    category: benign_urls
+    input: "https://google.com"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 30
+    expected_signals: ["Lexical Baseline Clean"]
+
+  - id: B-URL-03
+    category: benign_urls
+    input: "https://github.com"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: ["Lexical Baseline Clean"]
+
+  - id: B-URL-04
+    category: benign_urls
+    input: "https://wikipedia.org"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: ["Lexical Baseline Clean"]
+
+  - id: B-URL-05
+    category: benign_urls
+    input: "https://python.org"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: ["Lexical Baseline Clean"]
+
+  - id: B-URL-06
+    category: benign_urls
+    input: "https://onlinesbi.sbi"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: []
+
+  - id: B-URL-07
+    category: benign_urls
+    input: "https://hdfcbank.com"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: []
+
+  - id: B-URL-08
+    category: benign_urls
+    input: "https://uidai.gov.in"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: []
+
+  - id: B-URL-09
+    category: benign_urls
+    input: "https://incometax.gov.in"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: []
+
+  - id: B-URL-10
+    category: benign_urls
+    input: "https://cloudflare.com"
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: ["Lexical Baseline Clean"]
+
+  # ============================================================================
+  # 3. Scam & Fraud Messages (5 Cases)
+  # ============================================================================
+  - id: S-MSG-01
+    category: scam_messages
+    input: "Dear Customer, Your SBI YONO Account will be suspended today. Click http://onlinesbi-kyc-pan-update.top to update your PAN immediately."
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 80
+    expected_risk_max: 100
+    expected_signals: ["Urgency Trigger", "Banking Account Suspension"]
+
+  - id: S-MSG-02
+    category: scam_messages
+    input: "HDFC Alert: Rs 45,000 debited via UPI. If not you, refund immediately via UPI to refund@okhdfcbank or call 9876543210."
+    expected_classification: "High Risk"
+    expected_risk_min: 70
+    expected_risk_max: 100
+    expected_signals: ["UPI Address Present"]
+
+  - id: S-MSG-03
+    category: scam_messages
+    input: "Aadhaar Warning: Update biometrics within 24 hours at http://myaadhaar-update-card.click or pay Rs 5000 fine."
+    expected_classification: "Confirmed Malicious"
+    expected_risk_min: 75
+    expected_risk_max: 100
+    expected_signals: ["Urgency Trigger"]
+
+  - id: S-MSG-04
+    category: scam_messages
+    input: "Part-time job offer! Earn Rs 5000 daily by liking YouTube videos. Deposit 500 registration fee to upi: jobbonus@paytm."
+    expected_classification: "High Risk"
+    expected_risk_min: 65
+    expected_risk_max: 100
+    expected_signals: ["UPI Address Present"]
+
+  - id: S-MSG-05
+    category: scam_messages
+    input: "Electricity Bill Unpaid: Power will be disconnected tonight at 9:30 PM. Contact officer immediately at +919876543210."
+    expected_classification: "High Risk"
+    expected_risk_min: 60
+    expected_risk_max: 100
+    expected_signals: ["Urgency Trigger"]
+
+  # ============================================================================
+  # 4. Benign-but-Urgent Messages (5 Cases)
+  # ============================================================================
+  - id: B-MSG-01
+    category: benign_urgent_messages
+    input: "Your One Time Password (OTP) for transaction of Rs 250.00 at Swiggy is 482910. Valid for 5 minutes. Do not share OTP with anyone - Axis Bank."
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 30
+    expected_signals: []
+
+  - id: B-MSG-02
+    category: benign_urgent_messages
+    input: "Urgent Meeting: Team standup moved to 10:30 AM due to client emergency. Please review project roadmap in Notion before joining."
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: []
+
+  - id: B-MSG-03
+    category: benign_urgent_messages
+    input: "Out for Delivery: Your Amazon order #402-9182371-29182 is out for delivery today with associate Ramesh. Share delivery code 7192 upon arrival."
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 25
+    expected_signals: []
+
+  - id: B-MSG-04
+    category: benign_urgent_messages
+    input: "Flight Alert: Your flight 6E-204 from DEL to BLR is delayed by 45 minutes due to air traffic congestion. Boarding gate changed to 14B - IndiGo."
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: []
+
+  - id: B-MSG-05
+    category: benign_urgent_messages
+    input: "Reminder: Scheduled server maintenance tonight from 02:00 to 04:00 IST. API services may experience brief intermittent connectivity."
+    expected_classification: "No indicators found"
+    expected_risk_min: 0
+    expected_risk_max: 20
+    expected_signals: []
+
+  # ============================================================================
+  # 5. SSRF Boundary Enforcement (10 Cases)
+  # ============================================================================
+  - id: SSRF-01
+    category: ssrf_fixtures
+    input: "http://127.0.0.1"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-02
+    category: ssrf_fixtures
+    input: "http://localhost:8000"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-03
+    category: ssrf_fixtures
+    input: "http://169.254.169.254/latest/meta-data/"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-04
+    category: ssrf_fixtures
+    input: "http://[::1]"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-05
+    category: ssrf_fixtures
+    input: "http://0177.0.0.1"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-06
+    category: ssrf_fixtures
+    input: "http://2130706433"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-07
+    category: ssrf_fixtures
+    input: "http://0x7f000001"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-08
+    category: ssrf_fixtures
+    input: "http://10.0.0.1"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-09
+    category: ssrf_fixtures
+    input: "http://192.168.1.1"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100
+
+  - id: SSRF-10
+    category: ssrf_fixtures
+    input: "file:///etc/passwd"
+    expected_classification: "Blocked"
+    expected_risk_min: 100
+    expected_risk_max: 100

@@ -59,19 +59,29 @@ def execute_scan(url_input: str, db: Session) -> dict:
     phishing_evidence = list(phishing_result.get("evidence", []))
 
     # Query Render ML Engine (XGBoost + SHAP) with cold-start timeout handling
-    is_known_clean_entity = any(legit in hostname for legit in ["google.com", "github.com", "python.org", "wikipedia.org", "gov.in"])
+    is_known_clean_entity = any(
+        hostname == legit or hostname.endswith("." + legit)
+        for legit in [
+            "google.com", "github.com", "python.org", "wikipedia.org", "gov.in",
+            "example.com", "cloudflare.com", "apple.com", "microsoft.com",
+            "sbi", "hdfcbank.com", "icicibank.com", "uidai.gov.in", "incometax.gov.in"
+        ]
+    )
     if not is_known_clean_entity:
         try:
             remote_ml = query_render_ml_sync(validated_url, timeout=3.0)
             if remote_ml:
                 pred = remote_ml.get("prediction", "")
                 prob = remote_ml.get("malicious_probability", 0)
-                if pred == "MALICIOUS" and (prob > 60 or phishing_risk > 20):
-                    phishing_risk = max(phishing_risk, int(prob))
+                # Multi-Signal Fusion Rule: Require corroborating lexical signal or high probability
+                if pred == "MALICIOUS" and (phishing_risk > 0 or prob > 95):
+                    # If lexical baseline is otherwise completely clean, cap ML-only influence
+                    assigned_risk = int(prob) if phishing_risk > 0 else min(35, int(prob))
+                    phishing_risk = max(phishing_risk, assigned_risk)
                     phishing_evidence.append({
                         "id": "SEC-ML-XGBOOST",
                         "signal": "XGBoost Phishing Model High-Confidence Flag",
-                        "severity": "critical" if prob > 85 else "high",
+                        "severity": "critical" if (prob > 85 and phishing_risk >= 50) else "medium",
                         "explanation": f"Render ML model classified target as MALICIOUS with {prob}% probability.",
                         "source": "render_ml_xgboost",
                         "timestamp": datetime.now(timezone.utc).isoformat()
@@ -244,11 +254,17 @@ def execute_scan(url_input: str, db: Session) -> dict:
     has_high = "high" in severities
     has_medium = "medium" in severities
 
-    if community_risk >= 80 or (has_critical and "blacklist" in str(all_evidence).lower()):
+    threat_signals = [
+        e for e in all_evidence
+        if e.get("source") in ("phishing_detector", "threat_intel_database", "threat_intel_hub", "tls_inspector")
+        and str(e.get("severity", "")).lower() in ("critical", "high")
+    ]
+
+    if community_risk >= 80 or (has_critical and ("blacklist" in str(all_evidence).lower() or "distrusted" in str(all_evidence).lower())):
         classification = "Confirmed Malicious"
     elif has_critical or has_high or override_active or score <= 35:
         classification = "High Risk"
-    elif has_medium or score < 75 or len(redirect_evidence) > 0:
+    elif score < 75 or len(threat_signals) > 0 or phishing_risk >= 30:
         classification = "Suspicious"
     else:
         classification = "No indicators found"
@@ -297,6 +313,7 @@ def execute_scan(url_input: str, db: Session) -> dict:
         "target_url": validated_url,
         "url": validated_url,
         "trust_score": score,
+        "risk_score": max(0, 100 - score),
         "verdict": verdict,
         "classification": classification,
         "override_active": override_active,

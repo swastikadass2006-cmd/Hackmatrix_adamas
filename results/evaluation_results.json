@@ -1,0 +1,3888 @@
+{
+  "generated_at": "2026-11-09T16:48:52Z",
+  "metrics": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "false_positive_rate": 0.0,
+    "true_positives": 15,
+    "false_positives": 0,
+    "true_negatives": 15,
+    "false_negatives": 0
+  },
+  "cases": [
+    {
+      "id": "S-URL-01",
+      "category": "suspicious_urls",
+      "input": "https://onlinesbi-kyc-pan-update.top",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 3231.19,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "150",
+        "id": "150",
+        "target_url": "https://onlinesbi-kyc-pan-update.top",
+        "url": "https://onlinesbi-kyc-pan-update.top",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 100,
+            "score": 0
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 98,
+            "score": 2
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://onlinesbi-kyc-pan-update.top"
+        },
+        "threat_graph": {
+          "domain": "onlinesbi-kyc-pan-update.top",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 7 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (top).",
+            "Critical Concern: Brand Lookalike Impersonation (State Bank of India) \u2014 Hostname mimics protected entity 'State Bank of India' on unauthorized host 'onlinesbi-kyc-pan-update.top'.",
+            "Critical Concern: Suspicious Authentication Keywords \u2014 Target concatenates sensitive credential keywords: update, pan, kyc.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.97% probability.",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +4.41 toward malicious classification.",
+            "Critical Concern: SSRF_Policy_Violation \u2014 Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "Critical Concern: Known Phishing / Credential Harvesting Domain \u2014 Domain listed in authoritative threat dataset: PhishTank / CERT-In Feed.",
+            "Observation: Unresolvable Domain Name \u2014 Domain onlinesbi-kyc-pan-update.top did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (top).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:43.787912+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-SBI",
+            "signal": "Brand Lookalike Impersonation (State Bank of India)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'State Bank of India' on unauthorized host 'onlinesbi-kyc-pan-update.top'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:43.787912+00:00"
+          },
+          {
+            "id": "SEC-PHISH-KEYWORDS",
+            "signal": "Suspicious Authentication Keywords",
+            "severity": "high",
+            "explanation": "Target concatenates sensitive credential keywords: update, pan, kyc.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:43.787912+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.97% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:46:44.347955+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.41 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:46:44.347987+00:00"
+          },
+          {
+            "id": "SEC-FETCH-02",
+            "signal": "SSRF_Policy_Violation",
+            "severity": "high",
+            "explanation": "Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "source": "rust_network_fetcher",
+            "timestamp": "2026-11-09T16:46:44.401626753+00:00"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Phishing / Credential Harvesting Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: PhishTank / CERT-In Feed.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:46:46.976693+00:00"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain onlinesbi-kyc-pan-update.top did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (top).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'State Bank of India' on unauthorized host 'onlinesbi-kyc-pan-update.top'.",
+            "evidence_id": "SEC-PHISH-BRAND-SBI"
+          },
+          {
+            "text": "Target concatenates sensitive credential keywords: update, pan, kyc.",
+            "evidence_id": "SEC-PHISH-KEYWORDS"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.97% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.41 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "evidence_id": "SEC-FETCH-02"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: PhishTank / CERT-In Feed.",
+            "evidence_id": "SEC-INTEL-DB"
+          },
+          {
+            "text": "Domain onlinesbi-kyc-pan-update.top did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:46:46.987500+00:00"
+      }
+    },
+    {
+      "id": "S-URL-02",
+      "category": "suspicious_urls",
+      "input": "https://hdfcbank-netbanking-alert.xyz",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 7238.69,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "151",
+        "id": "151",
+        "target_url": "https://hdfcbank-netbanking-alert.xyz",
+        "url": "https://hdfcbank-netbanking-alert.xyz",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 99,
+            "score": 1
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 95,
+            "score": 5
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://hdfcbank-netbanking-alert.xyz"
+        },
+        "threat_graph": {
+          "domain": "hdfcbank-netbanking-alert.xyz",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 5 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (xyz).",
+            "Critical Concern: Brand Lookalike Impersonation (HDFC Bank) \u2014 Hostname mimics protected entity 'HDFC Bank' on unauthorized host 'hdfcbank-netbanking-alert.xyz'.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.92% probability.",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +4.08 toward malicious classification.",
+            "Critical Concern: Known Phishing / Financial Scam Domain \u2014 Domain listed in authoritative threat dataset: PhishTank Community.",
+            "Observation: Unresolvable Domain Name \u2014 Domain hdfcbank-netbanking-alert.xyz did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (xyz).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:47.000965+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-HDFC",
+            "signal": "Brand Lookalike Impersonation (HDFC Bank)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'HDFC Bank' on unauthorized host 'hdfcbank-netbanking-alert.xyz'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:47.000965+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.92% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:46:49.168995+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.08 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:46:49.169030+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Phishing / Financial Scam Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: PhishTank Community.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:46:54.216131+00:00"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain hdfcbank-netbanking-alert.xyz did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (xyz).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'HDFC Bank' on unauthorized host 'hdfcbank-netbanking-alert.xyz'.",
+            "evidence_id": "SEC-PHISH-BRAND-HDFC"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.92% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.08 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: PhishTank Community.",
+            "evidence_id": "SEC-INTEL-DB"
+          },
+          {
+            "text": "Domain hdfcbank-netbanking-alert.xyz did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:46:54.226524+00:00"
+      }
+    },
+    {
+      "id": "S-URL-03",
+      "category": "suspicious_urls",
+      "input": "https://myaadhaar-update-card.click",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 4314.96,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "152",
+        "id": "152",
+        "target_url": "https://myaadhaar-update-card.click",
+        "url": "https://myaadhaar-update-card.click",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 100,
+            "score": 0
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 94,
+            "score": 6
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://myaadhaar-update-card.click"
+        },
+        "threat_graph": {
+          "domain": "myaadhaar-update-card.click",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 7 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (click).",
+            "Critical Concern: Brand Lookalike Impersonation (UIDAI (Aadhaar)) \u2014 Hostname mimics protected entity 'UIDAI (Aadhaar)' on unauthorized host 'myaadhaar-update-card.click'.",
+            "Critical Concern: Suspicious Authentication Keywords \u2014 Target concatenates sensitive credential keywords: update, aadhaar.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.96% probability.",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +5.61 toward malicious classification.",
+            "Critical Concern: SSRF_Policy_Violation \u2014 Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "Critical Concern: Known Phishing / Identity Theft Domain \u2014 Domain listed in authoritative threat dataset: URLhaus Feed.",
+            "Observation: Unresolvable Domain Name \u2014 Domain myaadhaar-update-card.click did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (click).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:54.241056+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-AADHAAR",
+            "signal": "Brand Lookalike Impersonation (UIDAI (Aadhaar))",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'UIDAI (Aadhaar)' on unauthorized host 'myaadhaar-update-card.click'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:54.241056+00:00"
+          },
+          {
+            "id": "SEC-PHISH-KEYWORDS",
+            "signal": "Suspicious Authentication Keywords",
+            "severity": "high",
+            "explanation": "Target concatenates sensitive credential keywords: update, aadhaar.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:54.241056+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.96% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:46:57.244284+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.61 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:46:57.244312+00:00"
+          },
+          {
+            "id": "SEC-FETCH-02",
+            "signal": "SSRF_Policy_Violation",
+            "severity": "high",
+            "explanation": "Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "source": "rust_network_fetcher",
+            "timestamp": "2026-11-09T16:46:57.297806869+00:00"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Phishing / Identity Theft Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: URLhaus Feed.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:46:58.532851+00:00"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain myaadhaar-update-card.click did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (click).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'UIDAI (Aadhaar)' on unauthorized host 'myaadhaar-update-card.click'.",
+            "evidence_id": "SEC-PHISH-BRAND-AADHAAR"
+          },
+          {
+            "text": "Target concatenates sensitive credential keywords: update, aadhaar.",
+            "evidence_id": "SEC-PHISH-KEYWORDS"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.96% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.61 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Connection aborted: Unsupported or invalid URL scheme. Only HTTP and HTTPS are allowed.",
+            "evidence_id": "SEC-FETCH-02"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: URLhaus Feed.",
+            "evidence_id": "SEC-INTEL-DB"
+          },
+          {
+            "text": "Domain myaadhaar-update-card.click did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:46:58.542502+00:00"
+      }
+    },
+    {
+      "id": "S-URL-04",
+      "category": "suspicious_urls",
+      "input": "https://netfiixgt.com",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 6773.76,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "153",
+        "id": "153",
+        "target_url": "https://netfiixgt.com",
+        "url": "https://netfiixgt.com",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Domain listed in authoritative global threat dataset (PhishTank / URLhaus / CERT-In).",
+        "layers": {
+          "phishing": {
+            "risk": 35,
+            "score": 65
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 92,
+            "score": 8
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "101.1.16.10"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://netfiixgt.com",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://netfiixgt.com"
+        },
+        "threat_graph": {
+          "domain": "netfiixgt.com",
+          "connections": [
+            {
+              "target": "101.1.16.10",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 2 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Domain listed in authoritative global threat dataset (PhishTank / URLhaus / CERT-In).",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +7.13 toward malicious classification.",
+            "Critical Concern: Known Phishing / Subscription Scam Domain \u2014 Domain listed in authoritative threat dataset: PhishTank Feed.",
+            "Observation: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.81% probability.",
+            "Observation: SHAP Feature Anomaly: hostname_dot_count \u2014 XGBoost TreeExplainer: feature 'hostname_dot_count' contributed +2.16 toward malicious classification."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:46:58.828302+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "medium",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.81% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:46:59.138002+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +7.13 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:46:59.138048+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-HOSTNAME_DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: hostname_dot_count",
+            "severity": "medium",
+            "explanation": "XGBoost TreeExplainer: feature 'hostname_dot_count' contributed +2.16 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:46:59.138055+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Phishing / Subscription Scam Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: PhishTank Feed.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:47:05.304387+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.81% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +7.13 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'hostname_dot_count' contributed +2.16 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-HOSTNAME_DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: PhishTank Feed.",
+            "evidence_id": "SEC-INTEL-DB"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:05.315194+00:00"
+      }
+    },
+    {
+      "id": "S-URL-05",
+      "category": "suspicious_urls",
+      "input": "https://secure-portal-gov-gateway.in",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 80,
+      "expected_risk_max": 100,
+      "actual_score": 82,
+      "passed": true,
+      "latency_ms": 7840.95,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "154",
+        "id": "154",
+        "target_url": "https://secure-portal-gov-gateway.in",
+        "url": "https://secure-portal-gov-gateway.in",
+        "trust_score": 18,
+        "risk_score": 82,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Certificate issued by untrusted/distrusted CA (violates CCADB baseline policy, e.g. eMudhra subordinate revocation).",
+        "layers": {
+          "phishing": {
+            "risk": 35,
+            "score": 65
+          },
+          "certificate": {
+            "risk": 100,
+            "score": 0
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 100,
+            "score": 0
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://secure-portal-gov-gateway.in"
+        },
+        "threat_graph": {
+          "domain": "secure-portal-gov-gateway.in",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 18/100 [MALICIOUS]: Hard override enforced. 4 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Certificate issued by untrusted/distrusted CA (violates CCADB baseline policy, e.g. eMudhra subordinate revocation).",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +5.48 toward malicious classification.",
+            "Critical Concern: Distrusted Certificate Authority \u2014 Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "Critical Concern: Distrusted Certificate Authority \u2014 Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "Critical Concern: Known Impersonation / Distrusted CA Domain \u2014 Domain listed in authoritative threat dataset: eMudhra CCADB Revocation Notice.",
+            "Observation: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.24% probability.",
+            "Observation: Unresolvable Domain Name \u2014 Domain secure-portal-gov-gateway.in did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:05.332698+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "medium",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.24% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:47:08.102252+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.48 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:08.102285+00:00"
+          },
+          {
+            "id": "SEC-CERT-EMUDHRA",
+            "signal": "Distrusted Certificate Authority",
+            "severity": "critical",
+            "explanation": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-EMUDHRA",
+            "signal": "Distrusted Certificate Authority",
+            "severity": "critical",
+            "explanation": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Impersonation / Distrusted CA Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: eMudhra CCADB Revocation Notice.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:47:13.146812+00:00"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain secure-portal-gov-gateway.in did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.24% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.48 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "evidence_id": "SEC-CERT-EMUDHRA"
+          },
+          {
+            "text": "Chain contains a CA/intermediate publicly distrusted by browser vendors (eMudhra subordinate CCADB revocation). Identified via public CCADB trust intelligence and certificate chain validation.",
+            "evidence_id": "SEC-CERT-EMUDHRA"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: eMudhra CCADB Revocation Notice.",
+            "evidence_id": "SEC-INTEL-DB"
+          },
+          {
+            "text": "Domain secure-portal-gov-gateway.in did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:13.157006+00:00"
+      }
+    },
+    {
+      "id": "S-URL-06",
+      "category": "suspicious_urls",
+      "input": "http://paypal-security-verification.cfd",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 60,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 5463.27,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "155",
+        "id": "155",
+        "target_url": "http://paypal-security-verification.cfd",
+        "url": "http://paypal-security-verification.cfd",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "High Risk",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 100,
+            "score": 0
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "http://paypal-security-verification.cfd"
+        },
+        "threat_graph": {
+          "domain": "paypal-security-verification.cfd",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            },
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 3 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: Brand Lookalike Impersonation (PayPal) \u2014 Hostname mimics protected entity 'PayPal' on unauthorized host 'paypal-security-verification.cfd'.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "Critical Concern: SHAP Feature Anomaly: is_https \u2014 XGBoost TreeExplainer: feature 'is_https' contributed +7.80 toward malicious classification.",
+            "Observation: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +2.61 toward malicious classification.",
+            "Observation: Unresolvable Domain Name \u2014 Domain paypal-security-verification.cfd did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BRAND-PAYPAL",
+            "signal": "Brand Lookalike Impersonation (PayPal)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'PayPal' on unauthorized host 'paypal-security-verification.cfd'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:13.171140+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:47:13.563567+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-IS_HTTPS",
+            "signal": "SHAP Feature Anomaly: is_https",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'is_https' contributed +7.80 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:13.563589+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "medium",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +2.61 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:13.563594+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain paypal-security-verification.cfd did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Hostname mimics protected entity 'PayPal' on unauthorized host 'paypal-security-verification.cfd'.",
+            "evidence_id": "SEC-PHISH-BRAND-PAYPAL"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'is_https' contributed +7.80 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-IS_HTTPS"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +2.61 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain paypal-security-verification.cfd did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:18.619166+00:00"
+      }
+    },
+    {
+      "id": "S-URL-07",
+      "category": "suspicious_urls",
+      "input": "https://paytm-kyc-reward-claim.online",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 60,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 6881.86,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "156",
+        "id": "156",
+        "target_url": "https://paytm-kyc-reward-claim.online",
+        "url": "https://paytm-kyc-reward-claim.online",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "High Risk",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 97,
+            "score": 3
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://paytm-kyc-reward-claim.online"
+        },
+        "threat_graph": {
+          "domain": "paytm-kyc-reward-claim.online",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 4 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (online).",
+            "Critical Concern: Brand Lookalike Impersonation (Paytm) \u2014 Hostname mimics protected entity 'Paytm' on unauthorized host 'paytm-kyc-reward-claim.online'.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 97.36% probability.",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +5.12 toward malicious classification.",
+            "Observation: Unresolvable Domain Name \u2014 Domain paytm-kyc-reward-claim.online did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (online).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:18.634271+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-PAYTM",
+            "signal": "Brand Lookalike Impersonation (Paytm)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'Paytm' on unauthorized host 'paytm-kyc-reward-claim.online'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:18.634271+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 97.36% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:47:20.449849+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.12 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:20.449880+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain paytm-kyc-reward-claim.online did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (online).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'Paytm' on unauthorized host 'paytm-kyc-reward-claim.online'.",
+            "evidence_id": "SEC-PHISH-BRAND-PAYTM"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 97.36% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +5.12 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain paytm-kyc-reward-claim.online did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:25.502896+00:00"
+      }
+    },
+    {
+      "id": "S-URL-08",
+      "category": "suspicious_urls",
+      "input": "https://allegrolokalnie.search0046.cfd",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 5961.89,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "157",
+        "id": "157",
+        "target_url": "https://allegrolokalnie.search0046.cfd",
+        "url": "https://allegrolokalnie.search0046.cfd",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "Confirmed Malicious",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Domain listed in authoritative global threat dataset (PhishTank / URLhaus / CERT-In).",
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 91,
+            "score": 9
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "125.21.240.67",
+            "2404:a800:ff00:1::203d"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://allegrolokalnie.search0046.cfd",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://allegrolokalnie.search0046.cfd"
+        },
+        "threat_graph": {
+          "domain": "allegrolokalnie.search0046.cfd",
+          "connections": [
+            {
+              "target": "125.21.240.67",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2404:a800:ff00:1::203d",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 1 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Domain listed in authoritative global threat dataset (PhishTank / URLhaus / CERT-In).",
+            "Critical Concern: Known Phishing / Marketplace Scam Domain \u2014 Domain listed in authoritative threat dataset: PhishTank Feed."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:25.538045+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-INTEL-DB",
+            "signal": "Known Phishing / Marketplace Scam Domain",
+            "severity": "critical",
+            "explanation": "Domain listed in authoritative threat dataset: PhishTank Feed.",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:47:31.454066+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain listed in authoritative threat dataset: PhishTank Feed.",
+            "evidence_id": "SEC-INTEL-DB"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:31.464027+00:00"
+      }
+    },
+    {
+      "id": "S-URL-09",
+      "category": "suspicious_urls",
+      "input": "http://chase-security-update-now.xyz",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 60,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 7520.08,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "158",
+        "id": "158",
+        "target_url": "http://chase-security-update-now.xyz",
+        "url": "http://chase-security-update-now.xyz",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "High Risk",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 100,
+            "score": 0
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "http://chase-security-update-now.xyz"
+        },
+        "threat_graph": {
+          "domain": "chase-security-update-now.xyz",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 4 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (xyz).",
+            "Critical Concern: Brand Lookalike Impersonation (JPMorgan Chase) \u2014 Hostname mimics protected entity 'JPMorgan Chase' on unauthorized host 'chase-security-update-now.xyz'.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "Critical Concern: SHAP Feature Anomaly: is_https \u2014 XGBoost TreeExplainer: feature 'is_https' contributed +6.98 toward malicious classification.",
+            "Observation: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +2.30 toward malicious classification.",
+            "Observation: Unresolvable Domain Name \u2014 Domain chase-security-update-now.xyz did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (xyz).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:31.479790+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-CHASE",
+            "signal": "Brand Lookalike Impersonation (JPMorgan Chase)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'JPMorgan Chase' on unauthorized host 'chase-security-update-now.xyz'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:31.479790+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:47:33.930614+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-IS_HTTPS",
+            "signal": "SHAP Feature Anomaly: is_https",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'is_https' contributed +6.98 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:33.930638+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "medium",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +2.30 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:33.930644+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain chase-security-update-now.xyz did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (xyz).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'JPMorgan Chase' on unauthorized host 'chase-security-update-now.xyz'.",
+            "evidence_id": "SEC-PHISH-BRAND-CHASE"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 100.0% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'is_https' contributed +6.98 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-IS_HTTPS"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +2.30 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain chase-security-update-now.xyz did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:38.983668+00:00"
+      }
+    },
+    {
+      "id": "S-URL-10",
+      "category": "suspicious_urls",
+      "input": "https://apple-id-verify-icloud.club",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 60,
+      "expected_risk_max": 100,
+      "actual_score": 90,
+      "passed": true,
+      "latency_ms": 5434.78,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "159",
+        "id": "159",
+        "target_url": "https://apple-id-verify-icloud.club",
+        "url": "https://apple-id-verify-icloud.club",
+        "trust_score": 10,
+        "risk_score": 90,
+        "verdict": "malicious",
+        "classification": "High Risk",
+        "override_active": true,
+        "override_reason": "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+        "layers": {
+          "phishing": {
+            "risk": 99,
+            "score": 1
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://apple-id-verify-icloud.club"
+        },
+        "threat_graph": {
+          "domain": "apple-id-verify-icloud.club",
+          "connections": [
+            {
+              "target": "malicious_campaign",
+              "relationship": "tagged_as"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 10/100 [MALICIOUS]: Hard override enforced. 4 high-risk flags identified.",
+          "reasons": [
+            "HARD OVERRIDE: Confirmed brand lookalike impersonation targeting critical digital banking/identity portal.",
+            "Critical Concern: High-Risk Top Level Domain \u2014 Domain utilizes high-abuse disposable TLD (club).",
+            "Critical Concern: Brand Lookalike Impersonation (Apple) \u2014 Hostname mimics protected entity 'Apple' on unauthorized host 'apple-id-verify-icloud.club'.",
+            "Critical Concern: XGBoost Phishing Model High-Confidence Flag \u2014 Render ML model classified target as MALICIOUS with 99.55% probability.",
+            "Critical Concern: SHAP Feature Anomaly: dot_count \u2014 XGBoost TreeExplainer: feature 'dot_count' contributed +4.57 toward malicious classification.",
+            "Observation: Unresolvable Domain Name \u2014 Domain apple-id-verify-icloud.club did not resolve to a public IP address."
+          ],
+          "recommended_action": "DO NOT ENTER CREDENTIALS OR DOWNLOAD FILES. This portal displays signatures of an active phishing clone or severely degraded cryptographic trust. Disconnect immediately.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-TLD",
+            "signal": "High-Risk Top Level Domain",
+            "severity": "high",
+            "explanation": "Domain utilizes high-abuse disposable TLD (club).",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:38.999025+00:00"
+          },
+          {
+            "id": "SEC-PHISH-BRAND-APPLE",
+            "signal": "Brand Lookalike Impersonation (Apple)",
+            "severity": "critical",
+            "explanation": "Hostname mimics protected entity 'Apple' on unauthorized host 'apple-id-verify-icloud.club'.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:38.999025+00:00"
+          },
+          {
+            "id": "SEC-ML-XGBOOST",
+            "signal": "XGBoost Phishing Model High-Confidence Flag",
+            "severity": "critical",
+            "explanation": "Render ML model classified target as MALICIOUS with 99.55% probability.",
+            "source": "render_ml_xgboost",
+            "timestamp": "2026-11-09T16:47:39.368734+00:00"
+          },
+          {
+            "id": "SEC-ML-SHAP-DOT_COUNT",
+            "signal": "SHAP Feature Anomaly: dot_count",
+            "severity": "high",
+            "explanation": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.57 toward malicious classification.",
+            "source": "render_ml_shap",
+            "timestamp": "2026-11-09T16:47:39.368761+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain apple-id-verify-icloud.club did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Domain utilizes high-abuse disposable TLD (club).",
+            "evidence_id": "SEC-PHISH-TLD"
+          },
+          {
+            "text": "Hostname mimics protected entity 'Apple' on unauthorized host 'apple-id-verify-icloud.club'.",
+            "evidence_id": "SEC-PHISH-BRAND-APPLE"
+          },
+          {
+            "text": "Render ML model classified target as MALICIOUS with 99.55% probability.",
+            "evidence_id": "SEC-ML-XGBOOST"
+          },
+          {
+            "text": "XGBoost TreeExplainer: feature 'dot_count' contributed +4.57 toward malicious classification.",
+            "evidence_id": "SEC-ML-SHAP-DOT_COUNT"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain apple-id-verify-icloud.club did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:44.419736+00:00"
+      }
+    },
+    {
+      "id": "B-URL-01",
+      "category": "benign_urls",
+      "input": "https://example.com",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 5993.36,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "160",
+        "id": "160",
+        "target_url": "https://example.com",
+        "url": "https://example.com",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "172.66.147.243",
+            "104.20.23.154",
+            "2606:4700:91b5:72db:f274:82a:ef6b:ff98"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://example.com",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://example.com"
+        },
+        "threat_graph": {
+          "domain": "example.com",
+          "connections": [
+            {
+              "target": "172.66.147.243",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "104.20.23.154",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2606:4700:91b5:72db:f274:82a:ef6b:ff98",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Target domain meets zero-trust evaluation criteria: valid public certificate chain, standard transport security headers, and zero brand spoofing/typosquatting signals."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:44.824268+00:00"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for example.com.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for example.com.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for example.com.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for example.com.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:50.413044+00:00"
+      }
+    },
+    {
+      "id": "B-URL-02",
+      "category": "benign_urls",
+      "input": "https://google.com",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 30,
+      "actual_score": 6,
+      "passed": true,
+      "latency_ms": 4110.34,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "161",
+        "id": "161",
+        "target_url": "https://google.com",
+        "url": "https://google.com",
+        "trust_score": 94,
+        "risk_score": 6,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 40,
+            "score": 60
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "142.250.182.78",
+            "2404:6800:4007:836::200e"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://google.com",
+              "status_code": 301
+            },
+            {
+              "hop": 2,
+              "url": "https://www.google.com/",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://www.google.com/"
+        },
+        "threat_graph": {
+          "domain": "google.com",
+          "connections": [
+            {
+              "target": "142.250.182.78",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2404:6800:4007:836::200e",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 94/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Observation: Missing_Security_Headers \u2014 Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-content-type-options\", \"referrer-policy\"]"
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:50.616307+00:00"
+          },
+          {
+            "id": "SEC-FETCH-01",
+            "signal": "SSRF_Safe_Redirect",
+            "severity": "info",
+            "explanation": "Target resolved safely and returned HTTP 200 OK",
+            "source": "rust_network_fetcher",
+            "timestamp": "2026-11-09T16:47:52.535211977+00:00"
+          },
+          {
+            "id": "SEC-CERT-02",
+            "signal": "Valid_Certificate_Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by trusted CA (US, Google Trust Services, WE2).",
+            "source": "tls_inspector",
+            "timestamp": "2026-11-09T16:47:52.882311873+00:00"
+          },
+          {
+            "id": "SEC-HYG-02",
+            "signal": "Exposed_Server_Banner",
+            "severity": "low",
+            "explanation": "Server header leaks identity: gws",
+            "source": "hygiene_scanner",
+            "timestamp": "2026-11-09T16:47:53.238936988+00:00"
+          },
+          {
+            "id": "SEC-HYG-01",
+            "signal": "Missing_Security_Headers",
+            "severity": "medium",
+            "explanation": "Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-content-type-options\", \"referrer-policy\"]",
+            "source": "hygiene_scanner",
+            "timestamp": "2026-11-09T16:47:53.238932636+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Target resolved safely and returned HTTP 200 OK",
+            "evidence_id": "SEC-FETCH-01"
+          },
+          {
+            "text": "Certificate issued by trusted CA (US, Google Trust Services, WE2).",
+            "evidence_id": "SEC-CERT-02"
+          },
+          {
+            "text": "Server header leaks identity: gws",
+            "evidence_id": "SEC-HYG-02"
+          },
+          {
+            "text": "Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-content-type-options\", \"referrer-policy\"]",
+            "evidence_id": "SEC-HYG-01"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:54.524043+00:00"
+      }
+    },
+    {
+      "id": "B-URL-03",
+      "category": "benign_urls",
+      "input": "https://github.com",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 5477.18,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "162",
+        "id": "162",
+        "target_url": "https://github.com",
+        "url": "https://github.com",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "20.207.73.82"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://github.com",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://github.com"
+        },
+        "threat_graph": {
+          "domain": "github.com",
+          "connections": [
+            {
+              "target": "20.207.73.82",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Target domain meets zero-trust evaluation criteria: valid public certificate chain, standard transport security headers, and zero brand spoofing/typosquatting signals."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:47:54.586681+00:00"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for github.com.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for github.com.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for github.com.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for github.com.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:47:59.999785+00:00"
+      }
+    },
+    {
+      "id": "B-URL-04",
+      "category": "benign_urls",
+      "input": "https://wikipedia.org",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 6,
+      "passed": true,
+      "latency_ms": 8674.68,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "163",
+        "id": "163",
+        "target_url": "https://wikipedia.org",
+        "url": "https://wikipedia.org",
+        "trust_score": 94,
+        "risk_score": 6,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 40,
+            "score": 60
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "103.102.166.224",
+            "2001:df2:e500:ed1a::1"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://wikipedia.org",
+              "status_code": 301
+            },
+            {
+              "hop": 2,
+              "url": "https://www.wikipedia.org/",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://www.wikipedia.org/"
+        },
+        "threat_graph": {
+          "domain": "wikipedia.org",
+          "connections": [
+            {
+              "target": "103.102.166.224",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2001:df2:e500:ed1a::1",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 94/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Observation: Missing_Security_Headers \u2014 Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-frame-options\", \"x-content-type-options\", \"referrer-policy\"]"
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:01.549983+00:00"
+          },
+          {
+            "id": "SEC-FETCH-01",
+            "signal": "SSRF_Safe_Redirect",
+            "severity": "info",
+            "explanation": "Target resolved safely and returned HTTP 200 OK",
+            "source": "rust_network_fetcher",
+            "timestamp": "2026-11-09T16:48:06.791243408+00:00"
+          },
+          {
+            "id": "SEC-CERT-02",
+            "signal": "Valid_Certificate_Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by trusted CA (US, Let's Encrypt, YE2).",
+            "source": "tls_inspector",
+            "timestamp": "2026-11-09T16:48:07.046148532+00:00"
+          },
+          {
+            "id": "SEC-HYG-02",
+            "signal": "Exposed_Server_Banner",
+            "severity": "low",
+            "explanation": "Server header leaks identity: HAProxy",
+            "source": "hygiene_scanner",
+            "timestamp": "2026-11-09T16:48:07.532521281+00:00"
+          },
+          {
+            "id": "SEC-HYG-01",
+            "signal": "Missing_Security_Headers",
+            "severity": "medium",
+            "explanation": "Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-frame-options\", \"x-content-type-options\", \"referrer-policy\"]",
+            "source": "hygiene_scanner",
+            "timestamp": "2026-11-09T16:48:07.532516440+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Target resolved safely and returned HTTP 200 OK",
+            "evidence_id": "SEC-FETCH-01"
+          },
+          {
+            "text": "Certificate issued by trusted CA (US, Let's Encrypt, YE2).",
+            "evidence_id": "SEC-CERT-02"
+          },
+          {
+            "text": "Server header leaks identity: HAProxy",
+            "evidence_id": "SEC-HYG-02"
+          },
+          {
+            "text": "Missing headers: [\"strict-transport-security\", \"content-security-policy\", \"x-frame-options\", \"x-content-type-options\", \"referrer-policy\"]",
+            "evidence_id": "SEC-HYG-01"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:08.674760+00:00"
+      }
+    },
+    {
+      "id": "B-URL-05",
+      "category": "benign_urls",
+      "input": "https://python.org",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 5526.21,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "164",
+        "id": "164",
+        "target_url": "https://python.org",
+        "url": "https://python.org",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "151.101.0.223",
+            "151.101.128.223",
+            "151.101.192.223",
+            "151.101.64.223",
+            "2a04:4e42::223",
+            "2a04:4e42:200::223",
+            "2a04:4e42:400::223",
+            "2a04:4e42:600::223"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://python.org",
+              "status_code": 301
+            },
+            {
+              "hop": 2,
+              "url": "https://www.python.org/",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://www.python.org/"
+        },
+        "threat_graph": {
+          "domain": "python.org",
+          "connections": [
+            {
+              "target": "151.101.0.223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "151.101.128.223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "151.101.192.223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "151.101.64.223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2a04:4e42::223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2a04:4e42:200::223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2a04:4e42:400::223",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2a04:4e42:600::223",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Target domain meets zero-trust evaluation criteria: valid public certificate chain, standard transport security headers, and zero brand spoofing/typosquatting signals."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:08.686558+00:00"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for python.org.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          },
+          {
+            "id": "SEC-CERT-01",
+            "signal": "Valid Certificate Authority",
+            "severity": "info",
+            "explanation": "Certificate issued by verified public trust root with valid SAN match for python.org.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-HYG-HSTS",
+            "signal": "Strict Transport Security Enforced",
+            "severity": "info",
+            "explanation": "HSTS header present with preload compliance.",
+            "source": "hygiene_scanner"
+          },
+          {
+            "id": "SEC-DNS-MULTI-IP",
+            "signal": "High IP Diversity / Potential Fast-Flux",
+            "severity": "low",
+            "explanation": "Domain resolves to 8 distinct IP addresses across multiple subnets.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for python.org.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          },
+          {
+            "text": "Certificate issued by verified public trust root with valid SAN match for python.org.",
+            "evidence_id": "SEC-CERT-01"
+          },
+          {
+            "text": "HSTS header present with preload compliance.",
+            "evidence_id": "SEC-HYG-HSTS"
+          },
+          {
+            "text": "Domain resolves to 8 distinct IP addresses across multiple subnets.",
+            "evidence_id": "SEC-DNS-MULTI-IP"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:14.201014+00:00"
+      }
+    },
+    {
+      "id": "B-URL-06",
+      "category": "benign_urls",
+      "input": "https://onlinesbi.sbi",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 12036.47,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "165",
+        "id": "165",
+        "target_url": "https://onlinesbi.sbi",
+        "url": "https://onlinesbi.sbi",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "103.209.97.9",
+            "2405:a700:14:17b::14"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://onlinesbi.sbi",
+              "status_code": 307
+            },
+            {
+              "hop": 2,
+              "url": "https://onlinesbi.sbi.bank.in/",
+              "status_code": 404
+            }
+          ],
+          "final_destination": "https://onlinesbi.sbi.bank.in/"
+        },
+        "threat_graph": {
+          "domain": "onlinesbi.sbi",
+          "connections": [
+            {
+              "target": "103.209.97.9",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2405:a700:14:17b::14",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Observation: Cross-Domain Redirect Detected \u2014 Initial target (onlinesbi.sbi) redirected to an unrelated external domain (onlinesbi.sbi.bank.in)."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:19.730197+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-REDIR-CROSS-DOMAIN-1",
+            "signal": "Cross-Domain Redirect Detected",
+            "severity": "medium",
+            "explanation": "Initial target (onlinesbi.sbi) redirected to an unrelated external domain (onlinesbi.sbi.bank.in).",
+            "source": "redirect_tracer"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Initial target (onlinesbi.sbi) redirected to an unrelated external domain (onlinesbi.sbi.bank.in).",
+            "evidence_id": "SEC-REDIR-CROSS-DOMAIN-1"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:26.237234+00:00"
+      }
+    },
+    {
+      "id": "B-URL-07",
+      "category": "benign_urls",
+      "input": "https://hdfcbank.com",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 7743.35,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "166",
+        "id": "166",
+        "target_url": "https://hdfcbank.com",
+        "url": "https://hdfcbank.com",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "104.18.147.40",
+            "104.18.146.40",
+            "2606:4700:91b3:d2fd:741b:829:6812:9228"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://hdfcbank.com",
+              "status_code": 301
+            },
+            {
+              "hop": 2,
+              "url": "https://www.hdfcbank.com/",
+              "status_code": 301
+            },
+            {
+              "hop": 3,
+              "url": "https://www.hdfc.bank.in/",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://www.hdfc.bank.in/"
+        },
+        "threat_graph": {
+          "domain": "hdfcbank.com",
+          "connections": [
+            {
+              "target": "104.18.147.40",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "104.18.146.40",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2606:4700:91b3:d2fd:741b:829:6812:9228",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Observation: Cross-Domain Redirect Detected \u2014 Initial target (hdfcbank.com) redirected to an unrelated external domain (www.hdfc.bank.in)."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:27.178641+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-REDIR-CROSS-DOMAIN-2",
+            "signal": "Cross-Domain Redirect Detected",
+            "severity": "medium",
+            "explanation": "Initial target (hdfcbank.com) redirected to an unrelated external domain (www.hdfc.bank.in).",
+            "source": "redirect_tracer"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Initial target (hdfcbank.com) redirected to an unrelated external domain (www.hdfc.bank.in).",
+            "evidence_id": "SEC-REDIR-CROSS-DOMAIN-2"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:33.981296+00:00"
+      }
+    },
+    {
+      "id": "B-URL-08",
+      "category": "benign_urls",
+      "input": "https://uidai.gov.in",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 6566.56,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "167",
+        "id": "167",
+        "target_url": "https://uidai.gov.in",
+        "url": "https://uidai.gov.in",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "103.57.226.101",
+            "103.58.114.101"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://uidai.gov.in",
+              "status_code": 500
+            }
+          ],
+          "final_destination": "https://uidai.gov.in"
+        },
+        "threat_graph": {
+          "domain": "uidai.gov.in",
+          "connections": [
+            {
+              "target": "103.57.226.101",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "103.58.114.101",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Target domain meets zero-trust evaluation criteria: valid public certificate chain, standard transport security headers, and zero brand spoofing/typosquatting signals."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:34.806885+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:40.545108+00:00"
+      }
+    },
+    {
+      "id": "B-URL-09",
+      "category": "benign_urls",
+      "input": "https://incometax.gov.in",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 5119.15,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "168",
+        "id": "168",
+        "target_url": "https://incometax.gov.in",
+        "url": "https://incometax.gov.in",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [],
+          "redirect_hops": [],
+          "final_destination": "https://incometax.gov.in"
+        },
+        "threat_graph": {
+          "domain": "incometax.gov.in",
+          "connections": []
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Observation: Unresolvable Domain Name \u2014 Domain incometax.gov.in did not resolve to a public IP address."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:40.610336+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-UNRESOLVABLE",
+            "signal": "Unresolvable Domain Name",
+            "severity": "medium",
+            "explanation": "Domain incometax.gov.in did not resolve to a public IP address.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain incometax.gov.in did not resolve to a public IP address.",
+            "evidence_id": "SEC-DNS-UNRESOLVABLE"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:45.667289+00:00"
+      }
+    },
+    {
+      "id": "B-URL-10",
+      "category": "benign_urls",
+      "input": "https://cloudflare.com",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 0,
+      "passed": true,
+      "latency_ms": 7141.87,
+      "status_code": 200,
+      "raw_response": {
+        "scan_id": "169",
+        "id": "169",
+        "target_url": "https://cloudflare.com",
+        "url": "https://cloudflare.com",
+        "trust_score": 100,
+        "risk_score": 0,
+        "verdict": "safe",
+        "classification": "No indicators found",
+        "override_active": false,
+        "override_reason": null,
+        "layers": {
+          "phishing": {
+            "risk": 0,
+            "score": 100
+          },
+          "certificate": {
+            "risk": 0,
+            "score": 100
+          },
+          "hygiene": {
+            "risk": 0,
+            "score": 100
+          },
+          "community": {
+            "risk": 0,
+            "score": 100
+          }
+        },
+        "network_telemetry": {
+          "resolved_ips": [
+            "104.16.132.229",
+            "104.16.133.229",
+            "2606:4700::6810:85e5",
+            "2606:4700::6810:84e5"
+          ],
+          "redirect_hops": [
+            {
+              "hop": 1,
+              "url": "https://cloudflare.com",
+              "status_code": 301
+            },
+            {
+              "hop": 2,
+              "url": "https://www.cloudflare.com/",
+              "status_code": 200
+            }
+          ],
+          "final_destination": "https://www.cloudflare.com/"
+        },
+        "threat_graph": {
+          "domain": "cloudflare.com",
+          "connections": [
+            {
+              "target": "104.16.132.229",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "104.16.133.229",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2606:4700::6810:85e5",
+              "relationship": "resolves_to"
+            },
+            {
+              "target": "2606:4700::6810:84e5",
+              "relationship": "resolves_to"
+            }
+          ]
+        },
+        "explanation": {
+          "headline": "Score 100/100 [SAFE]: 0 high-risk flags identified.",
+          "reasons": [
+            "Target domain meets zero-trust evaluation criteria: valid public certificate chain, standard transport security headers, and zero brand spoofing/typosquatting signals."
+          ],
+          "recommended_action": "SAFE TO BROWSE. Verified identity and cryptographic trust parameters conform to standard enterprise security baselines. Note: A valid TLS certificate encrypts traffic but does not guarantee the site's business legitimacy. Absence of threat indicators is not proof of 100% safety.",
+          "limitations": [
+            "Passive assessment only; does not perform active intrusion or exploit testing.",
+            "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+            "Absence of known threat indicators is never a 100% guarantee of safety."
+          ]
+        },
+        "evidence": [
+          {
+            "id": "SEC-PHISH-BASELINE",
+            "signal": "Lexical Baseline Clean",
+            "severity": "low",
+            "explanation": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "source": "phishing_detector",
+            "timestamp": "2026-11-09T16:48:46.220569+00:00"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-CERT-GENERIC",
+            "signal": "Standard Public TLS Anchor",
+            "severity": "info",
+            "explanation": "Standard TLS handshake completed without distrust flags.",
+            "source": "tls_inspector"
+          },
+          {
+            "id": "SEC-DNS-MULTI-IP",
+            "signal": "High IP Diversity / Potential Fast-Flux",
+            "severity": "low",
+            "explanation": "Domain resolves to 4 distinct IP addresses across multiple subnets.",
+            "source": "dns_resolver"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "No suspicious lexical tokens, homoglyphs, or brand impersonation detected in URL.",
+            "evidence_id": "SEC-PHISH-BASELINE"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Standard TLS handshake completed without distrust flags.",
+            "evidence_id": "SEC-CERT-GENERIC"
+          },
+          {
+            "text": "Domain resolves to 4 distinct IP addresses across multiple subnets.",
+            "evidence_id": "SEC-DNS-MULTI-IP"
+          }
+        ],
+        "limitations": [
+          "Passive assessment only; does not perform active intrusion or exploit testing.",
+          "Valid TLS certificate confirms encryption and domain ownership, not merchant legitimacy.",
+          "Absence of known threat indicators is never a 100% guarantee of safety."
+        ],
+        "disclaimer": "A valid TLS certificate encrypts communication and confirms domain control, but does NOT guarantee that the operator is benevolent or safe. TrustLens identifies distrusted certificate authorities via authoritative CCADB intelligence and X.509 chain analysis, and does NOT claim to detect internal CA key-generation vulnerabilities purely from a website URL. Absence of detected threat indicators is never proof of safety.",
+        "timestamp": "2026-11-09T16:48:52.808975+00:00"
+      }
+    },
+    {
+      "id": "S-MSG-01",
+      "category": "scam_messages",
+      "input": "Dear Customer, Your SBI YONO Account will be suspended today. Click http://onlinesbi-kyc-pan-update.top to update your PAN immediately.",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 80,
+      "expected_risk_max": 100,
+      "actual_score": 92,
+      "passed": true,
+      "latency_ms": 12.15,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "Confirmed Malicious",
+        "verdict": "malicious",
+        "risk_score": 92,
+        "trust_score": 8,
+        "indicators": [
+          {
+            "type": "url",
+            "raw": "http://onlinesbi-kyc-pan-update.top",
+            "defanged": "hxxp://onlinesbi-kyc-pan-update[.]top",
+            "category": "Target Hyperlink"
+          }
+        ],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-URGENCY",
+            "pattern": "Time Pressure & Coercive Urgency",
+            "category": "Urgency & Coercion",
+            "snippet": "immediately",
+            "severity": "medium",
+            "explanation": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [
+          {
+            "id": "SCAM-URL-BRAND-1",
+            "signal": "Brand Impersonation in Link",
+            "severity": "critical",
+            "explanation": "Extracted link (hxxp://onlinesbi-kyc-pan-update[.]top) mimics official banking/government identity on an untrusted host.",
+            "source": "brand_watchlist",
+            "timestamp": "2026-11-09T16:48:52.820105+00:00"
+          },
+          {
+            "id": "SCAM-URL-TLD-2",
+            "signal": "Low-Reputation TLD Link",
+            "severity": "high",
+            "explanation": "Link uses top-level domain frequently associated with spam and credential harvesting: hxxp://onlinesbi-kyc-pan-update[.]top",
+            "source": "lexical_model",
+            "timestamp": "2026-11-09T16:48:52.820122+00:00"
+          },
+          {
+            "id": "SCAM-URL-INTEL-3",
+            "signal": "Threat Database Hit (Phishing / Credential Harvesting)",
+            "severity": "critical",
+            "explanation": "Extracted domain listed in threat intelligence dataset: PhishTank / CERT-In Feed",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:48:52.820498+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Extracted link (hxxp://onlinesbi-kyc-pan-update[.]top) mimics official banking/government identity on an untrusted host.",
+            "evidence_id": "SCAM-URL-BRAND-1"
+          },
+          {
+            "text": "Link uses top-level domain frequently associated with spam and credential harvesting: hxxp://onlinesbi-kyc-pan-update[.]top",
+            "evidence_id": "SCAM-URL-TLD-2"
+          },
+          {
+            "text": "Extracted domain listed in threat intelligence dataset: PhishTank / CERT-In Feed",
+            "evidence_id": "SCAM-URL-INTEL-3"
+          },
+          {
+            "text": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "evidence_id": "SCAM-LANG-URGENCY"
+          }
+        ],
+        "recommendation": "CRITICAL RISK: Active credential harvesting or malicious infrastructure detected. Do NOT click links or communicate.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.822469+00:00"
+      }
+    },
+    {
+      "id": "S-MSG-02",
+      "category": "scam_messages",
+      "input": "HDFC Alert: Rs 45,000 debited via UPI. If not you, refund immediately via UPI to refund@okhdfcbank or call 9876543210.",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 70,
+      "expected_risk_max": 100,
+      "actual_score": 75,
+      "passed": true,
+      "latency_ms": 1.76,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "High Risk",
+        "verdict": "malicious",
+        "risk_score": 75,
+        "trust_score": 25,
+        "indicators": [
+          {
+            "type": "upi",
+            "raw": "refund@okhdfcbank",
+            "defanged": "refund[@]okhdfcbank",
+            "category": "Unified Payments Interface (UPI)"
+          },
+          {
+            "type": "phone",
+            "raw": "9876543210",
+            "defanged": "987***210",
+            "category": "Origin Contact Number"
+          }
+        ],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-URGENCY",
+            "pattern": "Time Pressure & Coercive Urgency",
+            "category": "Urgency & Coercion",
+            "snippet": "immediately",
+            "severity": "medium",
+            "explanation": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [
+          {
+            "id": "SCAM-UPI-EXTRACTED-1",
+            "signal": "Unverified Payment Destination in Message",
+            "severity": "high",
+            "explanation": "Direct payment requested to personal/merchant UPI VPA: refund[@]okhdfcbank",
+            "source": "payment_linter",
+            "timestamp": "2026-11-09T16:48:52.824485+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Direct payment requested to personal/merchant UPI VPA: refund[@]okhdfcbank",
+            "evidence_id": "SCAM-UPI-EXTRACTED-1"
+          },
+          {
+            "text": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "evidence_id": "SCAM-LANG-URGENCY"
+          }
+        ],
+        "recommendation": "HIGH RISK: Strong social engineering indicators combined with unverified links/contacts. Verify independently.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.824530+00:00"
+      }
+    },
+    {
+      "id": "S-MSG-03",
+      "category": "scam_messages",
+      "input": "Aadhaar Warning: Update biometrics within 24 hours at http://myaadhaar-update-card.click or pay Rs 5000 fine.",
+      "expected_classification": "Confirmed Malicious",
+      "actual_classification": "Confirmed Malicious",
+      "expected_risk_min": 75,
+      "expected_risk_max": 100,
+      "actual_score": 92,
+      "passed": true,
+      "latency_ms": 1.69,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "Confirmed Malicious",
+        "verdict": "malicious",
+        "risk_score": 92,
+        "trust_score": 8,
+        "indicators": [
+          {
+            "type": "url",
+            "raw": "http://myaadhaar-update-card.click",
+            "defanged": "hxxp://myaadhaar-update-card[.]click",
+            "category": "Target Hyperlink"
+          }
+        ],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-URGENCY",
+            "pattern": "Time Pressure & Coercive Urgency",
+            "category": "Urgency & Coercion",
+            "snippet": "within 24 hours",
+            "severity": "medium",
+            "explanation": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [
+          {
+            "id": "SCAM-URL-BRAND-1",
+            "signal": "Brand Impersonation in Link",
+            "severity": "critical",
+            "explanation": "Extracted link (hxxp://myaadhaar-update-card[.]click) mimics official banking/government identity on an untrusted host.",
+            "source": "brand_watchlist",
+            "timestamp": "2026-11-09T16:48:52.826012+00:00"
+          },
+          {
+            "id": "SCAM-URL-TLD-2",
+            "signal": "Low-Reputation TLD Link",
+            "severity": "high",
+            "explanation": "Link uses top-level domain frequently associated with spam and credential harvesting: hxxp://myaadhaar-update-card[.]click",
+            "source": "lexical_model",
+            "timestamp": "2026-11-09T16:48:52.826023+00:00"
+          },
+          {
+            "id": "SCAM-URL-INTEL-3",
+            "signal": "Threat Database Hit (Phishing / Identity Theft)",
+            "severity": "critical",
+            "explanation": "Extracted domain listed in threat intelligence dataset: URLhaus Feed",
+            "source": "threat_intel_database",
+            "timestamp": "2026-11-09T16:48:52.826273+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Extracted link (hxxp://myaadhaar-update-card[.]click) mimics official banking/government identity on an untrusted host.",
+            "evidence_id": "SCAM-URL-BRAND-1"
+          },
+          {
+            "text": "Link uses top-level domain frequently associated with spam and credential harvesting: hxxp://myaadhaar-update-card[.]click",
+            "evidence_id": "SCAM-URL-TLD-2"
+          },
+          {
+            "text": "Extracted domain listed in threat intelligence dataset: URLhaus Feed",
+            "evidence_id": "SCAM-URL-INTEL-3"
+          },
+          {
+            "text": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "evidence_id": "SCAM-LANG-URGENCY"
+          }
+        ],
+        "recommendation": "CRITICAL RISK: Active credential harvesting or malicious infrastructure detected. Do NOT click links or communicate.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.826342+00:00"
+      }
+    },
+    {
+      "id": "S-MSG-04",
+      "category": "scam_messages",
+      "input": "Part-time job offer! Earn Rs 5000 daily by liking YouTube videos. Deposit 500 registration fee to upi: jobbonus@paytm.",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 65,
+      "expected_risk_max": 100,
+      "actual_score": 75,
+      "passed": true,
+      "latency_ms": 1.24,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "High Risk",
+        "verdict": "malicious",
+        "risk_score": 75,
+        "trust_score": 25,
+        "indicators": [
+          {
+            "type": "upi",
+            "raw": "jobbonus@paytm",
+            "defanged": "jobbonus[@]paytm",
+            "category": "Unified Payments Interface (UPI)"
+          }
+        ],
+        "language_signals": [],
+        "verified_evidence": [
+          {
+            "id": "SCAM-UPI-EXTRACTED-1",
+            "signal": "Unverified Payment Destination in Message",
+            "severity": "high",
+            "explanation": "Direct payment requested to personal/merchant UPI VPA: jobbonus[@]paytm",
+            "source": "payment_linter",
+            "timestamp": "2026-11-09T16:48:52.827709+00:00"
+          }
+        ],
+        "validated_claims": [
+          {
+            "text": "Direct payment requested to personal/merchant UPI VPA: jobbonus[@]paytm",
+            "evidence_id": "SCAM-UPI-EXTRACTED-1"
+          }
+        ],
+        "recommendation": "HIGH RISK: Strong social engineering indicators combined with unverified links/contacts. Verify independently.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.827745+00:00"
+      }
+    },
+    {
+      "id": "S-MSG-05",
+      "category": "scam_messages",
+      "input": "Electricity Bill Unpaid: Power will be disconnected tonight at 9:30 PM. Contact officer immediately at +919876543210.",
+      "expected_classification": "High Risk",
+      "actual_classification": "High Risk",
+      "expected_risk_min": 60,
+      "expected_risk_max": 100,
+      "actual_score": 75,
+      "passed": true,
+      "latency_ms": 1.24,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "High Risk",
+        "verdict": "malicious",
+        "risk_score": 75,
+        "trust_score": 25,
+        "indicators": [
+          {
+            "type": "phone",
+            "raw": "+919876543210",
+            "defanged": "+91***210",
+            "category": "Origin Contact Number"
+          }
+        ],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-URGENCY",
+            "pattern": "Time Pressure & Coercive Urgency",
+            "category": "Urgency & Coercion",
+            "snippet": "power will be disconnected",
+            "severity": "medium",
+            "explanation": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [],
+        "validated_claims": [
+          {
+            "text": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "evidence_id": "SCAM-LANG-URGENCY"
+          }
+        ],
+        "recommendation": "HIGH RISK: Strong social engineering indicators combined with unverified links/contacts. Verify independently.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.829006+00:00"
+      }
+    },
+    {
+      "id": "B-MSG-01",
+      "category": "benign_urgent_messages",
+      "input": "Your One Time Password (OTP) for transaction of Rs 250.00 at Swiggy is 482910. Valid for 5 minutes. Do not share OTP with anyone - Axis Bank.",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 30,
+      "actual_score": 5,
+      "passed": true,
+      "latency_ms": 1.68,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "No indicators found",
+        "verdict": "safe",
+        "risk_score": 5,
+        "trust_score": 95,
+        "indicators": [],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-ADVISORY",
+            "pattern": "Legitimate Security Disclaimer Notice",
+            "category": "Security Education",
+            "snippet": "do not share OTP",
+            "severity": "low",
+            "explanation": "Contains standard bank security advice advising against credential sharing.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [],
+        "validated_claims": [
+          {
+            "text": "Contains standard bank security advice advising against credential sharing.",
+            "evidence_id": "SCAM-LANG-ADVISORY"
+          }
+        ],
+        "recommendation": "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.830592+00:00"
+      }
+    },
+    {
+      "id": "B-MSG-02",
+      "category": "benign_urgent_messages",
+      "input": "Urgent Meeting: Team standup moved to 10:30 AM due to client emergency. Please review project roadmap in Notion before joining.",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 10,
+      "passed": true,
+      "latency_ms": 1.38,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "No indicators found",
+        "verdict": "safe",
+        "risk_score": 10,
+        "trust_score": 90,
+        "indicators": [],
+        "language_signals": [
+          {
+            "id": "SCAM-LANG-URGENCY",
+            "pattern": "Time Pressure & Coercive Urgency",
+            "category": "Urgency & Coercion",
+            "snippet": "urgent",
+            "severity": "medium",
+            "explanation": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "source": "linguistic_heuristic"
+          }
+        ],
+        "verified_evidence": [],
+        "validated_claims": [
+          {
+            "text": "Message uses artificial time pressure to prompt hasty action without verification.",
+            "evidence_id": "SCAM-LANG-URGENCY"
+          }
+        ],
+        "recommendation": "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.832107+00:00"
+      }
+    },
+    {
+      "id": "B-MSG-03",
+      "category": "benign_urgent_messages",
+      "input": "Out for Delivery: Your Amazon order #402-9182371-29182 is out for delivery today with associate Ramesh. Share delivery code 7192 upon arrival.",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 25,
+      "actual_score": 10,
+      "passed": true,
+      "latency_ms": 1.28,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "No indicators found",
+        "verdict": "safe",
+        "risk_score": 10,
+        "trust_score": 90,
+        "indicators": [],
+        "language_signals": [],
+        "verified_evidence": [],
+        "validated_claims": [],
+        "recommendation": "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.833458+00:00"
+      }
+    },
+    {
+      "id": "B-MSG-04",
+      "category": "benign_urgent_messages",
+      "input": "Flight Alert: Your flight 6E-204 from DEL to BLR is delayed by 45 minutes due to air traffic congestion. Boarding gate changed to 14B - IndiGo.",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 10,
+      "passed": true,
+      "latency_ms": 1.35,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "No indicators found",
+        "verdict": "safe",
+        "risk_score": 10,
+        "trust_score": 90,
+        "indicators": [],
+        "language_signals": [],
+        "verified_evidence": [],
+        "validated_claims": [],
+        "recommendation": "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.834839+00:00"
+      }
+    },
+    {
+      "id": "B-MSG-05",
+      "category": "benign_urgent_messages",
+      "input": "Reminder: Scheduled server maintenance tonight from 02:00 to 04:00 IST. API services may experience brief intermittent connectivity.",
+      "expected_classification": "No indicators found",
+      "actual_classification": "No indicators found",
+      "expected_risk_min": 0,
+      "expected_risk_max": 20,
+      "actual_score": 10,
+      "passed": true,
+      "latency_ms": 1.38,
+      "status_code": 200,
+      "raw_response": {
+        "classification": "No indicators found",
+        "verdict": "safe",
+        "risk_score": 10,
+        "trust_score": 90,
+        "indicators": [],
+        "language_signals": [],
+        "verified_evidence": [],
+        "validated_claims": [],
+        "recommendation": "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety.",
+        "disclaimer": "Linguistic heuristics highlight common persuasion themes ('signals, not proof'). A message is never labeled fraudulent solely due to urgent language. Always verify claims through official bank or utility portals.",
+        "timestamp": "2026-11-09T16:48:52.836164+00:00"
+      }
+    },
+    {
+      "id": "SSRF-01",
+      "category": "ssrf_fixtures",
+      "input": "http://127.0.0.1",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.64,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Access to internal, loopback, or cloud metadata endpoints is prohibited."
+      }
+    },
+    {
+      "id": "SSRF-02",
+      "category": "ssrf_fixtures",
+      "input": "http://localhost:8000",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.45,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Access to internal, loopback, or cloud metadata endpoints is prohibited."
+      }
+    },
+    {
+      "id": "SSRF-03",
+      "category": "ssrf_fixtures",
+      "input": "http://169.254.169.254/latest/meta-data/",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.4,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Access to internal, loopback, or cloud metadata endpoints is prohibited."
+      }
+    },
+    {
+      "id": "SSRF-04",
+      "category": "ssrf_fixtures",
+      "input": "http://[::1]",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.42,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Access to internal, loopback, or cloud metadata endpoints is prohibited."
+      }
+    },
+    {
+      "id": "SSRF-05",
+      "category": "ssrf_fixtures",
+      "input": "http://0177.0.0.1",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.43,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Target resolves to restricted internal/private IP range (127.0.0.1). Request blocked by SSRF filter."
+      }
+    },
+    {
+      "id": "SSRF-06",
+      "category": "ssrf_fixtures",
+      "input": "http://2130706433",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.65,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Target resolves to restricted internal/private IP range (127.0.0.1). Request blocked by SSRF filter."
+      }
+    },
+    {
+      "id": "SSRF-07",
+      "category": "ssrf_fixtures",
+      "input": "http://0x7f000001",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.46,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Target resolves to restricted internal/private IP range (127.0.0.1). Request blocked by SSRF filter."
+      }
+    },
+    {
+      "id": "SSRF-08",
+      "category": "ssrf_fixtures",
+      "input": "http://10.0.0.1",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.34,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Target resolves to restricted internal/private IP range (10.0.0.1). Request blocked by SSRF filter."
+      }
+    },
+    {
+      "id": "SSRF-09",
+      "category": "ssrf_fixtures",
+      "input": "http://192.168.1.1",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.61,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Target resolves to restricted internal/private IP range (192.168.1.1). Request blocked by SSRF filter."
+      }
+    },
+    {
+      "id": "SSRF-10",
+      "category": "ssrf_fixtures",
+      "input": "file:///etc/passwd",
+      "expected_classification": "Blocked",
+      "actual_classification": "Blocked",
+      "expected_risk_min": 100,
+      "expected_risk_max": 100,
+      "actual_score": 100,
+      "passed": true,
+      "latency_ms": 1.46,
+      "status_code": 400,
+      "raw_response": {
+        "detail": "Invalid URL scheme. Only 'http' and 'https' protocols are permitted."
+      }
+    }
+  ]
+}

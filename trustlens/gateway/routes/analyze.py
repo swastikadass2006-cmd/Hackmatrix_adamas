@@ -214,7 +214,7 @@ def analyze_scam_message_core(raw_text: str) -> Dict[str, Any]:
 
     # D. Credential & OTP Exfiltration Requests
     # Only flag as credential harvesting if asking to SHARE or SEND credentials, NOT genuine "do not share" notices
-    if re.search(r"(share\s+otp|send\s+(the\s+)?\d+-digit|enter\s+debit\s+card|send\s+cvv|submit\s+netbanking\s+password)", text_lower):
+    if not is_legitimate_security_notice and re.search(r"(?<!do\snot\s)(?<!never\s)(?<!don't\s)share\s+(your\s+)?otp|send\s+(the\s+)?\d+-digit|enter\s+debit\s+card|send\s+cvv|submit\s+netbanking\s+password", text_lower):
         verified_evidence.append({
             "id": "SCAM-CRED-HARVEST",
             "signal": "Active Credential or OTP Exfiltration Request",
@@ -239,30 +239,33 @@ def analyze_scam_message_core(raw_text: str) -> Dict[str, Any]:
     has_critical_evidence = any(e.get("severity") == "critical" for e in verified_evidence)
     has_high_evidence = any(e.get("severity") == "high" for e in verified_evidence)
     has_high_language = any(s.get("severity") == "high" for s in language_signals)
+    has_urgency = bool(urgency_match)
 
     if has_critical_evidence:
         classification = "Confirmed Malicious"
         risk_score = 92
         verdict = "malicious"
         recommendation = "CRITICAL RISK: Active credential harvesting or malicious infrastructure detected. Do NOT click links or communicate."
-    elif has_high_evidence or (has_high_language and len(indicators) > 0 and not is_legitimate_security_notice):
+    elif has_high_evidence or ((has_high_language or has_urgency) and len(indicators) > 0 and not is_legitimate_security_notice):
         classification = "High Risk"
         risk_score = 75
         verdict = "malicious"
         recommendation = "HIGH RISK: Strong social engineering indicators combined with unverified links/contacts. Verify independently."
-    elif len(language_signals) > 0 or len(indicators) > 0:
+    elif len(verified_evidence) > 0 or (len(indicators) > 0 and not is_legitimate_security_notice):
         classification = "Suspicious"
-        risk_score = 45 if not is_legitimate_security_notice else 20
+        risk_score = 45
         verdict = "suspicious"
-        recommendation = (
-            "GENUINE ADVISORY / LOW RISK: Message appears to be a standard alert or contains urgency heuristics. "
-            "Absence of malicious indicators is not proof of safety. Always verify directly through official apps."
-            if is_legitimate_security_notice else
-            "SUSPICIOUS: Contains persuasive or urgent language. Treat unverified contact details with caution."
-        )
+        recommendation = "SUSPICIOUS: Contains unverified contact details or external references. Treat with caution."
     else:
+        # Invariant: Urgency vocabulary alone in the absence of actionable indicators yields "No indicators found"
         classification = "No indicators found"
-        risk_score = 10
+        risk_score = 10 if not is_legitimate_security_notice else 5
+        verdict = "safe"
+        recommendation = (
+            "GENUINE ADVISORY: Contains standard security advice. Absence of malicious indicators is not proof of safety."
+            if is_legitimate_security_notice else
+            "No weaponized indicators detected. Note: Absence of indicators is not proof of safety."
+        )
         verdict = "safe"
         recommendation = "No suspicious linguistic patterns or weaponized indicators detected. Note: Absence of indicators is not proof of safety."
 
