@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CertInspection, CertNode } from '../../lib/types/scan';
 import { Card } from '../ui/Card';
 import { truncateHash, formatDate } from '../../lib/utils/formatters';
-import { ShieldAlert, AlertTriangle, KeyRound, CheckCircle2, ChevronDown, ChevronRight, Lock, Unlock, FileText } from 'lucide-react';
+import { ShieldAlert, AlertTriangle, AlertOctagon, KeyRound, CheckCircle2, ChevronDown, ChevronRight, Lock, Unlock, FileText } from 'lucide-react';
 
 export interface CertChainViewerProps {
   certificate: CertInspection;
@@ -24,12 +24,12 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
       <div className="flex items-center justify-between pb-3 border-b border-tl-border">
         <div className="flex items-center gap-2">
           <KeyRound className="w-4 h-4 text-tl-cyan" />
-          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text-primary">
+          <h4 className="text-xs font-semibold text-tl-text-primary">
             X.509 Certificate Chain & Cryptographic Sieve
           </h4>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-[10px]">
+        <div className="flex items-center gap-2 text-[10px]">
           {certificate.fermatFactorable && (
             <span className="px-2 py-0.5 rounded bg-tl-rose/15 text-tl-rose border border-tl-rose/40 font-bold">
               Fermat Factorable
@@ -52,7 +52,7 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Left: Interactive Chain Tree */}
         <div className="lg:col-span-5 space-y-3">
-          <span className="text-[11px] font-mono text-zinc-400 font-semibold uppercase tracking-wider">
+          <span className="text-[11px] text-zinc-400 font-semibold">
             Trust Chain Hierarchy ({certificate.chain.length} Tiers)
           </span>
 
@@ -67,7 +67,7 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
                 <button
                   key={node.serialNumber || index}
                   onClick={() => setSelectedNodeIndex(index)}
-                  className={`w-full text-left relative z-10 pl-9 pr-3 py-2.5 rounded-xl border transition-all flex flex-col justify-between ${
+                  className={`w-full text-left relative z-10 pl-9 pr-3 py-2.5 rounded-xl border transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-90 disabled:opacity-50 flex flex-col justify-between ${
                     isSelected
                       ? 'bg-zinc-800/90 border-emerald-500/60 shadow-lg'
                       : 'bg-zinc-900/50 border-zinc-800/80 hover:bg-zinc-900'
@@ -87,7 +87,7 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
                   </div>
 
                   <div className="flex items-center justify-between w-full mb-1">
-                    <span className="font-mono text-[10px] uppercase font-bold text-zinc-400">
+                    <span className="text-[10px] font-semibold text-zinc-400">
                       {isRoot ? 'Root CA' : isIntermediate ? 'Intermediate CA' : 'Leaf End-Entity'}
                     </span>
                     <span className="font-mono text-[10px] text-zinc-400">
@@ -101,13 +101,15 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
 
                   {/* Warning tags */}
                   {node.isCslDistrusted && (
-                    <span className="mt-1 text-[9px] font-mono text-amber-400 font-semibold">
-                      ⚠️ Distrusted by CCADB baseline
+                    <span className="mt-1 text-[9px] text-amber-400 font-semibold flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+                      <span>Distrusted by CCADB baseline</span>
                     </span>
                   )}
                   {node.isFermatFactorable && (
-                    <span className="mt-1 text-[9px] font-mono text-rose-400 font-semibold">
-                      🚨 Fermat Factorable RSA key
+                    <span className="mt-1 text-[9px] text-rose-400 font-semibold flex items-center gap-1">
+                      <AlertOctagon className="w-3 h-3 text-rose-400 shrink-0" />
+                      <span>Fermat factorable RSA key</span>
                     </span>
                   )}
                 </button>
@@ -119,7 +121,7 @@ export const CertChainViewer: React.FC<CertChainViewerProps> = ({ certificate })
           {certificate.fermatFactorable && (
             <button
               onClick={() => setShowMathDrawer(!showMathDrawer)}
-              className="w-full p-2.5 rounded-xl bg-rose-950/30 border border-rose-500/40 text-rose-300 text-xs font-mono flex items-center justify-between hover:bg-rose-950/50 transition-colors"
+              className="w-full p-2.5 rounded-xl bg-rose-950/30 border border-rose-500/40 text-rose-300 text-xs whitespace-nowrap flex items-center justify-between hover:bg-rose-950/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rose-500 active:opacity-90 disabled:opacity-50 transition-colors"
             >
               <span className="flex items-center gap-1.5">
                 <ShieldAlert className="w-4 h-4 text-rose-400" />

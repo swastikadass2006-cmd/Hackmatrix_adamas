@@ -21,7 +21,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({ item }) => {
 
   return (
     <div
-      className={`p-3.5 rounded-panel border transition-all ${sev.bg} ${sev.border} font-mono`}
+      className={`p-3.5 rounded-panel border transition-colors ${sev.bg} ${sev.border}`}
     >
       <div className="flex items-start justify-between gap-3 mb-1.5">
         <div className="flex items-center gap-2">
@@ -30,22 +30,22 @@ export const FindingCard: React.FC<FindingCardProps> = ({ item }) => {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold text-tl-muted bg-tl-canvas px-1.5 py-0.5 rounded border border-tl-border">
+              <span className="text-[11px] font-mono font-bold text-tl-muted bg-tl-canvas px-1.5 py-0.5 rounded border border-tl-border">
                 {item.id}
               </span>
               <h5 className="text-xs font-semibold text-tl-text tracking-tight">{item.signal}</h5>
             </div>
-            <div className="flex items-center gap-2 text-[10px] uppercase text-tl-muted mt-0.5">
+            <div className="flex items-center gap-2 text-[10px] text-tl-muted mt-0.5">
               <span>Category: {item.category}</span>
               {item.source && (
                 <>
-                  <span>&bull;</span>
+                  <span className="inline-block w-px h-2.5 bg-tl-border" />
                   <span>Source: <strong className="text-tl-text">{item.source}</strong></span>
                 </>
               )}
               {item.authoritative && (
                 <>
-                  <span>&bull;</span>
+                  <span className="inline-block w-px h-2.5 bg-tl-border" />
                   <span className="text-tl-emerald flex items-center gap-0.5 font-bold">
                     <CheckCircle2 className="w-3 h-3" /> Authoritative
                   </span>
@@ -57,7 +57,7 @@ export const FindingCard: React.FC<FindingCardProps> = ({ item }) => {
 
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${sev.text} ${sev.border} bg-tl-canvas/60`}
+            className={`text-[10px] font-bold px-2 py-0.5 rounded border ${sev.text} ${sev.border} bg-tl-canvas/60`}
           >
             {item.severity}
           </span>

@@ -119,13 +119,13 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* Header bar */}
       <div className="w-full flex items-center justify-between mb-3 z-10">
-        <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-tl-muted font-semibold">
+        <div className="flex items-center gap-1.5 text-[11px] text-tl-muted font-semibold">
           <Layers className="w-3.5 h-3.5 text-tl-muted" />
           <span>Threat Classification</span>
         </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-1 text-[11px] text-tl-muted hover:text-tl-cyan transition-colors"
+          className="inline-flex items-center gap-1 text-[11px] text-tl-muted hover:text-tl-cyan focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 transition-colors"
         >
           <HelpCircle className="w-3.5 h-3.5" />
           <span>Formula</span>
@@ -138,7 +138,7 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
           className={`flex items-center justify-center gap-2 p-2.5 rounded border ${currentClass.bg} ${currentClass.border} ${currentClass.text}`}
         >
           {currentClass.icon}
-          <span className="text-xs sm:text-sm font-bold tracking-wider uppercase">
+          <span className="text-xs sm:text-sm font-bold">
             {currentClass.label}
           </span>
         </div>
@@ -146,7 +146,7 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* SVG Semicircular Gauge for Score Depth */}
       <div className="relative w-60 h-32 flex items-end justify-center z-10">
-        <svg viewBox="0 0 220 120" className="w-full h-full overflow-visible">
+        <svg aria-hidden="true" viewBox="0 0 220 120" className="w-full h-full overflow-visible">
           {/* Background track */}
           <path
             d="M 30 110 A 80 80 0 0 1 190 110"
@@ -165,13 +165,13 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
+            className="transition-colors duration-1000 ease-out"
           />
 
           {/* Needle Indicator */}
           <g
             transform={`rotate(${angle} 110 110)`}
-            className="transition-transform duration-1000 ease-out"
+            className="motion-safe:transition-transform motion-reduce:transition-none duration-1000 ease-out"
           >
             <line
               x1="110"
@@ -205,12 +205,12 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
       {/* Evidence Coverage Bar */}
       <div className="w-full mt-4 p-3 bg-tl-panel border border-tl-border rounded space-y-1.5 z-10">
         <div className="flex items-center justify-between text-[11px] text-tl-muted">
-          <span className="text-tl-muted uppercase">Evidence Coverage</span>
+          <span className="text-tl-muted">Evidence Coverage</span>
           <span className="text-tl-text font-bold">{coverage.display}</span>
         </div>
         <div className="w-full h-1.5 bg-tl-canvas rounded-full overflow-hidden">
           <div
-            className={`h-full transition-all duration-700 ${
+            className={`h-full transition-colors duration-700 ${
               coveragePercent === 100
                 ? 'bg-tl-emerald'
                 : coveragePercent >= 70
@@ -224,7 +224,7 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* Limitations and Unavailable Checks Panel */}
       <div className="w-full mt-3 p-3 bg-tl-panel border border-tl-border rounded space-y-1.5 z-10 text-[11px]">
-        <div className="flex items-center gap-1.5 text-tl-muted font-semibold uppercase">
+        <div className="flex items-center gap-1.5 text-tl-muted font-semibold">
           <Info className="w-3.5 h-3.5 text-tl-muted" />
           <span>Limitations & Unavailable Checks</span>
         </div>
@@ -249,7 +249,7 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
         <div className="mt-3 w-full p-2.5 bg-tl-rose/10 border border-tl-rose/30 rounded flex items-start gap-2 text-tl-rose text-[11px] leading-tight z-10">
           <AlertOctagon className="w-4 h-4 text-tl-rose shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold uppercase tracking-wider text-tl-rose">
+            <span className="font-bold text-tl-rose">
               Deterministic Hard Override:
             </span>{' '}
             <span className="text-tl-text">{scan.overrideReason}</span>

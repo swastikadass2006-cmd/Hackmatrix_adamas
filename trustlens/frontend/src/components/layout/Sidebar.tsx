@@ -58,7 +58,7 @@ export const Sidebar: React.FC = () => {
       {/* Sidebar Header / Investigations Count */}
       <div className="p-4 border-b border-tl-border flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-tl-text-primary">
+          <span className="text-xs font-semibold text-tl-text-primary">
             {t.sidebar?.recentActivity || 'Investigations'}
           </span>
           <span className="px-1.5 py-0.5 text-[10px] font-mono font-medium rounded-full bg-tl-card text-tl-cyan border border-tl-border">
@@ -67,7 +67,7 @@ export const Sidebar: React.FC = () => {
         </div>
         <button
           onClick={() => router.push('/scanner')}
-          className="w-6 h-6 rounded flex items-center justify-center hover:bg-tl-card text-tl-text-secondary hover:text-tl-text-primary transition"
+          className="w-6 h-6 rounded flex items-center justify-center hover:bg-tl-card focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 text-tl-text-secondary hover:text-tl-text-primary transition"
           title={t.sidebar?.newScan || 'New Investigation'}
         >
           <Plus className="w-3.5 h-3.5" />
@@ -77,7 +77,7 @@ export const Sidebar: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-3 space-y-6 text-xs">
         {/* Workspace Navigation */}
         <div className="space-y-1">
-          <div className="px-2 pb-1 text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
+          <div className="px-2 pb-1 text-[10px] font-medium text-tl-text-muted">
             {t.sidebar?.workspace || 'Workspace'}
           </div>
           <Link
@@ -128,7 +128,7 @@ export const Sidebar: React.FC = () => {
 
         {/* Recent Investigations (from real data) */}
         <div className="space-y-1.5">
-          <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
+          <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-medium text-tl-text-muted">
             <span>{t.sidebar?.recentActivity || 'Recent Activity'}</span>
             <Clock className="w-3 h-3 text-tl-text-muted" />
           </div>
@@ -138,9 +138,9 @@ export const Sidebar: React.FC = () => {
               <p className="text-[11px] text-tl-text-muted">{t.sidebar?.noScans || 'No investigations recorded yet.'}</p>
               <button
                 onClick={() => router.push('/scanner')}
-                className="mt-1.5 text-[11px] text-tl-cyan hover:underline inline-flex items-center gap-1"
+                className="mt-1.5 text-[11px] text-tl-cyan hover:underline inline-flex items-center gap-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50"
               >
-                {t.overview?.startFirstScan || 'Start first scan'} &rarr;
+                {t.overview?.startFirstScan || 'Start first scan'}
               </button>
             </div>
           ) : (
@@ -169,7 +169,7 @@ export const Sidebar: React.FC = () => {
 
         {/* Intelligence Feeds & Verifier */}
         <div className="space-y-1">
-          <div className="px-2 pb-1 text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
+          <div className="px-2 pb-1 text-[10px] font-medium text-tl-text-muted">
             {t.tabs?.intel || 'Intelligence'}
           </div>
           <Link
@@ -204,34 +204,34 @@ export const Sidebar: React.FC = () => {
 
       {/* Quick Access Grid */}
       <div className="p-3 border-t border-tl-border bg-tl-panel/80 space-y-2">
-        <div className="px-1 text-[10px] font-mono uppercase tracking-wider text-tl-text-muted font-medium">
+        <div className="px-1 text-[10px] text-tl-text-muted font-medium">
           {t.sidebar?.quickActions || 'Quick Actions'}
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           <button
             onClick={() => router.push('/scanner')}
-            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
+            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 border border-tl-border text-center transition group"
             title={t.sidebar?.newScan || 'Scan URL'}
           >
-            <Search className="w-4 h-4 text-tl-cyan group-hover:scale-105 transition-transform" />
+            <Search className="w-4 h-4 text-tl-cyan" />
             <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.newScan || 'Scan'}</span>
           </button>
 
           <button
             onClick={() => router.push('/analyze')}
-            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
+            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-amber active:opacity-80 disabled:opacity-50 border border-tl-border text-center transition group"
             title={t.sidebar?.analyzeText || 'Analyze Message'}
           >
-            <MessageSquare className="w-4 h-4 text-tl-amber group-hover:scale-105 transition-transform" />
+            <MessageSquare className="w-4 h-4 text-tl-amber" />
             <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.analyzeText || 'Message'}</span>
           </button>
 
           <button
             onClick={() => router.push('/verify')}
-            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
+            className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-emerald active:opacity-80 disabled:opacity-50 border border-tl-border text-center transition group"
             title={t.sidebar?.verifyProof || 'Verify Hash'}
           >
-            <FileCheck2 className="w-4 h-4 text-tl-emerald group-hover:scale-105 transition-transform" />
+            <FileCheck2 className="w-4 h-4 text-tl-emerald" />
             <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.verifyProof || 'Verify'}</span>
           </button>
         </div>

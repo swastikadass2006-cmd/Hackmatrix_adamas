@@ -78,7 +78,7 @@ export const UrlScannerInput: React.FC = () => {
         <div className="relative flex items-center bg-tl-card border border-tl-border focus-within:border-tl-cyan rounded-xl p-2 transition shadow-panel">
           <div className="pl-3 pr-2 text-tl-text-muted flex items-center gap-2">
             <Globe className="w-4 h-4 text-tl-cyan" />
-            <span className="text-[11px] font-mono hidden sm:inline text-tl-text-secondary">
+            <span className="text-[11px] hidden sm:inline text-tl-text-secondary">
               target://
             </span>
           </div>
@@ -101,7 +101,7 @@ export const UrlScannerInput: React.FC = () => {
             variant="primary"
             isLoading={isScanning}
             disabled={!url.trim()}
-            className="shrink-0 rounded-lg px-4 font-mono text-xs"
+            className="shrink-0 rounded-lg px-4 text-xs"
           >
             <span>{isScanning ? (t.scanner?.analyzing || 'Analyzing...') : (t.scanner?.analyzeButton || 'Analyze Target')}</span>
             <ArrowRight className="w-3.5 h-3.5 ml-1" />
@@ -127,7 +127,7 @@ export const UrlScannerInput: React.FC = () => {
       {/* Recent Investigations from actual records (No fabricated scenarios) */}
       {!isScanning && (
         <div className="pt-2 space-y-2">
-          <div className="flex items-center justify-between text-xs font-mono text-tl-text-muted px-1">
+          <div className="flex items-center justify-between text-xs text-tl-text-muted px-1">
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>{t.scanner?.recentScans || 'Recent Investigated Targets'}</span>
@@ -153,13 +153,13 @@ export const UrlScannerInput: React.FC = () => {
                     setUrl(rec.targetUrl);
                     startScan(rec.targetUrl);
                   }}
-                  className="flex items-center justify-between p-2.5 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-left transition text-xs font-mono group"
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-tl-card hover:bg-tl-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 border border-tl-border text-left transition text-xs group"
                 >
-                  <span className="text-tl-text-primary group-hover:text-tl-cyan truncate">
+                  <span className="text-tl-text-primary group-hover:text-tl-cyan truncate font-mono">
                     {rec.targetUrl.replace(/^https?:\/\//, '')}
                   </span>
                   <span className="text-[10px] text-tl-text-muted shrink-0 ml-2">
-                    Audit again &rarr;
+                    Audit again
                   </span>
                 </button>
               ))}

@@ -1,3 +1,6 @@
+/* Hallmark · v2.0.0 · theme: modern-minimal · shape: app screen · job: audit · signature: digital trust telemetry */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: S, security posture telemetry canvas */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,7 +8,12 @@
 :root {
   --background: #090E16;
   --foreground: #E9EEF5;
+  --font-body: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   --font-mono: 'JetBrains Mono', 'Geist Mono', 'Fira Code', monospace;
+  --scrollbar-track: #090E16;
+  --scrollbar-thumb: #223042;
+  --scrollbar-thumb-hover: #32455C;
+  --tl-canvas-glow: rgba(20, 80, 120, 0.15);
 }
 
 html,
@@ -16,16 +24,15 @@ body {
 }
 
 body {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: var(--font-body);
   letter-spacing: -0.01em;
 }
 
-/* Subtle enterprise desktop backdrop illumination inspired by Reference Image 1 */
+/* Subtle enterprise desktop backdrop illumination */
 .tl-desktop-canvas {
-  background-color: #090E16;
+  background-color: var(--background);
   background-image: 
-    radial-gradient(ellipse 900px 450px at 50% -10%, rgba(30, 58, 138, 0.22), transparent 75%),
-    radial-gradient(ellipse 700px 350px at 100% 50%, rgba(20, 80, 120, 0.12), transparent 70%);
+    radial-gradient(ellipse 900px 450px at 50% -10%, var(--tl-canvas-glow), transparent 75%);
 }
 
 /* Scrollbar refinement */
@@ -34,14 +41,14 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090E16;
+  background: var(--scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #223042;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #32455C;
+  background: var(--scrollbar-thumb-hover);
 }
 
 .no-scrollbar::-webkit-scrollbar {

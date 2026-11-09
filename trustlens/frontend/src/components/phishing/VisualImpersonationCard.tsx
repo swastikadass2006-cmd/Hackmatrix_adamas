@@ -22,12 +22,12 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
       <div className="flex items-center justify-between pb-3 border-b border-tl-border">
         <div className="flex items-center gap-2">
           <Eye className="w-4 h-4 text-tl-rose" />
-          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-tl-text">
+          <h4 className="text-xs font-semibold text-tl-text">
             Computer Vision Brand Impersonation & DOM Signals
           </h4>
         </div>
         <span
-          className={`font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
+          className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
             isImpersonating
               ? 'bg-tl-rose/10 text-tl-rose border-tl-rose/30'
               : 'bg-tl-emerald/10 text-tl-emerald border-tl-emerald/30'
@@ -43,12 +43,12 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Target Live Viewport Render */}
             <div className="p-3 bg-tl-panel border border-tl-rose/30 rounded-panel space-y-2">
-              <div className="flex items-center justify-between text-[11px] font-mono">
+              <div className="flex items-center justify-between text-[11px]">
                 <span className="text-tl-rose font-semibold flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5" />
                   <span>Target Screenshot Capture</span>
                 </span>
-                <span className="text-tl-muted truncate max-w-[140px]">{targetUrl}</span>
+                <span className="text-tl-muted font-mono truncate max-w-[140px]">{targetUrl}</span>
               </div>
 
               <div className="relative w-full h-44 rounded-lg bg-tl-canvas border border-tl-border flex flex-col items-center justify-center p-4 text-center overflow-hidden group">
@@ -69,24 +69,24 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
                 </div>
 
                 <div className="absolute inset-0 bg-tl-rose/5 pointer-events-none border border-tl-rose/30 border-dashed rounded-lg" />
-                <div className="absolute bottom-2 right-2 px-1.5 py-0.5 bg-black/80 rounded font-mono text-[9px] text-tl-rose">
+                <div className="absolute bottom-2 right-2 px-1.5 py-0.5 bg-black/80 rounded text-[9px] text-tl-rose">
                   Target Capture
                 </div>
               </div>
 
-              <p className="text-[10px] text-tl-muted font-mono">
-                Matched OCR Title: <span className="text-tl-text font-semibold">{visualImpersonation.logoOcrMatch}</span>
+              <p className="text-[10px] text-tl-muted">
+                Matched OCR Title: <span className="text-tl-text font-mono font-semibold">{visualImpersonation.logoOcrMatch}</span>
               </p>
             </div>
 
             {/* Canonical Brand Reference */}
             <div className="p-3 bg-tl-panel border border-tl-border rounded-panel space-y-2">
-              <div className="flex items-center justify-between text-[11px] font-mono">
+              <div className="flex items-center justify-between text-[11px]">
                 <span className="text-tl-emerald font-semibold flex items-center gap-1.5">
                   <ShieldAlert className="w-3.5 h-3.5" />
                   <span>Canonical Brand Signature</span>
                 </span>
-                <span className="text-tl-muted">{visualImpersonation.canonicalDomain}</span>
+                <span className="text-tl-muted font-mono">{visualImpersonation.canonicalDomain}</span>
               </div>
 
               <div className="w-full h-44 rounded-lg bg-tl-canvas border border-tl-border flex flex-col items-center justify-center p-4 text-center">
@@ -94,30 +94,30 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
                   SBI
                 </div>
                 <h5 className="text-xs font-bold text-tl-text">{visualImpersonation.targetBrand}</h5>
-                <span className="text-[10px] font-mono text-tl-muted mt-1">
+                <span className="text-[10px] text-tl-muted mt-1">
                   Legitimate Sovereign Entity
                 </span>
-                <span className="mt-2 text-[10px] font-mono px-2 py-0.5 bg-tl-emerald/10 text-tl-emerald border border-tl-emerald/30 rounded">
-                  Canonical Domain: {visualImpersonation.canonicalDomain}
+                <span className="mt-2 text-[10px] px-2 py-0.5 bg-tl-emerald/10 text-tl-emerald border border-tl-emerald/30 rounded">
+                  Canonical Domain: <span className="font-mono">{visualImpersonation.canonicalDomain}</span>
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-[10px] font-mono text-tl-muted">
+              <div className="flex items-center justify-between text-[10px] text-tl-muted">
                 <span>Perceptual Hash Distance:</span>
-                <span className="text-tl-rose font-bold">d = 0.086</span>
+                <span className="text-tl-rose font-mono font-bold">d = 0.086</span>
               </div>
             </div>
           </div>
 
           {/* SSIM Metric Meter */}
           <div className="p-3 bg-tl-rose/10 border border-tl-rose/30 rounded-panel space-y-2">
-            <div className="flex items-center justify-between text-xs font-mono">
+            <div className="flex items-center justify-between text-xs">
               <span className="text-tl-text font-semibold">SSIM Visual Correlation Match:</span>
-              <span className="text-tl-rose font-bold text-sm">{ssim}%</span>
+              <span className="text-tl-rose font-mono font-bold text-sm">{ssim}%</span>
             </div>
             <div className="w-full h-1.5 rounded-full bg-tl-border overflow-hidden">
               <div
-                className="h-full bg-tl-rose transition-all duration-1000"
+                className="h-full bg-tl-rose transition-colors duration-1000"
                 style={{ width: `${ssim}%` }}
               />
             </div>
@@ -127,8 +127,8 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
           </div>
         </div>
       ) : (
-        <div className="p-4 bg-tl-panel border border-tl-border rounded-panel text-center font-mono text-xs text-tl-muted space-y-1">
-          <p className="text-tl-emerald font-semibold">✓ No Protected Brand Assets Impersonated</p>
+        <div className="p-4 bg-tl-panel border border-tl-border rounded-panel text-center text-xs text-tl-muted space-y-1">
+          <p className="text-tl-emerald font-semibold">No Protected Brand Assets Impersonated</p>
           <p className="text-tl-muted text-[11px]">
             Target visual layout does not match any high-value banking or government portals in our monitored brand registry.
           </p>
@@ -136,15 +136,15 @@ export const VisualImpersonationCard: React.FC<VisualImpersonationCardProps> = (
       )}
 
       {/* DOM & Form Exfiltration Telemetry */}
-      <div className="pt-2 border-t border-tl-border space-y-2 font-mono text-xs">
-        <span className="text-[11px] font-semibold text-tl-muted uppercase tracking-wider">
+      <div className="pt-2 border-t border-tl-border space-y-2 text-xs">
+        <span className="text-[11px] font-semibold text-tl-muted">
           Active DOM Forensics
         </span>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <div className="p-2.5 bg-tl-panel border border-tl-border rounded">
             <div className="text-[10px] text-tl-muted">External Form Action</div>
             <div className={`font-semibold mt-0.5 ${domSignals.externalFormAction ? 'text-tl-rose' : 'text-tl-emerald'}`}>
-              {domSignals.externalFormAction ? 'MALICIOUS DETECTED' : 'Internal Only'}
+              {domSignals.externalFormAction ? 'Malicious detected' : 'Internal Only'}
             </div>
           </div>
 
