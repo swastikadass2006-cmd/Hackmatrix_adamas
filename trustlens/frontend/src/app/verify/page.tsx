@@ -133,7 +133,8 @@ export default function IndependentVerificationPage() {
   };
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8 font-mono">
+    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8 font-mono">;
+      
       {/* Page Header */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
