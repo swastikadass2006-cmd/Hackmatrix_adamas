@@ -3,6 +3,72 @@ from typing import List, Dict, Any
 
 logger = logging.getLogger(__name__)
 
+REQUIRED_FIELDS = [
+    "id",
+    "signal",
+    "severity",
+    "evidence",
+    "source",
+    "timestamp"
+]
+
+VALID_SEVERITIES = {
+    "critical",
+    "high",
+    "medium",
+    "low",
+    "info"
+}
+
+
+def validate_findings(findings):
+    """
+    Validate structured findings received from security engines.
+    Invalid findings are rejected.
+    """
+    valid_findings = []
+    rejected_findings = []
+
+    if not isinstance(findings, list):
+        return {
+            "valid_findings": [],
+            "rejected_findings": ["Findings must be a list"]
+        }
+
+    for index, finding in enumerate(findings):
+        if not isinstance(finding, dict):
+            rejected_findings.append(
+                f"Finding {index}: Must be a dictionary"
+            )
+            continue
+
+        missing_fields = [
+            field for field in REQUIRED_FIELDS
+            if not finding.get(field)
+        ]
+
+        if missing_fields:
+            rejected_findings.append(
+                f"Finding {index}: Missing fields {missing_fields}"
+            )
+            continue
+
+        severity = str(finding.get("severity", "")).lower()
+
+        if severity not in VALID_SEVERITIES:
+            rejected_findings.append(
+                f"Finding {index}: Invalid severity"
+            )
+            continue
+
+        valid_findings.append(finding)
+
+    return {
+        "valid_findings": valid_findings,
+        "rejected_findings": rejected_findings
+    }
+
+
 class EvidenceValidator:
     """
     Task 3: Stronger Evidence Validation.
@@ -10,13 +76,15 @@ class EvidenceValidator:
     """
 
     @staticmethod
-    def validate_llm_explanation(explanation_claims: List[Dict[str, str]], engine_findings: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+    def validate_llm_explanation(
+        explanation_claims: List[Dict[str, str]],
+        engine_findings: List[Dict[str, Any]]
+    ) -> List[Dict[str, str]]:
         """
         Cross-references claims made by the LLM against the actual finding IDs produced by the engines.
         Returns only the claims that are cryptographically/technically backed by an engine.
         """
         valid_claims = []
-        # Extract all valid finding IDs from the engines (e.g., 'SEC-CERT-01', 'SEC-FETCH-02')
         valid_finding_ids = {finding.get("id") for finding in engine_findings if finding.get("id")}
 
         for claim in explanation_claims:
@@ -30,7 +98,6 @@ class EvidenceValidator:
                 logger.warning(f"Rejected hallucinated claim citing fake ID '{cited_id}': {claim.get('text')}")
                 continue
 
-            # If the ID exists in the engine's output, the claim is validated
             valid_claims.append(claim)
 
         return valid_claims

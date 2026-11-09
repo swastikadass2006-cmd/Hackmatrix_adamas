@@ -24,7 +24,8 @@ export const UrlScannerInput: React.FC = () => {
   }, []);
 
   const sanitizeAndValidate = (input: string): string | null => {
-    const trimmed = input.trim();
+    // Strip accidental leading/trailing single or double quotes, backticks, and whitespace
+    let trimmed = input.trim().replace(/^['"`]+|['"`]+$/g, '').trim();
     if (!trimmed) {
       setValidationError('Please enter a target URL, domain, or IP address.');
       return null;

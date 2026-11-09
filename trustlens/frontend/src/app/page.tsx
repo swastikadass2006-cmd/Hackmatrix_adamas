@@ -30,6 +30,7 @@ import {
   RecentInvestigation,
 } from '../lib/utils/investigationStorage';
 import { useLanguage } from '../hooks/useLanguage';
+import { QUICK_DEMO_SCANS } from '../lib/mocks/scanData';
 
 export default function SecurityInvestigationOverviewPage() {
   const router = useRouter();
@@ -242,6 +243,61 @@ export default function SecurityInvestigationOverviewPage() {
               <h4 className="text-xs font-semibold text-tl-text-primary">{s.title}</h4>
               <p className="text-[10px] text-tl-text-muted leading-tight">{s.desc}</p>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Interactive Threat Scenarios (Hackathon Showcase) */}
+      <div className="p-5 bg-tl-card border border-tl-border rounded-card space-y-3.5 shadow-panel">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-tl-cyan" />
+            <h3 className="text-sm font-semibold text-tl-text-primary font-mono uppercase tracking-wider">
+              Interactive Threat Scenarios (Handbook Verification Presets)
+            </h3>
+          </div>
+          <span className="text-[10px] font-mono text-tl-text-muted">
+            1-Click Live &amp; Pre-Computed Audits
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          {QUICK_DEMO_SCANS.map((scenario) => (
+            <Link
+              key={scenario.id}
+              href={`/scan/${scenario.id}`}
+              className="p-4 rounded-xl bg-tl-elevated/80 hover:bg-tl-hover border border-tl-border hover:border-tl-border-active transition group flex flex-col justify-between space-y-3 shadow-sm"
+            >
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded ${
+                      scenario.badgeColor === 'rose'
+                        ? 'bg-tl-rose/15 text-tl-rose border border-tl-rose/30'
+                        : scenario.badgeColor === 'amber'
+                        ? 'bg-tl-amber/15 text-tl-amber border border-tl-amber/30'
+                        : 'bg-tl-emerald/15 text-tl-emerald border border-tl-emerald/30'
+                    }`}
+                  >
+                    {scenario.badge}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-tl-text-secondary">
+                    Trust: {scenario.score}/100
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-tl-text-primary group-hover:text-tl-cyan transition">
+                  {scenario.label}
+                </h4>
+                <p className="text-[11px] text-tl-text-muted leading-relaxed font-sans">
+                  {scenario.desc}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-tl-border/40 flex items-center justify-between text-[11px] font-mono text-tl-cyan group-hover:underline">
+                <span>Inspect Detailed Dossier</span>
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
+            </Link>
           ))}
         </div>
       </div>
