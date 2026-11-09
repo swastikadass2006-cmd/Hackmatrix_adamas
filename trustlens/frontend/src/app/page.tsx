@@ -29,9 +29,11 @@ import {
   getRecentInvestigations,
   RecentInvestigation,
 } from '../lib/utils/investigationStorage';
+import { useLanguage } from '../hooks/useLanguage';
 
 export default function SecurityInvestigationOverviewPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [investigations, setInvestigations] = useState<RecentInvestigation[]>([]);
   const [engineHealth, setEngineHealth] = useState<'checking' | 'online' | 'degraded'>('checking');
 
@@ -68,10 +70,10 @@ export default function SecurityInvestigationOverviewPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-tl-border/60">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-tl-text-primary">
-            Security Investigation Overview
+            {t.overview?.title || 'Security Investigation Overview'}
           </h1>
           <p className="text-xs sm:text-sm text-tl-text-secondary mt-0.5">
-            Monitor investigation activity, review security findings and access evidence-backed threat analysis.
+            {t.overview?.subtitle || 'Monitor investigation activity, review security findings and access evidence-backed threat analysis.'}
           </p>
         </div>
 
@@ -80,7 +82,7 @@ export default function SecurityInvestigationOverviewPage() {
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-tl-card hover:bg-tl-hover border border-tl-border hover:border-tl-border-active text-tl-text-primary text-xs font-semibold shadow-sm transition"
         >
           <Plus className="w-4 h-4 text-tl-cyan" />
-          <span>New Investigation</span>
+          <span>{t.sidebar?.newScan || 'New Investigation'}</span>
         </button>
       </div>
 
@@ -90,7 +92,7 @@ export default function SecurityInvestigationOverviewPage() {
         <div className="p-5 bg-tl-card border border-tl-border rounded-card flex flex-col justify-between shadow-panel">
           <div className="flex items-center justify-between text-tl-text-secondary">
             <span className="text-xs font-medium uppercase tracking-wider font-mono">
-              Total Investigations
+              {t.overview?.totalInvestigations || 'Total Investigations'}
             </span>
             <Activity className="w-4 h-4 text-tl-cyan" />
           </div>
@@ -130,7 +132,7 @@ export default function SecurityInvestigationOverviewPage() {
         <div className="p-5 bg-tl-card border border-tl-border rounded-card flex flex-col justify-between shadow-panel">
           <div className="flex items-center justify-between text-tl-text-secondary">
             <span className="text-xs font-medium uppercase tracking-wider font-mono">
-              Findings Requiring Attention
+              {t.overview?.findingsAttention || 'Findings Requiring Attention'}
             </span>
             <ShieldAlert className="w-4 h-4 text-tl-amber" />
           </div>
@@ -156,7 +158,7 @@ export default function SecurityInvestigationOverviewPage() {
         <div className="p-5 bg-tl-card border border-tl-border rounded-card flex flex-col justify-between shadow-panel">
           <div className="flex items-center justify-between text-tl-text-secondary">
             <span className="text-xs font-medium uppercase tracking-wider font-mono">
-              Engine Availability
+              {t.overview?.engineAvailability || 'Engine Availability'}
             </span>
             <Server className="w-4 h-4 text-tl-emerald" />
           </div>
@@ -206,10 +208,10 @@ export default function SecurityInvestigationOverviewPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 className="text-sm font-semibold text-tl-text-primary tracking-tight">
-              Investigation Pipeline Architecture
+              {t.overview?.pipelineTitle || 'Investigation Pipeline Architecture'}
             </h3>
             <p className="text-xs text-tl-text-muted">
-              Deterministic 5-stage verification workflow executed across every analyzed target.
+              {t.overview?.pipelineDesc || 'Deterministic 5-stage verification workflow executed across every analyzed target.'}
             </p>
           </div>
 
@@ -251,7 +253,7 @@ export default function SecurityInvestigationOverviewPage() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-semibold text-tl-text-primary">
-                Investigation Assessment Curve
+                {t.overview?.trendTitle || 'Investigation Assessment Curve'}
               </h3>
               <p className="text-xs text-tl-text-muted">
                 Digital trust index evaluations across recorded investigations.
@@ -265,7 +267,7 @@ export default function SecurityInvestigationOverviewPage() {
               <div className="text-center p-6 space-y-2">
                 <TrendingUp className="w-8 h-8 text-tl-text-muted mx-auto opacity-50" />
                 <p className="text-xs text-tl-text-secondary font-medium">
-                  Analytics will appear when investigation data becomes available.
+                  {t.overview?.emptyAnalytics || 'Analytics will appear when investigation data becomes available.'}
                 </p>
                 <p className="text-[11px] text-tl-text-muted max-w-xs mx-auto">
                   Execute target scans to populate the assessment curve with cryptographic findings.
@@ -274,7 +276,7 @@ export default function SecurityInvestigationOverviewPage() {
                   onClick={() => router.push('/scanner')}
                   className="mt-2 text-xs text-tl-cyan hover:underline inline-flex items-center gap-1 font-mono"
                 >
-                  Launch URL Scanner &rarr;
+                  {t.nav?.scanner || 'Launch URL Scanner'} &rarr;
                 </button>
               </div>
             ) : (
@@ -316,7 +318,7 @@ export default function SecurityInvestigationOverviewPage() {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-tl-amber animate-pulse" />
               <h3 className="text-sm font-semibold text-tl-text-primary">
-                Pending Triage Findings
+                {t.overview?.triageTitle || 'Pending Triage Findings'}
               </h3>
             </div>
             <span className="text-[10px] font-mono text-tl-text-muted uppercase">
@@ -331,7 +333,7 @@ export default function SecurityInvestigationOverviewPage() {
               <div className="h-44 flex flex-col items-center justify-center text-center p-4 rounded-lg bg-tl-elevated/40 border border-tl-border/60">
                 <CheckCircle2 className="w-7 h-7 text-tl-emerald mb-2" />
                 <p className="text-xs text-tl-text-secondary font-medium">
-                  Zero unresolved high-risk findings.
+                  {t.overview?.emptyTriage || 'Zero unresolved high-risk findings.'}
                 </p>
                 <p className="text-[11px] text-tl-text-muted mt-1 max-w-xs">
                   All active monitored endpoints conform to current zero-trust cryptographic policies.

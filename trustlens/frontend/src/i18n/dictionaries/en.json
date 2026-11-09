@@ -1,9 +1,11 @@
 {
   "common": {
     "trustScore": "Trust Score",
-    "safe": "Safe",
+    "safe": "No indicators found",
     "suspicious": "Suspicious",
-    "malicious": "Malicious",
+    "malicious": "Confirmed Malicious",
+    "highRisk": "High Risk",
+    "inconclusive": "Inconclusive",
     "overrideActive": "Hard Override Active",
     "explainScore": "Explain Score",
     "scanNow": "Analyze URL",
@@ -14,6 +16,49 @@
     "copyLink": "Copy Permlink",
     "linkCopied": "Link Copied!",
     "liveEngine": "Threat Engine Active"
+  },
+  "nav": {
+    "overview": "Overview",
+    "scanner": "Scanner",
+    "scamAnalyzer": "Scam Analyzer",
+    "web3Verifier": "Web3 Verifier",
+    "intelFeed": "Intel Feed",
+    "apiDocs": "API Docs",
+    "securityCore": "Security Core",
+    "ready": "Ready"
+  },
+  "sidebar": {
+    "workspace": "Workspace",
+    "recentActivity": "Recent Investigations",
+    "noScans": "No recent investigations",
+    "noScansDesc": "Analyses performed will appear here",
+    "quickActions": "Quick Actions",
+    "newScan": "New Scan",
+    "analyzeText": "Analyze Text",
+    "verifyProof": "Verify Proof"
+  },
+  "overview": {
+    "title": "Security Investigation Overview",
+    "subtitle": "Multi-signal digital trust engine and threat triage console",
+    "totalInvestigations": "Total Investigations",
+    "findingsAttention": "Findings Requiring Attention",
+    "engineAvailability": "Engine Availability",
+    "pipelineTitle": "Investigation Pipeline",
+    "pipelineDesc": "Parallel deterministic verification across 4 inspection layers",
+    "trendTitle": "Investigation Assessment Curve",
+    "triageTitle": "Pending Triage Findings",
+    "emptyAnalytics": "Analytics will appear when investigation data becomes available.",
+    "emptyTriage": "No investigations logged yet.",
+    "startFirstScan": "Start First Investigation"
+  },
+  "scanner": {
+    "title": "URL Security Scanner",
+    "subtitle": "Submit an asset URL, FQDN or IP for comprehensive multi-signal threat evaluation",
+    "inputPlaceholder": "Enter target URL or FQDN (e.g. onlinesbi-kyc-verify.top or github.com)...",
+    "analyzeButton": "Analyze Asset",
+    "analyzing": "Analyzing...",
+    "recentScans": "Recent Asset Scans",
+    "noRecentScans": "No recent scans conducted in this session."
   },
   "hero": {
     "title": "Explainable Multi-Signal Digital Trust Platform",
@@ -40,4 +85,3 @@
     "leafExpiry": "Cert Expiry Horizon"
   }
 }
-

@@ -12,19 +12,19 @@ import {
   Clock,
   Plus,
   ChevronRight,
-  ExternalLink,
   Layers,
-  Sparkles,
 } from 'lucide-react';
 import {
   getRecentInvestigations,
   RecentInvestigation,
 } from '../../lib/utils/investigationStorage';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [recent, setRecent] = useState<RecentInvestigation[]>([]);
+  const { t } = useLanguage();
 
   const loadRecent = () => {
     setRecent(getRecentInvestigations());
@@ -59,7 +59,7 @@ export const Sidebar: React.FC = () => {
       <div className="p-4 border-b border-tl-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-tl-text-primary">
-            Investigations
+            {t.sidebar?.recentActivity || 'Investigations'}
           </span>
           <span className="px-1.5 py-0.5 text-[10px] font-mono font-medium rounded-full bg-tl-card text-tl-cyan border border-tl-border">
             {recent.length}
@@ -68,7 +68,7 @@ export const Sidebar: React.FC = () => {
         <button
           onClick={() => router.push('/scanner')}
           className="w-6 h-6 rounded flex items-center justify-center hover:bg-tl-card text-tl-text-secondary hover:text-tl-text-primary transition"
-          title="New Investigation"
+          title={t.sidebar?.newScan || 'New Investigation'}
         >
           <Plus className="w-3.5 h-3.5" />
         </button>
@@ -78,7 +78,7 @@ export const Sidebar: React.FC = () => {
         {/* Workspace Navigation */}
         <div className="space-y-1">
           <div className="px-2 pb-1 text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
-            Workspace
+            {t.sidebar?.workspace || 'Workspace'}
           </div>
           <Link
             href="/"
@@ -90,7 +90,7 @@ export const Sidebar: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <Layers className="w-3.5 h-3.5 text-tl-cyan" />
-              <span>Overview</span>
+              <span>{t.nav?.overview || 'Overview'}</span>
             </div>
             {pathname === '/' && <ChevronRight className="w-3 h-3 text-tl-text-muted" />}
           </Link>
@@ -105,7 +105,7 @@ export const Sidebar: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <Search className="w-3.5 h-3.5 text-tl-emerald" />
-              <span>URL Scanner</span>
+              <span>{t.nav?.scanner || 'URL Scanner'}</span>
             </div>
             {pathname === '/scanner' && <ChevronRight className="w-3 h-3 text-tl-text-muted" />}
           </Link>
@@ -120,7 +120,7 @@ export const Sidebar: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <MessageSquare className="w-3.5 h-3.5 text-tl-amber" />
-              <span>Scam Analyzer</span>
+              <span>{t.nav?.scamAnalyzer || 'Scam Analyzer'}</span>
             </div>
             {pathname === '/analyze' && <ChevronRight className="w-3 h-3 text-tl-text-muted" />}
           </Link>
@@ -129,18 +129,18 @@ export const Sidebar: React.FC = () => {
         {/* Recent Investigations (from real data) */}
         <div className="space-y-1.5">
           <div className="px-2 pb-1 flex items-center justify-between text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
-            <span>Recent Activity</span>
+            <span>{t.sidebar?.recentActivity || 'Recent Activity'}</span>
             <Clock className="w-3 h-3 text-tl-text-muted" />
           </div>
 
           {recent.length === 0 ? (
             <div className="p-3 rounded-lg bg-tl-card/40 border border-tl-border/60 text-center">
-              <p className="text-[11px] text-tl-text-muted">No investigations recorded yet.</p>
+              <p className="text-[11px] text-tl-text-muted">{t.sidebar?.noScans || 'No investigations recorded yet.'}</p>
               <button
                 onClick={() => router.push('/scanner')}
                 className="mt-1.5 text-[11px] text-tl-cyan hover:underline inline-flex items-center gap-1"
               >
-                Start first scan &rarr;
+                {t.overview?.startFirstScan || 'Start first scan'} &rarr;
               </button>
             </div>
           ) : (
@@ -170,7 +170,7 @@ export const Sidebar: React.FC = () => {
         {/* Intelligence Feeds & Verifier */}
         <div className="space-y-1">
           <div className="px-2 pb-1 text-[10px] font-mono font-medium uppercase tracking-wider text-tl-text-muted">
-            Intelligence
+            {t.tabs?.intel || 'Intelligence'}
           </div>
           <Link
             href="/feed"
@@ -182,7 +182,7 @@ export const Sidebar: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <Radio className="w-3.5 h-3.5 text-tl-rose" />
-              <span>Intel Feed</span>
+              <span>{t.nav?.intelFeed || 'Intel Feed'}</span>
             </div>
           </Link>
 
@@ -196,47 +196,46 @@ export const Sidebar: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <FileCheck2 className="w-3.5 h-3.5 text-tl-cyan" />
-              <span>Report Verification</span>
+              <span>{t.nav?.web3Verifier || 'Report Verification'}</span>
             </div>
           </Link>
         </div>
       </div>
 
-      {/* Quick Access Grid (inspired by Reference Image 1 bottom 3 rounded buttons) */}
+      {/* Quick Access Grid */}
       <div className="p-3 border-t border-tl-border bg-tl-panel/80 space-y-2">
         <div className="px-1 text-[10px] font-mono uppercase tracking-wider text-tl-text-muted font-medium">
-          Quick Actions
+          {t.sidebar?.quickActions || 'Quick Actions'}
         </div>
         <div className="grid grid-cols-3 gap-1.5">
           <button
             onClick={() => router.push('/scanner')}
             className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
-            title="Scan URL"
+            title={t.sidebar?.newScan || 'Scan URL'}
           >
             <Search className="w-4 h-4 text-tl-cyan group-hover:scale-105 transition-transform" />
-            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">Scan</span>
+            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.newScan || 'Scan'}</span>
           </button>
 
           <button
             onClick={() => router.push('/analyze')}
             className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
-            title="Analyze Message"
+            title={t.sidebar?.analyzeText || 'Analyze Message'}
           >
             <MessageSquare className="w-4 h-4 text-tl-amber group-hover:scale-105 transition-transform" />
-            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">Message</span>
+            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.analyzeText || 'Message'}</span>
           </button>
 
           <button
             onClick={() => router.push('/verify')}
             className="flex flex-col items-center justify-center p-2 rounded-lg bg-tl-card hover:bg-tl-hover border border-tl-border text-center transition group"
-            title="Verify Hash"
+            title={t.sidebar?.verifyProof || 'Verify Hash'}
           >
             <FileCheck2 className="w-4 h-4 text-tl-emerald group-hover:scale-105 transition-transform" />
-            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">Verify</span>
+            <span className="text-[10px] mt-1 text-tl-text-secondary truncate w-full">{t.sidebar?.verifyProof || 'Verify'}</span>
           </button>
         </div>
       </div>
     </aside>
   );
 };
-

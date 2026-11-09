@@ -3,8 +3,11 @@
 import React from 'react';
 import { UrlScannerInput } from '../../components/scan/UrlScannerInput';
 import { Globe, Shield, Lock, Cpu, Eye } from 'lucide-react';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function ScannerPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-1 p-6 max-w-5xl w-full mx-auto space-y-8 select-none font-sans">
       {/* Header */}
@@ -12,11 +15,11 @@ export default function ScannerPage() {
         <div className="flex items-center gap-2">
           <Globe className="w-5 h-5 text-tl-cyan" />
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-tl-text-primary">
-            Target URL &amp; Infrastructure Scanner
+            {t.scanner?.title || 'Target URL & Infrastructure Scanner'}
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-tl-text-secondary">
-          Execute multi-engine cryptographic validation, brand lookalike classification, and passive transport hygiene analysis.
+          {t.scanner?.subtitle || 'Execute multi-engine cryptographic validation, brand lookalike classification, and passive transport hygiene analysis.'}
         </p>
       </div>
 

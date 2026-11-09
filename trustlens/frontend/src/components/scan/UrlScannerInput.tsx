@@ -10,8 +10,10 @@ import {
   saveRecentInvestigation,
   RecentInvestigation,
 } from '../../lib/utils/investigationStorage';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export const UrlScannerInput: React.FC = () => {
+  const { t } = useLanguage();
   const [url, setUrl] = useState('');
   const [validationError, setValidationError] = useState<string | null>(null);
   const [recentList, setRecentList] = useState<RecentInvestigation[]>([]);
@@ -88,7 +90,7 @@ export const UrlScannerInput: React.FC = () => {
               setUrl(e.target.value);
               if (validationError) setValidationError(null);
             }}
-            placeholder="Enter URL, domain or IP (e.g. secure-login.org or 104.21.48.12)..."
+            placeholder={t.scanner?.inputPlaceholder || "Enter target URL or FQDN (e.g. onlinesbi-kyc-verify.top or github.com)..."}
             disabled={isScanning}
             className="w-full bg-transparent border-none text-tl-text-primary placeholder-tl-text-muted font-mono text-xs sm:text-sm focus:outline-none px-2 py-1.5"
           />
@@ -101,7 +103,7 @@ export const UrlScannerInput: React.FC = () => {
             disabled={!url.trim()}
             className="shrink-0 rounded-lg px-4 font-mono text-xs"
           >
-            <span>Analyze Target</span>
+            <span>{isScanning ? (t.scanner?.analyzing || 'Analyzing...') : (t.scanner?.analyzeButton || 'Analyze Target')}</span>
             <ArrowRight className="w-3.5 h-3.5 ml-1" />
           </Button>
         </div>
@@ -128,7 +130,7 @@ export const UrlScannerInput: React.FC = () => {
           <div className="flex items-center justify-between text-xs font-mono text-tl-text-muted px-1">
             <div className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
-              <span>Recent Investigated Targets</span>
+              <span>{t.scanner?.recentScans || 'Recent Investigated Targets'}</span>
             </div>
             <span>{recentList.length} recorded</span>
           </div>
@@ -136,7 +138,7 @@ export const UrlScannerInput: React.FC = () => {
           {recentList.length === 0 ? (
             <div className="p-4 bg-tl-card/40 border border-tl-border/60 rounded-xl text-center">
               <p className="text-xs text-tl-text-secondary">
-                No investigations recorded in this session.
+                {t.scanner?.noRecentScans || 'No investigations recorded in this session.'}
               </p>
               <p className="text-[11px] text-tl-text-muted mt-0.5">
                 Enter an FQDN or target URL above to perform a cryptographic and lexical audit.

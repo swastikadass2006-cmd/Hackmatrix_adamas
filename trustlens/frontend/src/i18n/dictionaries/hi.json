@@ -1,9 +1,11 @@
 {
   "common": {
     "trustScore": "विश्वास स्कोर",
-    "safe": "सुरक्षित",
+    "safe": "कोई संदिग्ध संकेत नहीं",
     "suspicious": "संदेहास्पद",
-    "malicious": "खतरनाक",
+    "malicious": "पुष्टीकृत दुर्भावनापूर्ण",
+    "highRisk": "उच्च जोखिम",
+    "inconclusive": "अनिर्णायक",
     "overrideActive": "हार्ड ओवरराइड सक्रिय",
     "explainScore": "स्कोर समझें",
     "scanNow": "विश्लेषण करें",
@@ -14,6 +16,49 @@
     "copyLink": "लिंक कॉपी करें",
     "linkCopied": "लिंक कॉपी हो गया!",
     "liveEngine": "थ्रेट इंजन सक्रिय"
+  },
+  "nav": {
+    "overview": "अवलोकन",
+    "scanner": "स्कैनर",
+    "scamAnalyzer": "स्कैम विश्लेषक",
+    "web3Verifier": "Web3 सत्यापन",
+    "intelFeed": "थ्रेट फीड",
+    "apiDocs": "एपीआई डॉक्स",
+    "securityCore": "सुरक्षा कोर",
+    "ready": "तैयार"
+  },
+  "sidebar": {
+    "workspace": "कार्यक्षेत्र",
+    "recentActivity": "हालिया जांच",
+    "noScans": "कोई हालिया जांच नहीं",
+    "noScansDesc": "किए गए विश्लेषण यहां दिखाई देंगे",
+    "quickActions": "त्वरित कार्य",
+    "newScan": "नई जांच",
+    "analyzeText": "संदेश जांचें",
+    "verifyProof": "प्रमाण जांचें"
+  },
+  "overview": {
+    "title": "सुरक्षा जांच अवलोकन",
+    "subtitle": "बहु-संकेत डिजिटल ट्रस्ट इंजन और खतरा मूल्यांकन कंसोल",
+    "totalInvestigations": "कुल जांच",
+    "findingsAttention": "ध्यान देने योग्य निष्कर्ष",
+    "engineAvailability": "इंजन उपलब्धता",
+    "pipelineTitle": "जांच पाइपलाइन",
+    "pipelineDesc": "4 निरीक्षण परतों में समानांतर सत्यापन",
+    "trendTitle": "जांच मूल्यांकन वक्र",
+    "triageTitle": "लंबित समीक्षा निष्कर्ष",
+    "emptyAnalytics": "जांच डेटा उपलब्ध होने पर विश्लेषण दिखाई देगा।",
+    "emptyTriage": "अभी तक कोई जांच दर्ज नहीं की गई है।",
+    "startFirstScan": "पहली जांच शुरू करें"
+  },
+  "scanner": {
+    "title": "यूआरएल सुरक्षा स्कैनर",
+    "subtitle": "व्यापक बहु-संकेत खतरे के मूल्यांकन के लिए यूआरएल, डोमेन या आईपी दर्ज करें",
+    "inputPlaceholder": "लक्ष्य यूआरएल या डोमेन दर्ज करें (उदा. onlinesbi-kyc-verify.top या github.com)...",
+    "analyzeButton": "एसेट का विश्लेषण करें",
+    "analyzing": "विश्लेषण जारी है...",
+    "recentScans": "हालिया एसेट जांच",
+    "noRecentScans": "इस सत्र में कोई हालिया जांच नहीं की गई।"
   },
   "hero": {
     "title": "स्पष्टीकरणीय बहु-संकेत डिजिटल ट्रस्ट प्लेटफॉर्म",
@@ -40,4 +85,3 @@
     "leafExpiry": "प्रमाणपत्र समाप्ति"
   }
 }
-

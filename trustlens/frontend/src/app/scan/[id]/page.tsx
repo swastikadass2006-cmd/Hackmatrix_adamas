@@ -14,6 +14,7 @@ import { Button } from '../../../components/ui/Button';
 import { formatDate } from '../../../lib/utils/formatters';
 import { canonicalizeJson, hashReport } from '../../../lib/web3/canonicalJson';
 import { registerReportOnChain, RegisterResult } from '../../../lib/web3/registryService';
+import { useLanguage } from '../../../hooks/useLanguage';
 import {
   Globe,
   Download,
@@ -40,6 +41,7 @@ import {
 export default function InvestigationDossierPage() {
   const params = useParams();
   const router = useRouter();
+  const { t } = useLanguage();
   const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string) || 'scan-sbi-phish';
 
   const [scan, setScan] = useState<ScanResult | null>(null);
@@ -168,11 +170,11 @@ export default function InvestigationDossierPage() {
   };
 
   const tabs = [
-    { id: 'evidence', label: 'Evidence Ledger', icon: <Layers className="w-3.5 h-3.5" />, badge: scan.evidence.length },
-    { id: 'crypto', label: 'Certificate & Fermat', icon: <Cpu className="w-3.5 h-3.5" /> },
-    { id: 'phishing', label: 'Brand & Visual SSIM', icon: <Eye className="w-3.5 h-3.5" /> },
-    { id: 'hygiene', label: 'Web Hygiene', icon: <Lock className="w-3.5 h-3.5" /> },
-    { id: 'intel', label: 'Threat Graph & ASN', icon: <Network className="w-3.5 h-3.5" /> },
+    { id: 'evidence', label: t.tabs?.evidence || 'Evidence Ledger', icon: <Layers className="w-3.5 h-3.5" />, badge: scan.evidence.length },
+    { id: 'crypto', label: t.tabs?.crypto || 'Certificate & Cryptography', icon: <Cpu className="w-3.5 h-3.5" /> },
+    { id: 'phishing', label: t.tabs?.phishing || 'Brand & Visual SSIM', icon: <Eye className="w-3.5 h-3.5" /> },
+    { id: 'hygiene', label: t.tabs?.hygiene || 'Web Security Hygiene', icon: <Lock className="w-3.5 h-3.5" /> },
+    { id: 'intel', label: t.tabs?.intel || 'Infrastructure & Threat Graph', icon: <Network className="w-3.5 h-3.5" /> },
   ];
 
   return (

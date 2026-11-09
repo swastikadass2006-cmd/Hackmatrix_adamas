@@ -13,22 +13,23 @@ import {
   Code,
   Menu,
   X,
-  Activity,
 } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
-
-const NAV_TABS = [
-  { label: 'Overview', href: '/', icon: Layers },
-  { label: 'Scanner', href: '/scanner', icon: Search },
-  { label: 'Scam Analyzer', href: '/analyze', icon: MessageSquare },
-  { label: 'Web3 Verifier', href: '/verify', icon: FileCheck2 },
-  { label: 'Intel Feed', href: '/feed', icon: Radio },
-  { label: 'API Docs', href: '/api-docs', icon: Code },
-];
+import { useLanguage } from '../../hooks/useLanguage';
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navTabs = [
+    { label: t.nav?.overview || 'Overview', href: '/', icon: Layers },
+    { label: t.nav?.scanner || 'Scanner', href: '/scanner', icon: Search },
+    { label: t.nav?.scamAnalyzer || 'Scam Analyzer', href: '/analyze', icon: MessageSquare },
+    { label: t.nav?.web3Verifier || 'Web3 Verifier', href: '/verify', icon: FileCheck2 },
+    { label: t.nav?.intelFeed || 'Intel Feed', href: '/feed', icon: Radio },
+    { label: t.nav?.apiDocs || 'API Docs', href: '/api-docs', icon: Code },
+  ];
 
   return (
     <header className="h-14 bg-tl-panel border-b border-tl-border flex items-center px-4 sm:px-6 z-30 select-none">
@@ -48,9 +49,9 @@ export const Navbar: React.FC = () => {
           </div>
         </Link>
 
-        {/* Central Pill-Style Horizontal Navigation (Reference Image 1) */}
+        {/* Central Pill-Style Horizontal Navigation */}
         <nav className="hidden md:flex items-center p-1 rounded-xl bg-tl-card border border-tl-border space-x-1">
-          {NAV_TABS.map((tab) => {
+          {navTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive =
               tab.href === '/'
@@ -82,8 +83,8 @@ export const Navbar: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tl-emerald opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-tl-emerald" />
             </span>
-            <span className="text-tl-text-secondary">Security Core:</span>
-            <span className="text-tl-emerald font-medium">Ready</span>
+            <span className="text-tl-text-secondary">{t.nav?.securityCore || 'Security Core'}:</span>
+            <span className="text-tl-emerald font-medium">{t.nav?.ready || 'Ready'}</span>
           </div>
 
           <LanguageSelector />
@@ -102,7 +103,7 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-14 left-0 w-full bg-tl-panel border-b border-tl-border p-4 space-y-2 z-50">
-          {NAV_TABS.map((tab) => {
+          {navTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive =
               tab.href === '/'
