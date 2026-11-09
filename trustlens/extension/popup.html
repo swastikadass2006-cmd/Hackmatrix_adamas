@@ -2,99 +2,152 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>TrustLens Guard</title>
+  <meta name="description" content="TrustLens browser guard for real-time web threat inspection and digital trust verification.">
   <style>
-    body {
-      margin: 0;
-      width: 320px;
-      background: #09090b;
-      color: #fafafa;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 16px;
-      box-sizing: border-box;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #27272a;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-    }
-    .brand {
-      font-weight: bold;
-      font-size: 14px;
-      color: #10b981;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .score-box {
-      background: #18181b;
-      border: 1px solid #27272a;
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-    .score-num {
-      font-size: 32px;
-      font-weight: 800;
-      font-family: monospace;
-    }
-    .score-safe { color: #10b981; }
-    .score-suspicious { color: #f59e0b; }
-    .score-malicious { color: #ef4444; }
-    .verdict-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-top: 4px;
-    }
-    .badge-safe { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
-    .badge-suspicious { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
-    .badge-malicious { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
-    .url-text {
-      font-size: 11px;
-      color: #a1a1aa;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 8px;
-    }
-    button {
-      width: 100%;
-      background: #10b981;
-      color: #09090b;
-      border: none;
-      border-radius: 6px;
-      padding: 8px;
-      font-weight: bold;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    button:hover { background: #34d399; }
+/* Hallmark · v2.0.0 · theme: modern-minimal · shape: component · job: audit · signature: digital trust telemetry */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · weakest: S, extension popup density */
+:root {
+  --tl-bg: #09090b;
+  --tl-card: #18181b;
+  --tl-border: #27272a;
+  --tl-text: #fafafa;
+  --tl-text-muted: #a1a1aa;
+  --tl-subtext: #71717a;
+  --tl-safe: #10b981;
+  --tl-safe-bg: rgba(16, 185, 129, 0.2);
+  --tl-suspicious: #f59e0b;
+  --tl-suspicious-bg: rgba(245, 158, 11, 0.2);
+  --tl-malicious: #ef4444;
+  --tl-malicious-bg: rgba(239, 68, 68, 0.2);
+  --tl-btn-hover: #34d399;
+  --tl-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --tl-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+html, body {
+  overflow-x: clip;
+}
+body {
+  margin: 0;
+  width: 320px;
+  background: var(--tl-bg);
+  color: var(--tl-text);
+  font-family: var(--tl-font-body);
+  padding: 16px;
+  box-sizing: border-box;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--tl-border);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+.brand {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--tl-safe);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+.version-tag {
+  font-size: 10px;
+  color: var(--tl-subtext);
+  font-family: var(--tl-font-mono);
+}
+.score-box {
+  background: var(--tl-card);
+  border: 1px solid var(--tl-border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.score-title {
+  font-size: 11px;
+  color: var(--tl-subtext);
+  font-family: var(--tl-font-body);
+  margin-bottom: 4px;
+}
+.score-num {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--tl-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.score-safe { color: var(--tl-safe); }
+.score-suspicious { color: var(--tl-suspicious); }
+.score-malicious { color: var(--tl-malicious); }
+.verdict-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+.badge-safe { background: var(--tl-safe-bg); color: var(--tl-safe); border: 1px solid var(--tl-safe); }
+.badge-suspicious { background: var(--tl-suspicious-bg); color: var(--tl-suspicious); border: 1px solid var(--tl-suspicious); }
+.badge-malicious { background: var(--tl-malicious-bg); color: var(--tl-malicious); border: 1px solid var(--tl-malicious); }
+.url-text {
+  font-size: 11px;
+  color: var(--tl-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+}
+button {
+  width: 100%;
+  background: var(--tl-safe);
+  color: var(--tl-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+button:hover { background: var(--tl-btn-hover); }
+button:active { opacity: 0.9; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:focus-visible {
+  outline: 2px solid var(--tl-safe);
+  outline-offset: 2px;
+}
   </style>
 </head>
 <body>
   <div class="header">
-    <div class="brand">🛡️ TrustLens Guard</div>
-    <span style="font-size: 10px; color: #71717a; font-family: monospace;">v1.0 MV3</span>
+    <div class="brand">
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      <span>TrustLens Guard</span>
+    </div>
+    <span class="version-tag">v1.0 MV3</span>
   </div>
 
-  <div class="url-text" id="active-url">Inspecting active tab...</div>
+  <div class="url-text" id="active-url">Inspecting active tab…</div>
 
   <div class="score-box" id="result-box">
-    <div style="font-size: 10px; color: #71717a; text-transform: uppercase; font-family: monospace;">Digital Trust Score</div>
+    <div class="score-title">Digital trust score</div>
     <div class="score-num score-safe" id="score-val">--</div>
-    <div class="verdict-badge badge-safe" id="verdict-val">READY</div>
+    <div class="verdict-badge badge-safe" id="verdict-val">Ready</div>
   </div>
 
-  <button id="rescan-btn">Audit Current Page</button>
+  <button id="rescan-btn" type="button">Audit Current Page</button>
 
   <script src="popup.js"></script>
 </body>
 </html>
-

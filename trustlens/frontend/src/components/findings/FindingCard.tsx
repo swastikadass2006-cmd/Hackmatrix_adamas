@@ -21,32 +21,32 @@ export const FindingCard: React.FC<FindingCardProps> = ({ item }) => {
 
   return (
     <div
-      className={`p-3.5 rounded-xl border transition-all ${sev.bg} ${sev.border} hover:bg-opacity-80 font-mono`}
+      className={`p-3.5 rounded-panel border transition-colors ${sev.bg} ${sev.border}`}
     >
       <div className="flex items-start justify-between gap-3 mb-1.5">
         <div className="flex items-center gap-2">
-          <div className={`p-1.5 rounded-lg bg-zinc-950/60 border border-zinc-800 ${sev.text}`}>
+          <div className={`p-1.5 rounded bg-tl-panel border border-tl-border ${sev.text}`}>
             <Icon className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+              <span className="text-[11px] font-mono font-bold text-tl-muted bg-tl-canvas px-1.5 py-0.5 rounded border border-tl-border">
                 {item.id}
               </span>
-              <h5 className="text-xs font-semibold text-zinc-100 tracking-tight">{item.signal}</h5>
+              <h5 className="text-xs font-semibold text-tl-text tracking-tight">{item.signal}</h5>
             </div>
-            <div className="flex items-center gap-2 text-[10px] uppercase text-zinc-500 mt-0.5">
+            <div className="flex items-center gap-2 text-[10px] text-tl-muted mt-0.5">
               <span>Category: {item.category}</span>
               {item.source && (
                 <>
-                  <span>&bull;</span>
-                  <span>Source: <strong className="text-zinc-400">{item.source}</strong></span>
+                  <span className="inline-block w-px h-2.5 bg-tl-border" />
+                  <span>Source: <strong className="text-tl-text">{item.source}</strong></span>
                 </>
               )}
               {item.authoritative && (
                 <>
-                  <span>&bull;</span>
-                  <span className="text-emerald-400 flex items-center gap-0.5 font-bold">
+                  <span className="inline-block w-px h-2.5 bg-tl-border" />
+                  <span className="text-tl-emerald flex items-center gap-0.5 font-bold">
                     <CheckCircle2 className="w-3 h-3" /> Authoritative
                   </span>
                 </>
@@ -57,26 +57,26 @@ export const FindingCard: React.FC<FindingCardProps> = ({ item }) => {
 
         <div className="flex items-center gap-2 shrink-0">
           <span
-            className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${sev.text} ${sev.border} bg-zinc-950/50`}
+            className={`text-[10px] font-bold px-2 py-0.5 rounded border ${sev.text} ${sev.border} bg-tl-canvas/60`}
           >
             {item.severity}
           </span>
           {item.weight > 0 && (
-            <span className="text-xs font-bold text-rose-400 bg-zinc-950/80 px-2 py-0.5 rounded border border-zinc-800">
+            <span className="text-xs font-bold text-tl-rose bg-tl-canvas px-2 py-0.5 rounded border border-tl-border">
               -{item.weight} pts
             </span>
           )}
         </div>
       </div>
 
-      <p className="text-xs text-zinc-300 font-sans leading-relaxed pl-8 mb-2">
+      <p className="text-xs text-tl-text font-sans leading-relaxed pl-8 mb-2">
         {item.explanation}
       </p>
 
       {item.technicalRef && (
-        <div className="pl-8 flex items-center gap-1.5 text-[10px] text-zinc-500">
-          <span className="text-zinc-400 font-semibold">Technical Reference:</span>
-          <span className="text-zinc-400 truncate">{item.technicalRef}</span>
+        <div className="pl-8 flex items-center gap-1.5 text-[10px] text-tl-muted">
+          <span className="text-tl-muted font-semibold">Technical Reference:</span>
+          <span className="text-tl-text font-mono truncate">{item.technicalRef}</span>
         </div>
       )}
     </div>

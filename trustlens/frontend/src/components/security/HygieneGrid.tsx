@@ -50,21 +50,21 @@ export const HygieneGrid: React.FC<HygieneGridProps> = ({ hygiene }) => {
   ];
 
   return (
-    <Card className="p-5 bg-zinc-950/80 border border-zinc-800 space-y-4">
+    <div className="p-5 bg-tl-card border border-tl-border rounded-panel space-y-4 shadow-panel font-mono">
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
+      <div className="flex items-center justify-between pb-3 border-b border-tl-border">
         <div className="flex items-center gap-2">
-          <Lock className="w-4 h-4 text-emerald-400" />
-          <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200">
+          <Lock className="w-4 h-4 text-tl-cyan" />
+          <h4 className="text-xs font-semibold uppercase tracking-wider text-tl-text-primary">
             Passive Web Hygiene & Perimeter Posture
           </h4>
         </div>
-        <div className="flex items-center gap-2 font-mono text-[10px]">
+        <div className="flex items-center gap-2 text-[10px]">
           <span
             className={`px-2 py-0.5 rounded border ${
               deprecatedTls
-                ? 'bg-rose-950 text-rose-400 border-rose-500/30'
-                : 'bg-emerald-950 text-emerald-400 border-emerald-500/30'
+                ? 'bg-tl-rose/15 text-tl-rose border-tl-rose/30'
+                : 'bg-tl-emerald/15 text-tl-emerald border-tl-emerald/30'
             }`}
           >
             Active Suite: {tlsVersion}
@@ -154,7 +154,7 @@ export const HygieneGrid: React.FC<HygieneGridProps> = ({ hygiene }) => {
           </p>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

@@ -110,22 +110,22 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
   const angle = -180 + (trustScore / 100) * 180;
 
   return (
-    <div className="relative flex flex-col items-center justify-center p-6 bg-zinc-950/80 border border-zinc-800 rounded-2xl overflow-hidden font-mono">
-      {/* Background radial glow */}
+    <div className="relative flex flex-col items-center justify-center p-6 bg-tl-card border border-tl-border rounded-panel overflow-hidden font-mono text-tl-text">
+      {/* Background subtle radial glow */}
       <div
-        className="absolute w-44 h-44 rounded-full blur-3xl pointer-events-none opacity-30 transition-colors"
+        className="absolute w-44 h-44 rounded-full blur-3xl pointer-events-none opacity-20 transition-colors"
         style={{ backgroundColor: currentClass.stroke }}
       />
 
       {/* Header bar */}
       <div className="w-full flex items-center justify-between mb-3 z-10">
-        <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">
-          <Layers className="w-3.5 h-3.5 text-zinc-500" />
+        <div className="flex items-center gap-1.5 text-[11px] text-tl-muted font-semibold">
+          <Layers className="w-3.5 h-3.5 text-tl-muted" />
           <span>Threat Classification</span>
         </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-emerald-400 transition-colors"
+          className="inline-flex items-center gap-1 text-[11px] text-tl-muted hover:text-tl-cyan focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-tl-cyan active:opacity-80 disabled:opacity-50 transition-colors"
         >
           <HelpCircle className="w-3.5 h-3.5" />
           <span>Formula</span>
@@ -135,10 +135,10 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
       {/* Primary Classification Badge */}
       <div className="w-full mb-4 z-10">
         <div
-          className={`flex items-center justify-center gap-2 p-2.5 rounded-xl border ${currentClass.bg} ${currentClass.border} ${currentClass.text}`}
+          className={`flex items-center justify-center gap-2 p-2.5 rounded border ${currentClass.bg} ${currentClass.border} ${currentClass.text}`}
         >
           {currentClass.icon}
-          <span className="text-xs sm:text-sm font-bold tracking-wider uppercase">
+          <span className="text-xs sm:text-sm font-bold">
             {currentClass.label}
           </span>
         </div>
@@ -146,12 +146,12 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* SVG Semicircular Gauge for Score Depth */}
       <div className="relative w-60 h-32 flex items-end justify-center z-10">
-        <svg viewBox="0 0 220 120" className="w-full h-full overflow-visible">
+        <svg aria-hidden="true" viewBox="0 0 220 120" className="w-full h-full overflow-visible">
           {/* Background track */}
           <path
             d="M 30 110 A 80 80 0 0 1 190 110"
             fill="none"
-            stroke="#27272a"
+            stroke="#1A2536"
             strokeWidth="14"
             strokeLinecap="round"
           />
@@ -165,26 +165,26 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
-            className="transition-all duration-1000 ease-out"
+            className="transition-colors duration-1000 ease-out"
           />
 
           {/* Needle Indicator */}
           <g
             transform={`rotate(${angle} 110 110)`}
-            className="transition-transform duration-1000 ease-out"
+            className="motion-safe:transition-transform motion-reduce:transition-none duration-1000 ease-out"
           >
             <line
               x1="110"
               y1="110"
               x2="50"
               y2="110"
-              stroke="#ffffff"
+              stroke="#E2E8F0"
               strokeWidth="3"
               strokeLinecap="round"
               className="drop-shadow"
             />
-            <circle cx="110" cy="110" r="6" fill="#ffffff" />
-            <circle cx="110" cy="110" r="3" fill="#09090b" />
+            <circle cx="110" cy="110" r="6" fill="#E2E8F0" />
+            <circle cx="110" cy="110" r="3" fill="#090E16" />
           </g>
         </svg>
 
@@ -197,25 +197,25 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
             >
               {trustScore.toString().padStart(2, '0')}
             </span>
-            <span className="text-zinc-500 text-xs font-semibold">/100</span>
+            <span className="text-tl-muted text-xs font-semibold">/100</span>
           </div>
         </div>
       </div>
 
       {/* Evidence Coverage Bar */}
-      <div className="w-full mt-4 p-3 bg-zinc-900/60 border border-zinc-800 rounded-xl space-y-1.5 z-10">
-        <div className="flex items-center justify-between text-[11px] text-zinc-400">
-          <span className="text-zinc-500 uppercase">Evidence Coverage</span>
-          <span className="text-zinc-200 font-bold">{coverage.display}</span>
+      <div className="w-full mt-4 p-3 bg-tl-panel border border-tl-border rounded space-y-1.5 z-10">
+        <div className="flex items-center justify-between text-[11px] text-tl-muted">
+          <span className="text-tl-muted">Evidence Coverage</span>
+          <span className="text-tl-text font-bold">{coverage.display}</span>
         </div>
-        <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-tl-canvas rounded-full overflow-hidden">
           <div
-            className={`h-full transition-all duration-700 ${
+            className={`h-full transition-colors duration-700 ${
               coveragePercent === 100
-                ? 'bg-emerald-500'
+                ? 'bg-tl-emerald'
                 : coveragePercent >= 70
-                ? 'bg-emerald-400'
-                : 'bg-amber-400'
+                ? 'bg-tl-emerald/80'
+                : 'bg-tl-amber'
             }`}
             style={{ width: `${coveragePercent}%` }}
           />
@@ -223,19 +223,19 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
       </div>
 
       {/* Limitations and Unavailable Checks Panel */}
-      <div className="w-full mt-3 p-3 bg-zinc-900/40 border border-zinc-800/80 rounded-xl space-y-1.5 z-10 text-[11px]">
-        <div className="flex items-center gap-1.5 text-zinc-400 font-semibold uppercase">
-          <Info className="w-3.5 h-3.5 text-zinc-500" />
+      <div className="w-full mt-3 p-3 bg-tl-panel border border-tl-border rounded space-y-1.5 z-10 text-[11px]">
+        <div className="flex items-center gap-1.5 text-tl-muted font-semibold">
+          <Info className="w-3.5 h-3.5 text-tl-muted" />
           <span>Limitations & Unavailable Checks</span>
         </div>
         {limitations.length === 0 ? (
-          <p className="text-[10px] text-zinc-500 leading-tight">
+          <p className="text-[10px] text-tl-muted leading-tight">
             All 8 cryptographic, lexical, and behavioral checks evaluated.
           </p>
         ) : (
-          <ul className="space-y-1 text-[10px] text-zinc-400">
+          <ul className="space-y-1 text-[10px] text-tl-muted">
             {limitations.map((lim, idx) => (
-              <li key={idx} className="flex items-center gap-1 text-amber-400/90">
+              <li key={idx} className="flex items-center gap-1 text-tl-amber">
                 <span>&bull;</span>
                 <span>{lim}</span>
               </li>
@@ -246,13 +246,13 @@ export const TrustGauge: React.FC<TrustGaugeProps> = ({ scan }) => {
 
       {/* Hard Override Hazard Banner */}
       {overrideActive && (
-        <div className="mt-3 w-full p-2.5 bg-rose-950/40 border border-rose-500/40 rounded-xl flex items-start gap-2 text-rose-300 text-[11px] leading-tight z-10">
-          <AlertOctagon className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+        <div className="mt-3 w-full p-2.5 bg-tl-rose/10 border border-tl-rose/30 rounded flex items-start gap-2 text-tl-rose text-[11px] leading-tight z-10">
+          <AlertOctagon className="w-4 h-4 text-tl-rose shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold uppercase tracking-wider text-rose-400">
+            <span className="font-bold text-tl-rose">
               Deterministic Hard Override:
             </span>{' '}
-            <span>{scan.overrideReason}</span>
+            <span className="text-tl-text">{scan.overrideReason}</span>
           </div>
         </div>
       )}
