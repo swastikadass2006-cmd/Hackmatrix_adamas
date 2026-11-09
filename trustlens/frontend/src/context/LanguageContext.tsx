@@ -59,3 +59,4 @@ export function useLanguage(): LanguageContextType {
   const context = useContext(LanguageContext);
   return context;
 }
+
